@@ -1,0 +1,5 @@
+eggs
+parts
+*.egg-info
+.coverage
+*.egg

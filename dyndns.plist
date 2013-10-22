@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Disabled</key>
+	<false/>
+	<key>Label</key>
+	<string>dyndnspython</string>
+	<key>Nice</key>
+	<integer>-15</integer>
+	<key>OnDemand</key>
+	<false/>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/bob/bin/dyndnsc.py</string>
+		<string>--loop</string>
+		<string>--hostname</string>
+		<string>YOURHOSTNAME</string>
+		<string>--key</string>
+		<string>YOURKEY</string>
+		<string>--method</string>
+		<string>webcheck OR teredoosx</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>ServiceDescription</key>
+	<string>majimoto.net dyndns client</string>
+	<key>ServiceIPC</key>
+	<false/>
+</dict>
+</plist>
