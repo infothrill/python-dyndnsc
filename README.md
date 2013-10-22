@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/infothrill/python-dyndnsc.png)](https://travis-ci.org/infothrill/python-dyndnsc)    [![Coverage Status](https://coveralls.io/repos/infothrill/python-dyndnsc/badge.png)](https://coveralls.
+
 Description
 ===========
 
