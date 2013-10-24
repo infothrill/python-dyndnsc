@@ -14,8 +14,8 @@ class DetectorTests(unittest.TestCase):
         self.assertFalse(detector.canDetectOffline())
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.getCurrentValue())
-        self.assertEqual("127.0.0.1", detector.detect())
-        self.assertEqual("127.0.0.1", detector.getCurrentValue())
+        self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
+        self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
 
 
 class DynDnscTestCases(unittest.TestCase):
