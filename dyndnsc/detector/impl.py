@@ -42,7 +42,7 @@ class IPDetector(BaseClass):
         Must be overwritten. Return True when the IP detection can work
         offline without causing network traffic.
         """
-        raise Exception("Abstract method, must be overridden")
+        raise NotImplementedError("Abstract method, must be overridden")
 
     def getOldValue(self):
         if not '_oldvalue' in vars(self):
@@ -53,7 +53,7 @@ class IPDetector(BaseClass):
         self._oldvalue = value
 
     def getCurrentValue(self, default=None):
-        if not '_currentvalue' in vars(self):
+        if not hasattr(self, '_currentvalue'):
             self._currentvalue = default
         return self._currentvalue
 
@@ -74,6 +74,9 @@ class IPDetector(BaseClass):
 
 class IPDetector_DNS(IPDetector):
     """Class to resolve a hostname using socket.getaddrinfo()"""
+    def __init__(self, hostname):
+        self._hostname = hostname
+        super(IPDetector_DNS, self).__init__()
 
     @staticmethod
     def getName():
@@ -83,16 +86,13 @@ class IPDetector_DNS(IPDetector):
         """Returns false, as this detector generates dns traffic"""
         return False
 
-    def setHostname(self, hostname):
-        self.hostname = hostname
-
     def detect(self):
         try:
-            theip = socket.getaddrinfo(self.hostname, None)[0][4][0]
+            theip = socket.getaddrinfo(self._hostname, None)[0][4][0]
         except:
-            # print "WARN: dns is None"
+            # logging.debug("WARN: dns is None")
             theip = None
-        # print "dnsdetect for %s: %s" % (self.hostname, ip)
+        # logging.debug("dnsdetect for %s: %s", self.hostname, ip)
         self.setCurrentValue(theip)
         return theip
 

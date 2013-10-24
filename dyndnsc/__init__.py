@@ -21,10 +21,10 @@ LOG = logging.getLogger(__name__)
 
 def getProtocolHandlerClass(protoname='dyndns'):
     """factory method to get the correct protocol Handler given its name"""
-    avail = {}
     for cls in updater.UpdateProtocol.__subclasses__():
-        avail[cls.configuration_key()] = cls
-    return avail[protoname]
+        if cls.configuration_key() == protoname:
+            return cls
+    raise KeyError("No UpdateProtocol registered for '%s'", protoname)
 
 
 class DynDnsClient(object):
@@ -149,6 +149,7 @@ def getDynDnsClientForConfig(config):
     """
     def getChangeDetectorClass(aname):
         name = aname.lower()
+        # TODO: use __subclasses__:
         for cl in [detector.IPDetector_WebCheck,
                    detector.IPDetector_Teredo,
                    detector.IPDetector_Iface,
@@ -164,8 +165,7 @@ def getDynDnsClientForConfig(config):
     if not 'hostname' in config:
         LOG.warn("No hostname configured")
         return None
-    dnsChecker = detector.IPDetector_DNS()
-    dnsChecker.setHostname(config['hostname'])
+    dnsChecker = detector.IPDetector_DNS(config['hostname'])
     try:
         klass = getProtocolHandlerClass(config['protocol'])
     except KeyError:

@@ -5,6 +5,19 @@ import logging
 import dyndnsc
 
 
+class DetectorTests(unittest.TestCase):
+
+    def test_dns(self):
+        NAME = "dns"
+        self.assertEqual(NAME, dyndnsc.detector.IPDetector_DNS.getName())
+        detector = dyndnsc.detector.IPDetector_DNS("localhost")
+        self.assertFalse(detector.canDetectOffline())
+        self.assertEqual(NAME, detector.getName())
+        self.assertEqual(None, detector.getCurrentValue())
+        self.assertEqual("127.0.0.1", detector.detect())
+        self.assertEqual("127.0.0.1", detector.getCurrentValue())
+
+
 class DynDnscTestCases(unittest.TestCase):
     def setUp(self):
         logging.info("TestCases are being initialized")
