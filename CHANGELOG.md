@@ -1,6 +1,7 @@
 ### 0.X  (????)
 
 * moved project to github.com and added CI using travis-ci.org
+* added unittests
 * dyndnsc is now a package rather than a single file module
 * disabled growl for now to cleanup logging and notification
 * switched all http related code to the "requests" library
