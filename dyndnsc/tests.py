@@ -2,11 +2,51 @@
 
 import unittest
 import logging
+from time import sleep
+from multiprocessing import Process
+
+from bottle import Bottle, run, response, route, request
+
 import dyndnsc
 
 
-class DetectorTests(unittest.TestCase):
+@route('/nic/update')
+def nicupdate():
+    arg_hostname = request.query.hostname
+    arg_myip = request.query.myip
+    assert len(arg_hostname) > 0
+    assert len(arg_myip) > 0
+    #assert arg_hash in sample_data
+    response.content_type = 'text/plain; charset=utf-8'
+    return str("good %s" % arg_myip)
 
+
+class DyndnsApp(Bottle):
+    def __init__(self, host='localhost', port=8000):
+        super(DyndnsApp, self).__init__()
+        self.host = host
+        self.port = port
+        self.process = None
+        self.route(path='/nic/update', callback=nicupdate)
+
+    def run(self):
+        run(self, host=self.host, port=self.port, debug=True, quiet=False)
+
+    def start(self):
+        self.process = Process(target=self.run)
+        self.process.start()
+        sleep(1)
+
+    def stop(self):
+        self.process.terminate()
+        self.process = None
+
+    @property
+    def url(self):
+        return 'http://{}:{}'.format(self.host, self.port)
+
+
+class DetectorTests(unittest.TestCase):
     def test_detector_interfaces(self):
         for cls in dyndnsc.detector.IPDetector.__subclasses__():
             self.assertTrue(hasattr(cls, 'getName'))
@@ -21,6 +61,7 @@ class DetectorTests(unittest.TestCase):
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
+        detector.emit("test")
 
     def test_command(self):
         NAME = "command"
@@ -33,6 +74,7 @@ class DetectorTests(unittest.TestCase):
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
+        detector.emit("test")
 
     def test_iface(self):
         NAME = "iface"
@@ -43,6 +85,7 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         #self.assertNotEqual(None, detector.getCurrentValue())
+        detector.emit("test")
 
     def test_teredo(self):
         NAME = "teredo"
@@ -53,6 +96,7 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         #self.assertNotEqual(None, detector.getCurrentValue())
+        detector.emit("test")
 
     def test_webcheck(self):
         NAME = "webcheck"
@@ -63,6 +107,51 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         #self.assertNotEqual(None, detector.getCurrentValue())
+        detector.emit("test")
+
+
+class UpdaterTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        """
+        Start local server
+        """
+        cls.server = DyndnsApp('localhost', 8000)
+        cls.url = "http://localhost:8000/nic/update"
+        cls.server.start()
+
+    def test_updater_interfaces(self):
+        for cls in dyndnsc.updater.UpdateProtocol.__subclasses__():
+            self.assertTrue(hasattr(cls, 'configuration_key'))
+            self.assertTrue(hasattr(cls, 'updateUrl'))
+
+    def test_dummy(self):
+        NAME = "dummy"
+        theip = "127.0.0.1"
+        self.assertEqual(NAME, dyndnsc.updater.UpdateProtocolDummy.configuration_key())
+        self.assertEqual(str, type(dyndnsc.updater.UpdateProtocolDummy.updateUrl()))
+        updater = dyndnsc.updater.UpdateProtocolDummy()
+        self.assertEqual(theip, updater.update(theip))
+        updater.emit("test")
+
+    def test_noip(self):
+        NAME = "noip"
+        theip = "127.0.0.2"
+        options = {"hostname": "example.com", "userid": "dummy", "password": "1234"}
+        dyndnsc.updater.UpdateProtocolNoip.updateurl = self.url
+        self.assertEqual(NAME, dyndnsc.updater.UpdateProtocolNoip.configuration_key())
+        self.assertEqual(str, type(dyndnsc.updater.UpdateProtocolNoip.updateUrl()))
+        updater = dyndnsc.updater.UpdateProtocolNoip(options)
+        res = updater.update(theip)
+        self.assertEqual(theip, res)
+        updater.emit("test")
+
+    @classmethod
+    def tearDownClass(cls):
+        """
+        Stop local server.
+        """
+        cls.server.stop()
 
 
 class DynDnscTestCases(unittest.TestCase):
@@ -117,4 +206,5 @@ class DynDnscTestCases(unittest.TestCase):
         dyndnsclient.sync()
         dyndnsclient.stateHasChanged()
 
-
+if __name__ == '__main__':
+    DyndnsApp('localhost', 8000).run()
