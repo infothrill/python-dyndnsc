@@ -41,5 +41,6 @@ setup(name="dyndnsc",
                       dyndnsc=dyndnsc.cli:main
                       """),
       classifiers=classifiers,
-      test_suite='dyndnsc.tests'
+      test_suite='dyndnsc.tests',
+      tests_require=['bottle==0.11.6'],
       )
