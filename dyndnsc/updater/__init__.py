@@ -60,6 +60,23 @@ class UpdateProtocol(BaseClass):
         self.emit("The provided hostname '%s' is not a valid hostname!" % (self.hostname))
 
 
+class UpdateProtocolDummy(UpdateProtocol):
+    def __init__(self, protocol_options):
+        self.protocol_options = protocol_options
+
+    @staticmethod
+    def configuration_key():
+        return "dummy"
+
+    @staticmethod
+    def updateUrl():
+        return "http://localhost.nonexistant/nic/update"
+
+    def update(self, ip):
+        self.theip = ip
+        return 0
+
+
 class UpdateProtocolMajimoto(UpdateProtocol):
     """This class contains the logic for talking to the update service of dyndns.majimoto.net"""
     def __init__(self, protocol_options):

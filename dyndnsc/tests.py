@@ -29,7 +29,7 @@ class DynDnscTestCases(unittest.TestCase):
         logging.info(det.detect())
         # self.assertEquals(type(d.detect()), type(''))
 
-    def test_update_noip(self):
+    def donttest_update_noip(self):
         logging.basicConfig()
         config = {}
         config['hostname'] = "dyndnsc.no-ip.biz"
@@ -40,4 +40,21 @@ class DynDnscTestCases(unittest.TestCase):
         config['sleeptime'] = 60
         dyndnsclient = dyndnsc.getDynDnsClientForConfig(config)
         self.assertTrue(dyndnsclient.needsCheck())
+
+    def test_update_dummy(self):
+        logging.basicConfig()
+        config = {}
+        config['hostname'] = "dyndnsc.no-ip.biz"
+        config['userid'] = "example"
+        config['password'] = "foobar"
+        config['protocol'] = "dummy"
+        config['method'] = "random"
+        config['sleeptime'] = 60
+        dyndnsclient = dyndnsc.getDynDnsClientForConfig(config)
+        self.assertTrue(dyndnsclient.needsCheck())
+        dyndnsclient.needsForcedCheck()
+        dyndnsclient.check()
+        dyndnsclient.sync()
+        dyndnsclient.stateHasChanged()
+
 
