@@ -226,7 +226,7 @@ class IPDetector_Random(IPDetector):
 class IPDetector_Iface(IPDetector):
     """IPDetector to detect any ip address of a local interface.
     """
-    def __init__(self, options):
+    def __init__(self, options=None):
         """
         Constructor
         @param options: dictionary
@@ -237,6 +237,8 @@ class IPDetector_Iface(IPDetector):
         family: IP address family (default: INET, possible: INET6)
         netmask: netmask to be matched if multiple IPs on interface (default: none (match all)", example for teredo: "2001:0000::/32")
         """
+        if options is None:
+            options = {}
         self.opts = {'iface': 'en0', 'family': "INET", "netmask": None}
         for k in options.keys():
             LOG.debug("%s explicitly got option: %s -> %s", self.__class__.__name__, k, options[k])
@@ -305,16 +307,18 @@ class IPDetector_Teredo(IPDetector_Iface):
 
     Inherits IPDetector_Iface and sets default options only
     """
-    def __init__(self, options):
+    def __init__(self, options=None):
         """
         Constructor
         @param options: dictionary
         """
+        if options is None:
+            options = {}
+        super(IPDetector_Teredo, self).__init__(options)
         self.opts = {'iface': 'tun0', 'family': "INET6", "netmask": "2001:0000::/32"}
         for k in options.keys():
             LOG.debug("%s explicitly got option: %s -> %s", self.__class__.__name__, k, options[k])
             self.opts[k] = options[k]
-        super(IPDetector_Teredo, self).__init__({})
 
     @staticmethod
     def getName():

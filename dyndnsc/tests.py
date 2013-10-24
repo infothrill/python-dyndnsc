@@ -21,6 +21,7 @@ class DetectorTests(unittest.TestCase):
         self.assertFalse(detector.canDetectOffline())
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.getCurrentValue())
+        self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
 
@@ -28,12 +29,31 @@ class DetectorTests(unittest.TestCase):
         NAME = "command"
         cmd = "echo 127.0.0.1"
         self.assertEqual(NAME, dyndnsc.detector.IPDetector_Command.getName())
-        detector = dyndnsc.detector.IPDetector_Command({"command":cmd})
+        detector = dyndnsc.detector.IPDetector_Command({"command": cmd})
         self.assertFalse(detector.canDetectOffline())
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.getCurrentValue())
+        self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
+
+    def test_iface(self):
+        NAME = "iface"
+        self.assertEqual(NAME, dyndnsc.detector.IPDetector_Iface.getName())
+        detector = dyndnsc.detector.IPDetector_Iface()
+        self.assertTrue(detector.canDetectOffline())
+        self.assertEqual(NAME, detector.getName())
+        self.assertEqual(None, detector.getCurrentValue())
+        self.assertTrue(type(detector.detect()) in (type(None), str))
+
+    def test_teredo(self):
+        NAME = "teredo"
+        self.assertEqual(NAME, dyndnsc.detector.IPDetector_Teredo.getName())
+        detector = dyndnsc.detector.IPDetector_Teredo()
+        self.assertTrue(detector.canDetectOffline())
+        self.assertEqual(NAME, detector.getName())
+        self.assertEqual(None, detector.getCurrentValue())
+        self.assertTrue(type(detector.detect()) in (type(None), str))
 
 
 class DynDnscTestCases(unittest.TestCase):
