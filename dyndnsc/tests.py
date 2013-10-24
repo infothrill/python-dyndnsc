@@ -45,6 +45,7 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
+        self.assertNotEqual(None, detector.getCurrentValue())
 
     def test_teredo(self):
         NAME = "teredo"
@@ -54,6 +55,17 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
+        #self.assertNotEqual(None, detector.getCurrentValue())
+
+    def test_webcheck(self):
+        NAME = "webcheck"
+        self.assertEqual(NAME, dyndnsc.detector.IPDetector_WebCheck.getName())
+        detector = dyndnsc.detector.IPDetector_WebCheck()
+        self.assertFalse(detector.canDetectOffline())
+        self.assertEqual(NAME, detector.getName())
+        self.assertEqual(None, detector.getCurrentValue())
+        self.assertTrue(type(detector.detect()) in (type(None), str))
+        #self.assertNotEqual(None, detector.getCurrentValue())
 
 
 class DynDnscTestCases(unittest.TestCase):

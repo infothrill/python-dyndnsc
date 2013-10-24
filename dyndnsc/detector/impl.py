@@ -135,7 +135,7 @@ class IPDetector_Command(IPDetector):
         return theip
 
 
-class RandomIPGenerator:
+class RandomIPGenerator(object):
     def __init__(self, maxRandomTries=None):
         self.maxRandomTries = maxRandomTries
 
@@ -344,14 +344,14 @@ class IPDetector_WebCheck(IPDetector):
                 for line in r.text.splitlines():
                     matchObj = regex.search(line)
                     if not matchObj is None:
-                        return matchObj.group(1)
+                        return str(IPy.IP(matchObj.group(1)))
         except (requests.exceptions.RequestException):
             pass
         return None
 
     def detect(self):
         # self.LOG("detect WebCheck")
-        theip = None
+        from random import choice
         urls = (
                 "http://checkip.dyndns.org/",
                 "http://checkip.eurodyndns.org/",
@@ -359,10 +359,7 @@ class IPDetector_WebCheck(IPDetector):
                 "http://ipcheck.rehbein.net/"
                 "http://www.antifart.com/stuff/checkip/",
                 )
-        for url in urls:
-            theip = self._getClientIPFromUrl(url)
-            if not theip is None:
-                break
+        theip = self._getClientIPFromUrl(choice(urls))
         if theip is None:
             LOG.info("Could not detect IP using webchecking! Offline?")
         self.setCurrentValue(theip)
