@@ -167,7 +167,7 @@ def getDynDnsClientForConfig(config):
         return None
     try:
         protoHandler = klass(config)
-    except (AssertionError, KeyError), e:
+    except (AssertionError, KeyError) as e:
         LOG.warn("Invalid protocol configuration: '%s'", str(e), exc_info=e)
         return None
 
@@ -187,7 +187,7 @@ def getDynDnsClientForConfig(config):
         method_optlist = []
     try:
         klass = getDetectorClass(method)
-    except (KeyError), e:
+    except (KeyError) as e:
         LOG.warn("Invalid change detector configuration: '%s'", method, exc_info=e)
         return None
 
@@ -204,7 +204,7 @@ def getDynDnsClientForConfig(config):
         opts[option] = value.strip()
     try:
         dyndnsclient.setChangeDetector(klass(opts))
-    except KeyError, e:
+    except KeyError as e:
         LOG.warn("Invalid change detector parameters: '%s'", opts, exc_info=e)
         return None
 

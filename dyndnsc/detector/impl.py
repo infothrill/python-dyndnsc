@@ -259,7 +259,7 @@ class IPDetector_Iface(IPDetector):
             if (not self.opts['netmask'] is None):  # if a netmask was given
                 try:
                     self.netmask = IPy.IP(self.opts['netmask'])
-                except (TypeError, ValueError), e:
+                except (TypeError, ValueError) as e:
                     # TODO: this is a potential trust issue, because if we don't
                     # fail here, we might end up sending an IP to the outside
                     # world that should be hidden (because in a "private" netmask)
@@ -274,13 +274,13 @@ class IPDetector_Iface(IPDetector):
                 addrlist = netifaces.ifaddresses(self.opts['iface'])[netifaces.AF_INET6]
             else:
                 addrlist = netifaces.ifaddresses(self.opts['iface'])[netifaces.AF_INET]
-        except Exception, e:
+        except Exception as e:
             LOG.error("netifaces choked while trying to get inet6 interface information for interface '%s'", self.opts['iface'], exc_info=e)
         else:  # now we have a list of addresses as returned by netifaces
             for pair in addrlist:
                 try:
                     detip = IPy.IP(pair['addr'])
-                except (TypeError, ValueError), e:
+                except (TypeError, ValueError) as e:
                     LOG.debug("Found invalid IP '%s' on interface '%s'!?", pair['addr'], self.opts['iface'])
                     continue
                 if (not self.netmask is None):
