@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import urllib
-import urllib2
-from urllib2 import URLError
 import pkg_resources
 import re
 import socket

@@ -6,6 +6,7 @@
 * disabled growl for now to cleanup logging and notification
 * switched all http related code to the "requests" library
 * tentatively added no-ip.com
+* removed dyndns.majimoto.net
 
 ### 0.2.1 (February 2013)
 
