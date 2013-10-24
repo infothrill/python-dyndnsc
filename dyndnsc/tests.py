@@ -35,7 +35,7 @@ class DyndnsApp(Bottle):
     def start(self):
         self.process = Process(target=self.run)
         self.process.start()
-        sleep(1)
+        sleep(1.5)
 
     def stop(self):
         self.process.terminate()
@@ -111,14 +111,6 @@ class DetectorTests(unittest.TestCase):
 
 
 class UpdaterTests(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        """
-        Start local server
-        """
-        cls.server = DyndnsApp('localhost', 8000)
-        cls.url = "http://localhost:8000/nic/update"
-        cls.server.start()
 
     def test_updater_interfaces(self):
         for cls in dyndnsc.updater.UpdateProtocol.__subclasses__():
@@ -129,29 +121,44 @@ class UpdaterTests(unittest.TestCase):
         NAME = "dummy"
         theip = "127.0.0.1"
         self.assertEqual(NAME, dyndnsc.updater.UpdateProtocolDummy.configuration_key())
-        self.assertEqual(str, type(dyndnsc.updater.UpdateProtocolDummy.updateUrl()))
         updater = dyndnsc.updater.UpdateProtocolDummy()
+        self.assertEqual(str, type(updater.updateUrl()))
         self.assertEqual(theip, updater.update(theip))
         updater.emit("test")
+
+
+class BottleServerTest(unittest.TestCase):
+    def setUp(self):
+        """
+        Start local server
+        """
+        self.server = DyndnsApp('localhost', 8000)
+        self.url = "http://localhost:8000/nic/update"
+        self.server.start()
+        unittest.TestCase.setUp(self)
+
+    def tearDown(self):
+        """
+        Stop local server.
+        """
+        self.server.stop()
+        unittest.TestCase.tearDown(self)
+
+
+class NoipTest(BottleServerTest):
 
     def test_noip(self):
         NAME = "noip"
         theip = "127.0.0.2"
         options = {"hostname": "example.com", "userid": "dummy", "password": "1234"}
-        dyndnsc.updater.UpdateProtocolNoip.updateurl = self.url
         self.assertEqual(NAME, dyndnsc.updater.UpdateProtocolNoip.configuration_key())
-        self.assertEqual(str, type(dyndnsc.updater.UpdateProtocolNoip.updateUrl()))
         updater = dyndnsc.updater.UpdateProtocolNoip(options)
+        updater.updateurl = self.url
+        self.assertEqual(str, type(updater.updateUrl()))
+        self.assertEqual(self.url, updater.updateUrl())
         res = updater.update(theip)
         self.assertEqual(theip, res)
         updater.emit("test")
-
-    @classmethod
-    def tearDownClass(cls):
-        """
-        Stop local server.
-        """
-        cls.server.stop()
 
 
 class DynDnscTestCases(unittest.TestCase):

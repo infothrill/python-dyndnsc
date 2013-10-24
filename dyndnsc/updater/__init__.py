@@ -17,12 +17,20 @@ class BaseClass(Subject):
 
 class UpdateProtocol(BaseClass):
     """the base class for all update protocols"""
-    updateurl = None
+
+    _updateurl = None
     theip = None
     hostname = None  # this holds the desired dns hostname
     status = 0
     nochgcount = 0
     failcount = 0
+
+    def __init__(self):
+        self.updateurl = self._updateurl
+        super(UpdateProtocol, self).__init__()
+
+    def updateUrl(self):
+        return self.updateurl
 
     def success(self):
         self.status = 0
@@ -94,7 +102,7 @@ class UpdateProtocol(BaseClass):
 
 class UpdateProtocolDummy(UpdateProtocol):
 
-    updateurl = "http://localhost.nonexistant/nic/update"
+    _updateurl = "http://localhost.nonexistant/nic/update"
 
     def __init__(self, options=None):
         if options is None:
@@ -107,10 +115,6 @@ class UpdateProtocolDummy(UpdateProtocol):
     def configuration_key():
         return "dummy"
 
-    @staticmethod
-    def updateUrl():
-        return UpdateProtocolDummy.updateurl
-
     def update(self, ip):
         return ip
 
@@ -118,11 +122,11 @@ class UpdateProtocolDummy(UpdateProtocol):
 class UpdateProtocolMajimoto(UpdateProtocol):
     """This class contains the logic for talking to the update service of dyndns.majimoto.net"""
 
-    updateurl = "https://dyndns.majimoto.net/nic/update"
+    _updateurl = "https://dyndns.majimoto.net/nic/update"
 
-    def __init__(self, protocol_options):
-        self.key = protocol_options['key']
-        self.hostname = protocol_options['hostname']
+    def __init__(self, options):
+        self.key = options['key']
+        self.hostname = options['hostname']
         self.theip = None
 
         self.failcount = 0
@@ -158,20 +162,16 @@ class UpdateProtocolMajimoto(UpdateProtocol):
     def configuration_key():
         return "majimoto"
 
-    @staticmethod
-    def updateUrl():
-        return UpdateProtocolMajimoto.updateurl
-
 
 class UpdateProtocolDyndns(UpdateProtocol):
     """Protocol handler for dyndns.com"""
 
-    updateurl = "https://members.dyndns.org/nic/update"
+    _updateurl = "https://members.dyndns.org/nic/update"
 
-    def __init__(self, protocol_options):
-        self.hostname = protocol_options['hostname']
-        self.userid = protocol_options['userid']
-        self.password = protocol_options['password']
+    def __init__(self, options):
+        self.hostname = options['hostname']
+        self.userid = options['userid']
+        self.password = options['password']
 
         self.failcount = 0
         self.nochgcount = 0
@@ -181,10 +181,6 @@ class UpdateProtocolDyndns(UpdateProtocol):
     def configuration_key():
         return "dyndns"
 
-    @staticmethod
-    def updateUrl():
-        return UpdateProtocolDyndns.updateurl
-
     def update(self, ip):
         self.theip = ip
         return self.protocol()
@@ -193,7 +189,7 @@ class UpdateProtocolDyndns(UpdateProtocol):
 class UpdateProtocolNoip(UpdateProtocol):
     """Protocol handler for www.noip.com"""
 
-    updateurl = "https://dynupdate.no-ip.com/nic/update"
+    _updateurl = "https://dynupdate.no-ip.com/nic/update"
 
     def __init__(self, options):
         self.theip = None
@@ -209,10 +205,6 @@ class UpdateProtocolNoip(UpdateProtocol):
     @staticmethod
     def configuration_key():
         return "noip"
-
-    @staticmethod
-    def updateUrl():
-        return UpdateProtocolNoip.updateurl
 
     def update(self, ip):
         self.theip = ip
