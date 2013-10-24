@@ -35,11 +35,12 @@ class DyndnsApp(Bottle):
     def start(self):
         self.process = Process(target=self.run)
         self.process.start()
-        sleep(1.5)
+        sleep(2.5)
 
     def stop(self):
         self.process.terminate()
         self.process = None
+        sleep(1)
 
     @property
     def url(self):
@@ -149,10 +150,23 @@ class NoipTest(BottleServerTest):
 
     def test_noip(self):
         NAME = "noip"
-        theip = "127.0.0.2"
+        theip = "127.0.0.1"
         options = {"hostname": "example.com", "userid": "dummy", "password": "1234"}
         self.assertEqual(NAME, dyndnsc.updater.UpdateProtocolNoip.configuration_key())
         updater = dyndnsc.updater.UpdateProtocolNoip(options)
+        updater.updateurl = self.url
+        self.assertEqual(str, type(updater.updateUrl()))
+        self.assertEqual(self.url, updater.updateUrl())
+        res = updater.update(theip)
+        self.assertEqual(theip, res)
+        updater.emit("test")
+
+    def test_dyndns(self):
+        NAME = "dyndns"
+        theip = "127.0.0.1"
+        options = {"hostname": "example.com", "userid": "dummy", "password": "1234"}
+        self.assertEqual(NAME, dyndnsc.updater.UpdateProtocolDyndns.configuration_key())
+        updater = dyndnsc.updater.UpdateProtocolDyndns(options)
         updater.updateurl = self.url
         self.assertEqual(str, type(updater.updateUrl()))
         self.assertEqual(self.url, updater.updateUrl())

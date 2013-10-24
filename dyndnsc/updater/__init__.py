@@ -93,7 +93,7 @@ class UpdateProtocol(BaseClass):
             else:
                 self.status = 1
                 self.emit("Problem updating IP address of '%s' to %s: %s" % (self.hostname, self.theip, r.text))
-                return 'invalid dyndns protocol response: %s' % r.text
+                return r.text
         else:
             self.status = 1
             self.emit("Problem updating IP address of '%s' to %s: %s" % (self.hostname, self.theip, r.status_code))
@@ -117,50 +117,6 @@ class UpdateProtocolDummy(UpdateProtocol):
 
     def update(self, ip):
         return ip
-
-
-class UpdateProtocolMajimoto(UpdateProtocol):
-    """This class contains the logic for talking to the update service of dyndns.majimoto.net"""
-
-    _updateurl = "https://dyndns.majimoto.net/nic/update"
-
-    def __init__(self, options):
-        self.key = options['key']
-        self.hostname = options['hostname']
-        self.theip = None
-
-        self.failcount = 0
-        self.nochgcount = 0
-        super(UpdateProtocolMajimoto, self).__init__()
-
-    def update(self, ip):
-        self.theip = ip
-        return self.protocol()
-
-    def _protocol(self):
-        params = {'myip': self.theip, 'key': self.key, 'hostname': self.hostname}
-        r = requests.get(self.updateUrl(), params=params)
-        if r.status_code == 200:
-            if r.text == 'good':
-                self.success()
-            elif r.text == 'nochg':
-                self.nochg()
-            elif r.text == 'nohost':
-                self.nohost()
-            elif r.text == 'abuse':
-                self.abuse()
-            elif r.text == '911':
-                self.failure()
-            elif r.text == 'notfqdn':
-                self.notfqdn()
-            else:
-                self.emit("Problem updating IP address of '%s' to %s: %s" % (self.hostname, self.theip, r.text))
-        else:
-            self.emit("Problem updating IP address of '%s' to %s: %s" % (self.hostname, self.theip, r.status_code))
-
-    @staticmethod
-    def configuration_key():
-        return "majimoto"
 
 
 class UpdateProtocolDyndns(UpdateProtocol):
