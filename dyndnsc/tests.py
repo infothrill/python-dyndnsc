@@ -7,10 +7,28 @@ import dyndnsc
 
 class DetectorTests(unittest.TestCase):
 
+    def test_detector_interfaces(self):
+        for cls in dyndnsc.detector.IPDetector.__subclasses__():
+            self.assertTrue(hasattr(cls, 'getName'))
+
+    def test_foo(self):
+        pass
+
     def test_dns(self):
         NAME = "dns"
         self.assertEqual(NAME, dyndnsc.detector.IPDetector_DNS.getName())
         detector = dyndnsc.detector.IPDetector_DNS("localhost")
+        self.assertFalse(detector.canDetectOffline())
+        self.assertEqual(NAME, detector.getName())
+        self.assertEqual(None, detector.getCurrentValue())
+        self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
+        self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
+
+    def test_command(self):
+        NAME = "command"
+        cmd = "echo 127.0.0.1"
+        self.assertEqual(NAME, dyndnsc.detector.IPDetector_Command.getName())
+        detector = dyndnsc.detector.IPDetector_Command({"command":cmd})
         self.assertFalse(detector.canDetectOffline())
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.getCurrentValue())

@@ -147,18 +147,12 @@ def getDynDnsClientForConfig(config):
 
     @param config: a dictionary with configuration pairs
     """
-    def getChangeDetectorClass(aname):
+    def getDetectorClass(aname):
         name = aname.lower()
-        # TODO: use __subclasses__:
-        for cl in [detector.IPDetector_WebCheck,
-                   detector.IPDetector_Teredo,
-                   detector.IPDetector_Iface,
-                   detector.IPDetector_Random,
-                   detector.IPDetector_Command
-                   ]:
-            if cl.getName() == name:
-                return cl
-        raise KeyError("No detector class for '%s' registered" % name)
+        for cls in detector.IPDetector.__subclasses__():
+            if cls.getName().lower() == name:
+                return cls
+        raise KeyError("No IPDetector class for '%s' registered" % name)
 
     if config is None:
         return None
@@ -192,7 +186,7 @@ def getDynDnsClientForConfig(config):
     else:
         method_optlist = []
     try:
-        klass = getChangeDetectorClass(method)
+        klass = getDetectorClass(method)
     except (KeyError), e:
         LOG.warn("Invalid change detector configuration: '%s'", method, exc_info=e)
         return None

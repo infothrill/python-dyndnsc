@@ -112,6 +112,7 @@ class IPDetector_Command(IPDetector):
         for k in options.keys():
             LOG.debug("%s explicitly got option: %s -> %s", self.__class__.__name__, k, options[k])
             self.opts[k] = options[k]
+        super(IPDetector_Command, self).__init__()
 
     @staticmethod
     def getName():
@@ -240,6 +241,7 @@ class IPDetector_Iface(IPDetector):
         for k in options.keys():
             LOG.debug("%s explicitly got option: %s -> %s", self.__class__.__name__, k, options[k])
             self.opts[k] = options[k]
+        super(IPDetector_Iface, self).__init__()
 
     @staticmethod
     def getName():
@@ -312,6 +314,7 @@ class IPDetector_Teredo(IPDetector_Iface):
         for k in options.keys():
             LOG.debug("%s explicitly got option: %s -> %s", self.__class__.__name__, k, options[k])
             self.opts[k] = options[k]
+        super(IPDetector_Teredo, self).__init__({})
 
     @staticmethod
     def getName():
