@@ -18,9 +18,10 @@ Operating System :: MacOS :: MacOS X
 Operating System :: POSIX :: Linux
 Operating System :: POSIX :: BSD :: FreeBSD
 Programming Language :: Python
-Programming Language :: Python :: 2.5
 Programming Language :: Python :: 2.6
 Programming Language :: Python :: 2.7
+Programming Language :: Python :: 3.2
+Programming Language :: Python :: 3.3
 """.splitlines() if len(line) > 0]
 
 install_requires = ["IPy>=0.56"]
