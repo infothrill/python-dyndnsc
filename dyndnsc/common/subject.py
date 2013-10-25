@@ -3,7 +3,6 @@
 observer/subject implementation for desktop notification
 """
 
-import types
 import logging
 
 
@@ -23,14 +22,14 @@ class Subject(object):
         observer : external listener function
         events  : tuple or list of relevant events (default=None)
         """
-        if events is not None and type(events) not in (types.TupleType, types.ListType):
+        if events is not None and type(events) not in (tuple, list):
             events = (events,)
 
         self._observers[observer] = events
 
     def notify_observers(self, event=None, msg=None):
         """notify observers """
-        for observer, events in self._observers.items():
+        for observer, events in list(self._observers.items()):
             if events is None or event is None or event in events:
                 try:
                     observer(self, event, msg)

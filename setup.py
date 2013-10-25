@@ -29,12 +29,8 @@ if sys.version_info >= (3, 0):
 else:
     install_requires.append("netifaces>=0.4")
     # work around python issue http://bugs.python.org/issue15881
-    try:
-        import nose
-    except ImportError:
-        pass
-    else:
-        import multiprocessing
+    # affects only python2 when using multiprocessing and if nose is installed
+    import multiprocessing
 
 setup(name="dyndnsc",
       packages=["dyndnsc"],
@@ -51,6 +47,8 @@ setup(name="dyndnsc",
                       dyndnsc=dyndnsc.cli:main
                       """),
       classifiers=classifiers,
-      test_suite='dyndnsc.tests',
+      test_suite='tests',
+      #test_suite='nose.collector',
+      #setup_requires=['nose'],
       tests_require=['bottle==0.11.6'],
       )
