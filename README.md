@@ -42,7 +42,7 @@ internet:
 
   # pip install dyndnsc
 
-Python versions
-===============
-Currently python 2.6 and 2.7
+Requirements
+============
+* Python 2.6, 2.7, 3.2 or 3.3
 
