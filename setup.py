@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+import sys
 from setuptools import setup
 
 classifiers = [line.strip() for line in """
@@ -22,6 +23,12 @@ Programming Language :: Python :: 2.6
 Programming Language :: Python :: 2.7
 """.splitlines() if len(line) > 0]
 
+install_requires = ["IPy>=0.56", "netifaces>=0.4"]
+if sys.version_info >= (3, 0):
+    install_requires.append("netifaces-py3")
+else:
+    install_requires.append("netifaces")
+
 setup(name="dyndnsc",
       packages=["dyndnsc"],
       version="0.2.1",
@@ -31,11 +38,7 @@ setup(name="dyndnsc",
       description="dynamic dns update client module that tries to be extensible, re-usable and efficient on network resources",
       long_description="https://github.com/infothrill/python-dyndnsc",
       url="https://github.com/infothrill/python-dyndnsc",
-      install_requires=[
-                          "IPy>=0.56",
-                          "netifaces>=0.4",
-                          # "py-growl>=0.0.7", #OS X specific
-                          ],
+      install_requires=install_requires,
       entry_points=("""
                       [console_scripts]
                       dyndnsc=dyndnsc.cli:main
