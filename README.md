@@ -23,11 +23,11 @@ Examples
 Installation
 ============
 
-  # pip install dyndnsc
+    # pip install dyndnsc
 
 or, if you want to work using the source tarball:
 
-  # python setup.py install
+    # python setup.py install
   
 
 Requirements
