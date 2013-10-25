@@ -39,7 +39,7 @@ class DyndnsApp(Bottle):
 
     def stop(self):
         self.process.terminate()
-        self.process = None
+        #self.process = None
         sleep(1)
 
     @property
