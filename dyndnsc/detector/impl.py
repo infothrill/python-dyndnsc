@@ -184,6 +184,9 @@ class RandomIPGenerator(object):
         return randomip
 
     def next(self):
+        return self.__next__()
+
+    def __next__(self):
         """Generator that returns randomly generated IPv4 addresses that are not in a reserved ipv4 address space
         until we hit self.maxRandomTries
 
@@ -203,7 +206,7 @@ class RandomIPGenerator(object):
 
     def __iter__(self):
         """Iterator for this class. See method next()"""
-        return self.next()
+        return next(self)
 
 
 class IPDetector_Random(IPDetector):
