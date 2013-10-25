@@ -11,7 +11,6 @@ import random
 
 from dyndnsc import detector
 from dyndnsc import updater
-from dyndnsc import notifier
 
 
 LOG = logging.getLogger(__name__)
