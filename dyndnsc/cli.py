@@ -12,7 +12,7 @@ import logging
 from dyndnsc import getDynDnsClientForConfig
 
 
-def daemonize(stdout='/dev/null', stderr=None, stdin='/dev/null',  # os.devnull only python 2.4
+def daemonize(stdout='/dev/null', stderr=None, stdin=os.devnull,
               pidfile=None, startmsg='started with pid %s'):
     """
         This forks the current process into a daemon.
@@ -56,14 +56,14 @@ def daemonize(stdout='/dev/null', stderr=None, stdin='/dev/null',  # os.devnull 
     # Open file descriptors and print start message
     if not stderr:
         stderr = stdout
-    si = file(stdin, 'r')
-    so = file(stdout, 'w+')
-    se = file(stderr, 'w+', 0)
+    si = open(stdin, 'rb')
+    so = open(stdout, 'w+b')
+    se = open(stderr, 'w+b', 0)
     pid = str(os.getpid())
     sys.stderr.write("%s%s" % (startmsg, os.linesep) % pid)
     sys.stderr.flush()
     if pidfile:
-        file(pidfile, 'w+').write("%s%s" % (pid, os.linesep))
+        open(pidfile, 'w+b').write("%s%s" % (pid, os.linesep))
 
     # Redirect standard file descriptors.
     os.dup2(si.fileno(), sys.stdin.fileno())
@@ -87,7 +87,7 @@ def main():
     (options, dummyargs) = parser.parse_args()
 
     if options.version:
-        print "dyndnsc", pkg_resources.get_distribution("dyndnsc").version  # pylint: disable=E1103
+        print("dyndnsc", pkg_resources.get_distribution("dyndnsc").version)  # pylint: disable=E1103
         return 0
 
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
