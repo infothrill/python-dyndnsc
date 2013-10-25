@@ -25,11 +25,10 @@ Programming Language :: Python :: 2.7
 
 install_requires = ["IPy>=0.56"]
 if sys.version_info >= (3, 0):
-    install_requires.append("netifaces-py3")
+    install_requires.append("netifaces-py3==0.8")
 else:
     install_requires.append("netifaces>=0.4")
 
-print(install_requires)
 setup(name="dyndnsc",
       packages=["dyndnsc"],
       version="0.3",
