@@ -126,9 +126,13 @@ class IPDetector_Command(IPDetector):
         self.hostname = hostname
 
     def detect(self):
-        import commands
+        import sys
+        if sys.version_info >= (3, 0):
+            import subprocess
+        else:
+            import commands as subprocess
         try:
-            theip = commands.getoutput(self.opts['command'])
+            theip = subprocess.getoutput(self.opts['command'])
         except:
             theip = None
         self.setCurrentValue(theip)

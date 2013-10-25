@@ -23,15 +23,16 @@ Programming Language :: Python :: 2.6
 Programming Language :: Python :: 2.7
 """.splitlines() if len(line) > 0]
 
-install_requires = ["IPy>=0.56", "netifaces>=0.4"]
+install_requires = ["IPy>=0.56"]
 if sys.version_info >= (3, 0):
     install_requires.append("netifaces-py3")
 else:
-    install_requires.append("netifaces")
+    install_requires.append("netifaces>=0.4")
 
+print(install_requires)
 setup(name="dyndnsc",
       packages=["dyndnsc"],
-      version="0.2.1",
+      version="0.3",
       author="Paul Kremer",
       author_email="@".join(("paul", "spurious.biz")),  # avoid spam,
       license="MIT License",
