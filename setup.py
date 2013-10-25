@@ -28,6 +28,13 @@ if sys.version_info >= (3, 0):
     install_requires.append("netifaces-py3==0.8")
 else:
     install_requires.append("netifaces>=0.4")
+    # work around python issue http://bugs.python.org/issue15881
+    try:
+        import nose
+    except ImportError:
+        pass
+    else:
+        import multiprocessing
 
 setup(name="dyndnsc",
       packages=["dyndnsc"],
