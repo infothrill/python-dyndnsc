@@ -16,14 +16,6 @@ from dyndnsc import updater
 LOG = logging.getLogger(__name__)
 
 
-def getProtocolHandlerClass(protoname='dyndns'):
-    """factory method to get the correct protocol Handler given its name"""
-    for cls in updater.UpdateProtocol.__subclasses__():
-        if cls.configuration_key() == protoname:
-            return cls
-    raise KeyError("No UpdateProtocol registered for '%s'", protoname)
-
-
 class DynDnsClient(object):
     """This class represents a client to the dynamic dns service."""
     def __init__(self, sleeptime=300):
@@ -158,7 +150,7 @@ def getDynDnsClientForConfig(config):
         return None
     dnsChecker = detector.IPDetector_DNS(config['hostname'])
     try:
-        klass = getProtocolHandlerClass(config['protocol'])
+        klass = updater.getUpdaterClass(config['protocol'])
     except KeyError:
         LOG.warn("Invalid protocol: '%s'", config['protocol'])
         return None

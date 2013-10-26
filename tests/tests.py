@@ -114,7 +114,8 @@ class DetectorTests(unittest.TestCase):
 class UpdaterTests(unittest.TestCase):
 
     def test_updater_interfaces(self):
-        for cls in dyndnsc.updater.UpdateProtocol.__subclasses__():
+        from dyndnsc.updater import updaterClasses
+        for cls in updaterClasses():
             self.assertTrue(hasattr(cls, 'configuration_key'))
             self.assertTrue(hasattr(cls, 'updateUrl'))
 
