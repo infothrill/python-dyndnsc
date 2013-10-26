@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from .impl import IPDetector, IPDetector_DNS, IPDetector_Command, IPDetector_Random, \
-                  IPDetector_Iface, IPDetector_WebCheck, IPDetector_Teredo
+from .base import IPDetector
+from .dns import IPDetector_DNS
+from .command import IPDetector_Command
+from .rand import IPDetector_Random
+from .iface import IPDetector_Iface
+from .webcheck import IPDetector_WebCheck
+from .teredo import IPDetector_Teredo
 
 
 def detectorClasses():
