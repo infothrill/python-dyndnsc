@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 
-import urllib
-import pkg_resources
-import re
-import socket
 import time
 import logging
-import random
 
 
-from dyndnsc import detector
-from dyndnsc import updater
+from . import detector
+from . import updater
 
 
 LOG = logging.getLogger(__name__)
@@ -136,13 +131,6 @@ def getDynDnsClientForConfig(config):
 
     @param config: a dictionary with configuration pairs
     """
-    def getDetectorClass(aname):
-        name = aname.lower()
-        for cls in detector.IPDetector.__subclasses__():
-            if cls.getName().lower() == name:
-                return cls
-        raise KeyError("No IPDetector class for '%s' registered" % name)
-
     if config is None:
         return None
     if not 'hostname' in config:
@@ -175,7 +163,7 @@ def getDynDnsClientForConfig(config):
     else:
         method_optlist = []
     try:
-        klass = getDetectorClass(method)
+        klass = detector.getDetectorClass(method)
     except (KeyError) as e:
         LOG.warn("Invalid change detector configuration: '%s'", method, exc_info=e)
         return None
