@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import sys
-from setuptools import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 classifiers = [line.strip() for line in """
 Development Status :: 3 - Alpha
@@ -34,12 +37,12 @@ else:
     import multiprocessing
 
 setup(name="dyndnsc",
-      packages=["dyndnsc"],
+      packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector", "dyndnsc.updater"],
       version="0.3",
       author="Paul Kremer",
       author_email="@".join(("paul", "spurious.biz")),  # avoid spam,
       license="MIT License",
-      description="dynamic dns update client module that tries to be extensible, re-usable and efficient on network resources",
+      description="dynamic dns update client package that tries to be extensible, re-usable and efficient on network resources",
       long_description="https://github.com/infothrill/python-dyndnsc",
       url="https://github.com/infothrill/python-dyndnsc",
       install_requires=install_requires,
