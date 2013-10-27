@@ -13,8 +13,6 @@ class UpdateProtocolDyndns(UpdateProtocol):
         self.userid = options['userid']
         self.password = options['password']
 
-        self.failcount = 0
-        self.nochgcount = 0
         super(UpdateProtocolDyndns, self).__init__()
 
     @staticmethod

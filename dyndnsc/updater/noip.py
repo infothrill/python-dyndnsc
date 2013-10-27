@@ -14,9 +14,6 @@ class UpdateProtocolNoip(UpdateProtocol):
         self.userid = options['userid']
         self.password = options['password']
 
-        self.status = 0
-        self.failcount = 0
-        self.nochgcount = 0
         super(UpdateProtocolNoip, self).__init__()
 
     @staticmethod
