@@ -40,21 +40,21 @@ if sys.version_info < (3, 2):
     install_requires.append("argparse")
 
 setup(name="dyndnsc",
-      packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector", "dyndnsc.updater"],
+      packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector", "dyndnsc.updater", "dyndnsc.tests"],
       version="0.3.1",
       author="Paul Kremer",
       author_email="@".join(("paul", "spurious.biz")),  # avoid spam,
       license="MIT License",
       description="dynamic dns update client package that tries to be extensible, re-usable and efficient on network resources",
-      long_description="Please see https://github.com/infothrill/python-dyndnsc",
-      url="Please see https://github.com/infothrill/python-dyndnsc",
+      long_description=open("README.rst", "r").read(),
+      url="https://github.com/infothrill/python-dyndnsc",
       install_requires=install_requires,
       entry_points=("""
                       [console_scripts]
                       dyndnsc=dyndnsc.cli:main
                       """),
       classifiers=classifiers,
-      test_suite='tests',
+      test_suite='dyndnsc.tests',
       #test_suite='nose.collector',
       #setup_requires=['nose'],
       tests_require=['bottle==0.11.6'],
