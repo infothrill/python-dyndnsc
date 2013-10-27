@@ -1,3 +1,6 @@
+### XXX (????)
+* switched optparse to argparse
+
 ### 0.3  (October 2013)
 
 * moved project to https://github.com/infothrill/python-dyndnsc

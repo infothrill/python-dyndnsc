@@ -36,6 +36,9 @@ else:
     # affects only python2 when using multiprocessing and if nose is installed
     import multiprocessing
 
+if sys.version_info < (3, 2):
+    install_requires.append("argparse")
+
 setup(name="dyndnsc",
       packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector", "dyndnsc.updater"],
       version="0.3",
