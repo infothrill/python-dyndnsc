@@ -27,9 +27,20 @@ dns services (http://dyn.com/support/developers/api/).
 Examples
 ========
 
+Basic example that should fit most peoples needs:
+
 .. code-block:: bash
 
-    $ dyndnsc  --hostname test.dyndns.com --userid bob --method=Iface,netmask:2001:0000::/32,iface:tun0,family:INET6
+    $ dyndnsc  --hostname test.dyndns.com --userid bob --password=fub4r
+
+
+Are you using `Miredo <http://www.remlab.net/miredo/>`_ and want to assign
+a hostname dynamically to your ipv6 tunnel?
+
+.. code-block:: bash
+
+    $ dyndnsc  --hostname test.dyndns.com --userid bob
+           --method=Iface,netmask:2001:0000::/32,iface:tun0,family:INET6
 
 
 Installation
