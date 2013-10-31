@@ -71,6 +71,7 @@ class UpdateProtocol(BaseClass):
 
         params = {'myip': self.theip, 'hostname': self.hostname}
         r = requests.get(self.updateUrl(), params=params, auth=(self.userid, self.password))
+        r.close()
         if r.status_code == 200:
             if r.text.startswith("good "):
                 self.success()

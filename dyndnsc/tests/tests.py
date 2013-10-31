@@ -5,12 +5,11 @@ import logging
 from time import sleep
 from multiprocessing import Process
 
-from bottle import Bottle, run, response, route, request
+from bottle import Bottle, run, response, request
 
 import dyndnsc
 
 
-@route('/nic/update')
 def nicupdate():
     arg_hostname = request.query.hostname
     arg_myip = request.query.myip
@@ -30,7 +29,7 @@ class DyndnsApp(Bottle):
         self.route(path='/nic/update', callback=nicupdate)
 
     def run(self):
-        run(self, host=self.host, port=self.port, debug=True, quiet=False)
+        run(self, host=self.host, port=self.port, debug=False, quiet=True)
 
     def start(self):
         self.process = Process(target=self.run)
@@ -39,8 +38,8 @@ class DyndnsApp(Bottle):
 
     def stop(self):
         self.process.terminate()
-        #self.process = None
-        sleep(1)
+        self.process = None
+        #sleep(1)
 
     @property
     def url(self):
@@ -134,8 +133,10 @@ class BottleServerTest(unittest.TestCase):
         """
         Start local server
         """
-        self.server = DyndnsApp('localhost', 8000)
-        self.url = "http://localhost:8000/nic/update"
+        import random
+        portnumber = random.randint(8000, 8900)
+        self.server = DyndnsApp('127.0.0.1', portnumber)
+        self.url = "http://127.0.0.1:%i/nic/update" % portnumber
         self.server.start()
         unittest.TestCase.setUp(self)
 
@@ -144,6 +145,7 @@ class BottleServerTest(unittest.TestCase):
         Stop local server.
         """
         self.server.stop()
+        self.server = None
         unittest.TestCase.tearDown(self)
 
 
@@ -152,7 +154,7 @@ class NoipTest(BottleServerTest):
     def test_noip(self):
         NAME = "noip"
         theip = "127.0.0.1"
-        options = {"hostname": "example.com", "userid": "dummy", "password": "1234"}
+        options = {"hostname": "no-ip.example.com", "userid": "dummy", "password": "1234"}
         self.assertEqual(NAME, dyndnsc.updater.UpdateProtocolNoip.configuration_key())
         updater = dyndnsc.updater.UpdateProtocolNoip(options)
         updater.updateurl = self.url
@@ -165,7 +167,7 @@ class NoipTest(BottleServerTest):
     def test_dyndns(self):
         NAME = "dyndns"
         theip = "127.0.0.1"
-        options = {"hostname": "example.com", "userid": "dummy", "password": "1234"}
+        options = {"hostname": "dyndns.example.com", "userid": "dummy", "password": "1234"}
         self.assertEqual(NAME, dyndnsc.updater.UpdateProtocolDyndns.configuration_key())
         updater = dyndnsc.updater.UpdateProtocolDyndns(options)
         updater.updateurl = self.url

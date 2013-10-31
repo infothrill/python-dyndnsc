@@ -2,13 +2,14 @@ Release history
 ---------------
 
 XXX (????)
-++++++++++++++++++
+++++++++++
 - switched optparse to argparse
+- fixed logging initialization warnings
 - packaging: ship tests in sdist
 - use reStructuredText rather than markdown
 
 0.3  (October 2013)
-++++++++++++++++++
++++++++++++++++++++
 - moved project to https://github.com/infothrill/python-dyndnsc
 - added continuous integration tests using http://travis-ci.org
 - added unittests
@@ -22,22 +23,22 @@ XXX (????)
 - dropped support for python <= 2.5 and added support for python 3.2+
 
 0.2.1 (February 2013)
-++++++++++++++++++
++++++++++++++++++++++
 - moved code to git
 - minimal PEP8 changes and code restructuring
 - provide a makefile to get dependencies using buildout
 
 0.2.0 (February 2010)
-++++++++++++++++++
++++++++++++++++++++++
 - updated IANA reserved IP address space
 - Added new IP Detector: running an external command
 - Minimal syntax changes based on the 2to3 tool, but remaining compatible 
   with python 2.x
 
 0.1.2 (July 2009)
-++++++++++++++++++
++++++++++++++++++
 - Added a couple of documentation files to the source distribution
 
 0.1.1 (September 2008)
-++++++++++++++++++
+++++++++++++++++++++++
 - Focus: initial public release
