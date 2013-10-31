@@ -9,6 +9,8 @@ from bottle import Bottle, run, response, request
 
 import dyndnsc
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 def nicupdate():
     arg_hostname = request.query.hostname
@@ -34,7 +36,9 @@ class DyndnsApp(Bottle):
     def start(self):
         self.process = Process(target=self.run)
         self.process.start()
-        sleep(2.5)
+        # even though I have a super fast quad core cpu, this is not working
+        # consistently if we don't sleep here!
+        sleep(3.5)
 
     def stop(self):
         self.process.terminate()
@@ -110,13 +114,14 @@ class DetectorTests(unittest.TestCase):
         detector.emit("test")
 
 
-class UpdaterTests(unittest.TestCase):
+class AUpdaterTests(unittest.TestCase):
 
     def test_updater_interfaces(self):
         from dyndnsc.updater import updaterClasses
-        for cls in updaterClasses():
+        for c, cls in enumerate(updaterClasses()):
             self.assertTrue(hasattr(cls, 'configuration_key'))
             self.assertTrue(hasattr(cls, 'updateUrl'))
+        self.assertTrue(c > 0)
 
     def test_dummy(self):
         NAME = "dummy"
@@ -180,15 +185,10 @@ class NoipTest(BottleServerTest):
 
 class DynDnscTestCases(unittest.TestCase):
     def setUp(self):
-        logging.info("TestCases are being initialized")
         unittest.TestCase.setUp(self)
 
     def tearDown(self):
         unittest.TestCase.tearDown(self)
-
-#     def test_version(self):
-#         import pkg_resources
-#         print(pkg_resources.get_distribution("dyndnsc").version)  # pylint: disable=E1103
 
     def test_commanddetector(self):
         det = dyndnsc.detector.IPDetector_Command(options={'command': 'echo "127.0.0.1"'})
@@ -215,7 +215,6 @@ class DynDnscTestCases(unittest.TestCase):
         self.assertTrue(dyndnsclient.needsCheck())
 
     def test_update_dummy(self):
-        logging.basicConfig()
         config = {}
         config['hostname'] = "dyndnsc.no-ip.biz"
         config['userid'] = "example"
