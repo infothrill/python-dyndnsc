@@ -87,13 +87,13 @@ def main():
     args = parser.parse_args()
 
     if args.version:
-        print("dyndnsc", pkg_resources.get_distribution("dyndnsc").version)  # pylint: disable=E1103
+        print("dyndnsc %s" % pkg_resources.get_distribution("dyndnsc").version)  # pylint: disable=E1103
         return 0
 
     logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
 
     if args.hostname is None:
-        raise Exception("Please specify a hostname using --hostname")
+        parser.error("Please specify a hostname using --hostname")
 
     config = {}
     config['hostname'] = args.hostname
@@ -108,7 +108,7 @@ def main():
     dyndnsclient = getDynDnsClientForConfig(config)
     if dyndnsclient is None:
         return 1
-    # do an initial syncronisation, before going into endless loop:
+    # do an initial synchronization, before going into endless loop:
     dyndnsclient.sync()
 
     if args.daemon:
