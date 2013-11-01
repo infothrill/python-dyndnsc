@@ -3,6 +3,7 @@ Release history
 
 XXX (????)
 ++++++++++
+- added more sources for 'webcheck' IP detection
 - switched optparse to argparse
 - fixed logging initialization warnings
 - packaging: ship tests in sdist
