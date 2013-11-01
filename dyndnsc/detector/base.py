@@ -1,24 +1,13 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 from ..common.subject import Subject
 
-
-class BaseClass(Subject):
-    """A common base class providing logging and desktop-notification.
-    """
-    def __init__(self, *args, **kwargs):
-        super(BaseClass, self).__init__()
-        #from dyndnsc.notifier.macgrowl import notify
-        #self.register_observer(notify)
-
-    def emit(self, message):
-        """
-        sends message to the notifier
-        """
-        self.notify_observers(event='Dynamic DNS', msg=message)
+log = logging.getLogger(__name__)
 
 
-class IPDetector(BaseClass):
+class IPDetector(Subject):
     """
     Base class for IP detectors. Really is just a state machine for
     old/current value.
@@ -50,7 +39,7 @@ class IPDetector(BaseClass):
         if value != self.getCurrentValue(value):
             self._oldvalue = self.getCurrentValue(value)
             self._currentvalue = value
-            self.emit("new IP detected: %s" % str(value))
+            log.info("new IP detected: %s", value)
         return value
 
     def hasChanged(self):

@@ -65,7 +65,6 @@ class DetectorTests(unittest.TestCase):
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
-        detector.emit("test")
 
     def test_command(self):
         NAME = "command"
@@ -78,7 +77,6 @@ class DetectorTests(unittest.TestCase):
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
-        detector.emit("test")
 
     def test_iface(self):
         NAME = "iface"
@@ -89,7 +87,6 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         #self.assertNotEqual(None, detector.getCurrentValue())
-        detector.emit("test")
 
     def test_teredo(self):
         NAME = "teredo"
@@ -100,7 +97,6 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         #self.assertNotEqual(None, detector.getCurrentValue())
-        detector.emit("test")
 
     def test_webcheck(self):
         NAME = "webcheck"
@@ -111,7 +107,6 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         #self.assertNotEqual(None, detector.getCurrentValue())
-        detector.emit("test")
 
 
 class AUpdaterTests(unittest.TestCase):
