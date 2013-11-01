@@ -1,5 +1,5 @@
 Dyndnsc - dynamic dns update client
-====================================
+===================================
 
 .. image:: https://travis-ci.org/infothrill/python-dyndnsc.png
     :target: https://travis-ci.org/infothrill/python-dyndnsc
@@ -42,6 +42,15 @@ a hostname dynamically to your ipv6 tunnel?
     $ dyndnsc  --hostname test.dyndns.com --userid bob
            --method=Iface,netmask:2001:0000::/32,iface:tun0,family:INET6
 
+
+Supported services
+==================
+Currently, this package offers support for
+
+* `dyndns.org <http://dyndns.org/>`_
+* `no-ip <https://www.no-ip.com/>`_
+
+Feel free to send pull requests to add more.
 
 Installation
 ============
