@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 
+import logging
+
 import requests
 
 from ..common.subject import Subject
+from ..common.events import IP_UPDATE_SUCCESS, IP_UPDATE_ERROR
+
+log = logging.getLogger(__name__)
 
 
-class BaseClass(Subject):
-    """A common base class providing logging and desktop-notification.
-    """
-    def emit(self, message):
-        """
-        sends message to the notifier
-        """
-        self.notify_observers(event='Dynamic DNS', msg=message)
-
-
-class UpdateProtocol(BaseClass):
+class UpdateProtocol(Subject):
     """the base class for all update protocols"""
 
     _updateurl = None
@@ -36,13 +31,13 @@ class UpdateProtocol(BaseClass):
         self.status = 0
         self.failcount = 0
         self.nochgcount = 0
-        #self.emit("Updated IP address of '%s' to %s" % (self.hostname, self.theip))
+        self.notify_observers(IP_UPDATE_SUCCESS, "Updated IP address of '%s' to %s" % (self.hostname, self.theip))
 
     def abuse(self):
         self.status = 1
         self.failcount = 0
         self.nochgcount = 0
-        #self.emit("This client is considered to be abusive for hostname '%s'" % (self.hostname))
+        self.notify_observers(IP_UPDATE_ERROR, "This client is considered to be abusive for hostname '%s'" % (self.hostname))
 
     def nochg(self):
         self.status = 0
@@ -52,31 +47,28 @@ class UpdateProtocol(BaseClass):
     def nohost(self):
         self.status = 1
         self.failcount += 1
-        self.emit("Invalid/non-existant hostname: [%s]" % (self.hostname))
-        self.status = "nohost"
+        self.notify_observers(IP_UPDATE_ERROR, "Invalid/non-existant hostname: [%s]" % (self.hostname))
 
     def failure(self):
         self.status = 1
         self.failcount += 1
-        self.emit("Service is failing!")
+        self.notify_observers(IP_UPDATE_ERROR, "Service is failing")
 
     def notfqdn(self):
         self.status = 1
         self.failcount += 1
-        self.emit("The provided hostname '%s' is not a valid hostname!" % (self.hostname))
+        self.notify_observers(IP_UPDATE_ERROR, "The provided hostname '%s' is not a valid hostname!" % (self.hostname))
 
     def protocol(self):
-        if hasattr(self, '_protocol'):
-            return self._protocol()
-
         params = {'myip': self.theip, 'hostname': self.hostname}
-        r = requests.get(self.updateUrl(), params=params, auth=(self.userid, self.password))
+        r = requests.get(self.updateUrl(), params=params, auth=(self.userid, self.password), timeout=60)
         r.close()
+        log.debug("status %i, %s", r.status_code, r.text)
         if r.status_code == 200:
             if r.text.startswith("good "):
                 self.success()
                 return self.theip
-            elif r.text == 'nochg':
+            elif r.text.startswith('nochg'):
                 self.nochg()
                 return self.theip
             elif r.text == 'nohost':
@@ -93,10 +85,9 @@ class UpdateProtocol(BaseClass):
                 return 'notfqdn'
             else:
                 self.status = 1
-                self.emit("Problem updating IP address of '%s' to %s: %s" % (self.hostname, self.theip, r.text))
+                self.notify_observers(IP_UPDATE_ERROR, "Problem updating IP address of '%s' to %s: %s" % (self.hostname, self.theip, r.text))
                 return r.text
         else:
             self.status = 1
-            self.emit("Problem updating IP address of '%s' to %s: %s" % (self.hostname, self.theip, r.status_code))
+            self.notify_observers(IP_UPDATE_ERROR, "Problem updating IP address of '%s' to %s: %s" % (self.hostname, self.theip, r.status_code))
             return 'invalid http status code: %s' % r.status_code
-
