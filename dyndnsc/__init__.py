@@ -18,7 +18,7 @@ except ImportError:
 
 logging.getLogger(__name__).addHandler(NullHandler())
 
-LOG = logging.getLogger(__name__)
+log = logging.getLogger(__name__)
 
 
 class DynDnsClient(object):
@@ -32,7 +32,7 @@ class DynDnsClient(object):
         self.dns = None
         self.detector = None
         self.status = 0
-        LOG.debug("DynDnsClient instantiated")
+        log.debug("DynDnsClient instantiated")
         # log.growl("Network", "Dynamic DNS client activated")
 
     def setProtocolHandler(self, proto):
@@ -52,19 +52,18 @@ class DynDnsClient(object):
         the state changes.
         """
         if self.dns.detect() != self.detector.detect():
-            current_ip = self.detector.getCurrentValue()
-            if not current_ip is None:
-                LOG.info("Current dns IP '%s' does not match current detected IP '%s', updating", self.dns.getCurrentValue(), current_ip)
-                self.proto.update(current_ip)
-                self.status = self.proto.status
-            else:
-                # print self.detector.detect()
-                LOG.debug("DNS is out of sync, but we don't know what to update it to (detector returns None)")
+            detected_ip = self.detector.getCurrentValue()
+            if detected_ip is None:
+                log.debug("DNS is out of sync, but we don't know what to update it to (detector returned None)")
                 self.status = 2
                 # we don't have a value to set it to, so don't update! Still shouldn't happen though
+            else:
+                log.info("Current dns IP '%s' does not match detected IP '%s', updating", self.dns.getCurrentValue(), detected_ip)
+                self.proto.update(detected_ip)
+                self.status = self.proto.status
         else:
             self.status = 0
-            LOG.debug("Nothing to do, dns '%s' equals detection '%s'", self.detector.getCurrentValue(), self.detector.getCurrentValue())
+            log.debug("Nothing to do, dns '%s' equals detection '%s'", self.detector.getCurrentValue(), self.detector.getCurrentValue())
 
     def stateHasChanged(self):
         """Detects a change either in the offline detector or a
@@ -83,10 +82,10 @@ class DynDnsClient(object):
             # this produces traffic, but probably less traffic overall than the detector
             self.detector.detect()
         if self.detector.hasChanged() == True:
-            LOG.debug("detector changed")
+            log.debug("detector changed")
             return True
         elif self.dns.hasChanged() == True:
-            LOG.debug("dns changed")
+            log.debug("dns changed")
             return True
         else:
             return False
@@ -117,12 +116,12 @@ class DynDnsClient(object):
 
     def check(self):
         if self.needsCheck():
-            LOG.debug("needs a check according to ipchangedetection_sleep (%s sec)", self.ipchangedetection_sleep)
+            log.debug("needs a check according to ipchangedetection_sleep (%s sec)", self.ipchangedetection_sleep)
             if self.stateHasChanged():
-                LOG.debug("state changed, syncing...")
+                log.debug("state changed, syncing...")
                 self.sync()
             elif self.needsForcedCheck():
-                LOG.debug("forcing sync after %s seconds", self.forceipchangedetection_sleep)
+                log.debug("forcing sync after %s seconds", self.forceipchangedetection_sleep)
                 self.lastforce = time.time()
                 self.sync()
             else:
@@ -144,18 +143,18 @@ def getDynDnsClientForConfig(config):
     if config is None:
         return None
     if not 'hostname' in config:
-        LOG.warn("No hostname configured")
+        log.warn("No hostname configured")
         return None
     dnsChecker = detector.IPDetector_DNS(config['hostname'])
     try:
         klass = updater.getUpdaterClass(config['protocol'])
     except KeyError:
-        LOG.warn("Invalid protocol: '%s'", config['protocol'])
+        log.warn("Invalid protocol: '%s'", config['protocol'])
         return None
     try:
         protoHandler = klass(config)
     except (AssertionError, KeyError) as e:
-        LOG.warn("Invalid protocol configuration: '%s'", str(e), exc_info=e)
+        log.warn("Invalid protocol configuration: '%s'", str(e), exc_info=e)
         return None
 
     dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
@@ -175,7 +174,7 @@ def getDynDnsClientForConfig(config):
     try:
         klass = detector.getDetectorClass(method)
     except (KeyError) as e:
-        LOG.warn("Invalid change detector configuration: '%s'", method, exc_info=e)
+        log.warn("Invalid change detector configuration: '%s'", method, exc_info=e)
         return None
 
     # make a dictionary from method_optlist:
@@ -187,12 +186,12 @@ def getDynDnsClientForConfig(config):
         option, dummysep, value = opt.partition(colon)
         option = option.strip()
         if option in opts:
-            LOG.warn("Option '%s' specified more than once, using '%s'.", option, value)
+            log.warn("Option '%s' specified more than once, using '%s'.", option, value)
         opts[option] = value.strip()
     try:
         dyndnsclient.setChangeDetector(klass(opts))
     except KeyError as e:
-        LOG.warn("Invalid change detector parameters: '%s'", opts, exc_info=e)
+        log.warn("Invalid change detector parameters: '%s'", opts, exc_info=e)
         return None
 
     return dyndnsclient
