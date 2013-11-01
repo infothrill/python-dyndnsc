@@ -130,7 +130,6 @@ class AUpdaterTests(unittest.TestCase):
         updater = dyndnsc.updater.UpdateProtocolDummy()
         self.assertEqual(str, type(updater.updateUrl()))
         self.assertEqual(theip, updater.update(theip))
-        updater.emit("test")
 
 
 class BottleServerTest(unittest.TestCase):
@@ -167,7 +166,6 @@ class NoipTest(BottleServerTest):
         self.assertEqual(self.url, updater.updateUrl())
         res = updater.update(theip)
         self.assertEqual(theip, res)
-        updater.emit("test")
 
     def test_dyndns(self):
         NAME = "dyndns"
@@ -180,7 +178,6 @@ class NoipTest(BottleServerTest):
         self.assertEqual(self.url, updater.updateUrl())
         res = updater.update(theip)
         self.assertEqual(theip, res)
-        updater.emit("test")
 
 
 class DynDnscTestCases(unittest.TestCase):
