@@ -11,6 +11,30 @@ from .base import IPDetector
 log = logging.getLogger(__name__)
 
 
+def _parser_plain(text):
+    return str(IPy.IP(text.strip()))
+
+
+def _parser_checkip(text):
+    regex = re.compile("Current IP Address: (.*?)(<.*){0,1}$")
+    for line in text.splitlines():
+        matchObj = regex.search(line)
+        if not matchObj is None:
+            return str(IPy.IP(matchObj.group(1)))
+    log.debug("Output '%s' could not be parsed", text)
+    return None
+
+
+def _parser_freedns_afraid(text):
+    regex = re.compile("Detected IP : (.*?)(<.*){0,1}$")
+    for line in text.splitlines():
+        matchObj = regex.search(line)
+        if not matchObj is None:
+            return str(IPy.IP(matchObj.group(1)))
+    log.debug("Output '%s' could not be parsed", text)
+    return None
+
+
 class IPDetector_WebCheck(IPDetector):
     """Class to detect an IP address as seen by an online web site that returns parsable output"""
 
@@ -22,31 +46,34 @@ class IPDetector_WebCheck(IPDetector):
         """Returns false, as this detector generates http traffic"""
         return False
 
-    def _getClientIPFromUrl(self, url):
+    def _get_ip_from_url(self, url, parser):
+        log.debug("Querying IP address from '%s'", url)
         try:
             r = requests.get(url)
+        except (requests.exceptions.RequestException) as exc:
+            log.debug("webcheck failed for url '%s'", url, exc_info=exc)
+            return None
+        else:
             if r.status_code == 200:
-                regex = re.compile("Current IP Address: (.*?)(<.*){0,1}$")
-                for line in r.text.splitlines():
-                    matchObj = regex.search(line)
-                    if not matchObj is None:
-                        return str(IPy.IP(matchObj.group(1)))
-        except (requests.exceptions.RequestException):
-            pass
+                return parser(r.text)
+            else:
+                log.debug("Wrong http status code for '%s': %i", url, r.status_code)
         return None
 
     def detect(self):
-        # self.LOG("detect WebCheck")
         from random import choice
         urls = (
-                "http://checkip.dyndns.org/",
-                "http://checkip.eurodyndns.org/",
-                "http://dynamic.zoneedit.com/checkip.html",  # renders bad stuff if queried too quickly, but that's fine ;-)
-                "http://ipcheck.rehbein.net/"
-                "http://www.antifart.com/stuff/checkip/",
+                ("http://checkip.dyndns.org/", _parser_checkip),
+                ("http://checkip.eurodyndns.org/", _parser_checkip),
+                ("http://dynamic.zoneedit.com/checkip.html", _parser_checkip),
+                ("http://ipcheck.rehbein.net/", _parser_checkip),
+                ("http://ip.dnsexit.com/", _parser_plain),
+                ("http://freedns.afraid.org:8080/dynamic/check.php", _parser_freedns_afraid),
+                ("http://icanhazip.com/", _parser_plain),
+                ("http://ip.arix.com/", _parser_plain),
                 )
-        theip = self._getClientIPFromUrl(choice(urls))
+        theip = self._get_ip_from_url(*choice(urls))
         if theip is None:
-            log.info("Could not detect IP using webchecking! Offline?")
+            log.info("Could not detect IP using webcheck! Offline?")
         self.setCurrentValue(theip)
         return theip
