@@ -3,6 +3,8 @@ Release history
 
 XXX (????)
 ++++++++++
+- (re-)added Growl notification support
+- added OS X Notification Center support
 - added more sources for 'webcheck' IP detection
 - switched optparse to argparse
 - fixed logging initialization warnings
