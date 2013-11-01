@@ -90,7 +90,9 @@ def main():
         print("dyndnsc %s" % pkg_resources.get_distribution("dyndnsc").version)  # pylint: disable=E1103
         return 0
 
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s %(levelname)s %(message)s')
+    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+    requests_log = logging.getLogger("requests")
+    requests_log.setLevel(logging.WARNING)
 
     if args.hostname is None:
         parser.error("Please specify a hostname using --hostname")
