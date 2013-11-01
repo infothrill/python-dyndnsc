@@ -11,6 +11,21 @@ from .base import IPDetector
 log = logging.getLogger(__name__)
 
 
+def _get_ip_from_url(url, parser):
+    log.debug("Querying IP address from '%s'", url)
+    try:
+        r = requests.get(url)
+    except (requests.exceptions.RequestException) as exc:
+        log.debug("webcheck failed for url '%s'", url, exc_info=exc)
+        return None
+    else:
+        if r.status_code == 200:
+            return parser(r.text)
+        else:
+            log.debug("Wrong http status code for '%s': %i", url, r.status_code)
+    return None
+
+
 def _parser_plain(text):
     return str(IPy.IP(text.strip()))
 
@@ -46,20 +61,6 @@ class IPDetector_WebCheck(IPDetector):
         """Returns false, as this detector generates http traffic"""
         return False
 
-    def _get_ip_from_url(self, url, parser):
-        log.debug("Querying IP address from '%s'", url)
-        try:
-            r = requests.get(url)
-        except (requests.exceptions.RequestException) as exc:
-            log.debug("webcheck failed for url '%s'", url, exc_info=exc)
-            return None
-        else:
-            if r.status_code == 200:
-                return parser(r.text)
-            else:
-                log.debug("Wrong http status code for '%s': %i", url, r.status_code)
-        return None
-
     def detect(self):
         from random import choice
         urls = (
@@ -72,7 +73,7 @@ class IPDetector_WebCheck(IPDetector):
                 ("http://icanhazip.com/", _parser_plain),
                 ("http://ip.arix.com/", _parser_plain),
                 )
-        theip = self._get_ip_from_url(*choice(urls))
+        theip = _get_ip_from_url(*choice(urls))
         if theip is None:
             log.info("Could not detect IP using webcheck! Offline?")
         self.setCurrentValue(theip)
