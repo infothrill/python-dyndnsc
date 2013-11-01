@@ -145,24 +145,24 @@ def getDynDnsClientForConfig(config):
     if not 'hostname' in config:
         log.warn("No hostname configured")
         return None
-    dnsChecker = detector.IPDetector_DNS(config['hostname'])
+    dns_detector = detector.IPDetector_DNS(config['hostname'])
     try:
         klass = updater.getUpdaterClass(config['protocol'])
     except KeyError:
-        log.warn("Invalid protocol: '%s'", config['protocol'])
+        log.warn("Invalid update protocol: '%s'", config['protocol'])
         return None
     try:
-        protoHandler = klass(config)
+        ip_updater = klass(config)
     except (AssertionError, KeyError) as e:
-        log.warn("Invalid protocol configuration: '%s'", str(e), exc_info=e)
+        log.warn("Invalid update protocol configuration: '%s'", str(e), exc_info=e)
         return None
 
     dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
-    dyndnsclient.setProtocolHandler(protoHandler)
-    dyndnsclient.setDNSDetector(dnsChecker)
+    dyndnsclient.setProtocolHandler(ip_updater)
+    dyndnsclient.setDNSDetector(dns_detector)
 
     # allow config['method'] to be a list or a comma-separated string:
-    if type([]) != type(config['method']):
+    if type(config['method']) != list:
         dummy = config['method'].split(',')
     else:
         dummy = config['method']
