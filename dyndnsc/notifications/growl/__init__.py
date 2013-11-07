@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from ..base import Notification
-
 
 def is_available():
     import sys
@@ -19,4 +17,3 @@ def is_available():
 def create_notify_handler():
     from .growl import Growl
     return Growl().create_notify_handler()
-
