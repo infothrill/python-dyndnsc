@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-observer/subject implementation for desktop notification
+observer/subject implementation
 """
 
 import logging
