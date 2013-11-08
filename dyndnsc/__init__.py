@@ -2,6 +2,7 @@
 
 import time
 import logging
+import warnings
 
 
 from . import detector
@@ -28,15 +29,20 @@ class DynDnsClient(object):
         self.forceipchangedetection_sleep = sleeptime * 5  # force check every n seconds if our IP changed
         self.lastcheck = None
         self.lastforce = None
-        self.proto = None
+        self.updaters = []
         self.dns = None
         self.detector = None
         self.status = 0
         log.debug("DynDnsClient instantiated")
         # log.growl("Network", "Dynamic DNS client activated")
 
+    def add_updater(self, updater):
+        self.updaters.append(updater)
+
     def setProtocolHandler(self, proto):
-        self.proto = proto
+        warnings.warn("setProtocolHandler is deprecated; use add_updater() "
+                      "instead", DeprecationWarning)
+        self.add_updater(proto)
 
     def setDNSDetector(self, detector):
         self.dns = detector
@@ -59,8 +65,10 @@ class DynDnsClient(object):
                 # we don't have a value to set it to, so don't update! Still shouldn't happen though
             else:
                 log.info("Current dns IP '%s' does not match detected IP '%s', updating", self.dns.getCurrentValue(), detected_ip)
-                self.proto.update(detected_ip)
-                self.status = self.proto.status
+                # TODO: perform some kind of proxy chaining here?
+                for ipupdater in self.updaters:
+                    status = ipupdater.update(detected_ip)
+                self.status = status
         else:
             self.status = 0
             log.debug("Nothing to do, dns '%s' equals detection '%s'", self.detector.getCurrentValue(), self.detector.getCurrentValue())
@@ -69,7 +77,7 @@ class DynDnsClient(object):
         """Detects a change either in the offline detector or a
         difference between the real DNS value and what the online
         detector last got.
-        This is efficient, as it only generates minimal dns traffic
+        This is efficient, since it only generates minimal dns traffic
         for online detectors and no traffic at all for offline detectors.
 
         @return: boolean
@@ -92,15 +100,13 @@ class DynDnsClient(object):
 
     def needsCheck(self):
         """This checks if the planned time between checks has elapsed.
-        When this time has elapsed, a state change check through stateHasChanged() should be performed and eventually a sync().
+        When this time has elapsed, a state change check through stateHasChanged()
+        should be performed and eventually a sync().
         """
         if self.lastcheck is None:
             return True
         else:
-            if (time.time() - self.lastcheck < self.ipchangedetection_sleep):
-                return False
-            else:
-                return True
+            return time.time() - self.lastcheck >= self.ipchangedetection_sleep
 
     def needsForcedCheck(self):
         """This checks if self.forceipchangedetection_sleep between checks has elapsed.
@@ -158,7 +164,7 @@ def getDynDnsClientForConfig(config):
         return None
 
     dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
-    dyndnsclient.setProtocolHandler(ip_updater)
+    dyndnsclient.add_updater(ip_updater)
     dyndnsclient.setDNSDetector(dns_detector)
 
     # allow config['method'] to be a list or a comma-separated string:
