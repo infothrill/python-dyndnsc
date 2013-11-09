@@ -4,11 +4,12 @@ Release history
 XXX (????)
 ++++++++++
 - added support for http://nsupdate.info
+- fixed: automatic installation of 'requests'
 - (re-)added Growl notification support
 - added OS X Notification Center support
 - added more URL sources for 'webcheck' IP detection
 - switched optparse to argparse for future-proofing
-- fixed logging initialization warnings
+- fixed: logging initialization warnings
 - packaging: ship tests with source
 - use reStructuredText rather than markdown
 
