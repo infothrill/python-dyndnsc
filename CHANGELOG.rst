@@ -5,10 +5,10 @@ XXX (????)
 ++++++++++
 - (re-)added Growl notification support
 - added OS X Notification Center support
-- added more sources for 'webcheck' IP detection
-- switched optparse to argparse
+- added more URL sources for 'webcheck' IP detection
+- switched optparse to argparse for future-proofing
 - fixed logging initialization warnings
-- packaging: ship tests in sdist
+- packaging: ship tests with source
 - use reStructuredText rather than markdown
 
 0.3  (October 2013)
