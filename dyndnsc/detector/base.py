@@ -44,7 +44,4 @@ class IPDetector(Subject):
 
     def hasChanged(self):
         """Detect a state change with old and current value"""
-        if self.getOldValue() == self.getCurrentValue():
-            return False
-        else:
-            return True
+        return self.getOldValue() != self.getCurrentValue()

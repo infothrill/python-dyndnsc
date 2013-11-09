@@ -17,5 +17,5 @@ class Growl(Notification):
             applicationName='dyndnsc',
             title=self.default_title,
             sticky=False,
-            )
+        )
         return True

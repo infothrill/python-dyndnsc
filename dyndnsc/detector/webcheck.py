@@ -72,6 +72,7 @@ class IPDetector_WebCheck(IPDetector):
                 ("http://freedns.afraid.org:8080/dynamic/check.php", _parser_freedns_afraid),
                 ("http://icanhazip.com/", _parser_plain),
                 ("http://ip.arix.com/", _parser_plain),
+                ("http://ipv4.nsupdate.info/myip", _parser_plain),
                 )
         theip = _get_ip_from_url(*choice(urls))
         if theip is None:
