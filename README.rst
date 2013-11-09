@@ -14,7 +14,7 @@ Dyndnsc - dynamic dns update client
         :target: https://crate.io/packages/dyndnsc/
 
 
-dyndnsc is both a script to be used directly as well as a re-usable and
+*dyndnsc* is both a script to be used directly as well as a re-usable and
 hopefully extensible python package for doing updates over http to dynamic
 dns services. This package currently focuses on supporting the dyndns2 protocol
 (http://dyn.com/support/developers/api/) and variations thereof.

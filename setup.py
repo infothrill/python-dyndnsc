@@ -42,12 +42,14 @@ if sys.version_info < (3, 2):
 #    install_requires.append("importlib")
 
 setup(name="dyndnsc",
-      packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector", "dyndnsc.updater", "dyndnsc.tests"],
+      packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector",
+                "dyndnsc.updater", "dyndnsc.tests"],
       version="0.3.1",
       author="Paul Kremer",
       author_email="@".join(("paul", "spurious.biz")),  # avoid spam,
       license="MIT License",
-      description="dynamic dns update client package that tries to be extensible, re-usable and efficient on network resources",
+      description="dynamic dns update client package that tries to be "
+            "extensible, re-usable and efficient on network resources",
       long_description=open("README.rst", "r").read(),
       url="https://github.com/infothrill/python-dyndnsc",
       install_requires=install_requires,
