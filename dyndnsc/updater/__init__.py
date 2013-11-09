@@ -3,6 +3,7 @@
 from .dyndns import UpdateProtocolDyndns
 from .dummy import UpdateProtocolDummy
 from .noip import UpdateProtocolNoip
+from .nsupdate_info import UpdateProtocolNsUpdate
 
 
 def updaterClasses():
