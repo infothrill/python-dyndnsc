@@ -3,6 +3,7 @@ Release history
 
 XXX (????)
 ++++++++++
+- added support for http://nsupdate.info
 - (re-)added Growl notification support
 - added OS X Notification Center support
 - added more URL sources for 'webcheck' IP detection
