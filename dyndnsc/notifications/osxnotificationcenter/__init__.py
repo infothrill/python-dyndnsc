@@ -1,19 +1,7 @@
 # -*- coding: utf-8 -*-
 
-
-def is_available():
-    import sys
-    if not sys.platform.startswith("darwin"):
-        return False
-    else:
-        try:
-            from .osxnotificationcenter import OSXNotification
-        except ImportError:
-            return False
-        else:
-            return True
+from .osxnotificationcenter import OSXNotification
 
 
 def create_notify_handler():
-    from .osxnotificationcenter import OSXNotification
     return OSXNotification().create_notify_handler()
