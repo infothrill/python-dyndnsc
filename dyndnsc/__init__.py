@@ -34,7 +34,6 @@ class DynDnsClient(object):
         self.detector = None
         self.status = 0
         log.debug("DynDnsClient instantiated")
-        # log.growl("Network", "Dynamic DNS client activated")
 
     def add_updater(self, updater):
         self.updaters.append(updater)
