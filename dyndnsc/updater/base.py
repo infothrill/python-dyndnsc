@@ -24,21 +24,6 @@ class UpdateProtocol(Subject):
         self.updateurl = self._updateurl
         super(UpdateProtocol, self).__init__()
 
-        observers = []
-
-        # TODO: auto detect all notifiers
-        # TODO: make this configurable?
-        if False:
-            from ..notifications import osxnotificationcenter
-            if osxnotificationcenter.is_available():
-                observers.append(osxnotificationcenter.create_notify_handler())
-            from ..notifications import growl
-            if growl.is_available():
-                observers.append(growl.create_notify_handler())
-
-        for observer in observers:
-            self.register_observer(observer, (IP_UPDATE_SUCCESS, IP_UPDATE_ERROR))
-
     def updateUrl(self):
         return self.updateurl
 
