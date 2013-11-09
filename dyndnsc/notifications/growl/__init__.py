@@ -19,4 +19,3 @@ def is_available():
 def create_notify_handler():
     from .growl import Growl
     return Growl().create_notify_handler()
-

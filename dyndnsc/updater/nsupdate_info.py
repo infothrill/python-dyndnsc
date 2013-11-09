@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Updater for nsupdate.info dynamic dns service (which is dyndns2 compatible,
-so this module is mostly for the sake of a different _updateurl and docs.
+so this module is mostly for the sake of a different _updateurl and docs).
 
 To avoid SSL certificate issues when using https, using Python >= 3.2 is
 strongly recommended (SSL with SNI is painful with requests on Python 2.x).
@@ -12,7 +12,7 @@ dyndnsc --hostname test.nsupdate.info \
         --protocol nsupdate \
         --loop --sleeptime 300 \
         --method=webcheck
- 
+
 Updating IPv6 (uses interface based ip detection):
 dyndnsc --hostname test.nsupdate.info \
         --userid   test.nsupdate.info --password xxxxxxxxxx \
