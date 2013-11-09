@@ -45,10 +45,11 @@ a hostname dynamically to your ipv6 tunnel?
 
 Supported services
 ==================
-Currently, this package offers support for
+Currently, this package offers (at least basic) support for
 
 * `dyndns.org <http://dyndns.org/>`_
 * `no-ip <https://www.no-ip.com/>`_
+* `dnsupdate.info <https://dnsupdate.info/>`_
 
 Feel free to send pull requests to add more.
 
