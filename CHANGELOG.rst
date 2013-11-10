@@ -3,7 +3,7 @@ Release history
 
 0.3.1 (November 2013)
 +++++++++++++++++++++
-- added: support for http://nsupdate.info
+- added: support for https://nsupdate.info
 - fixed: automatic installation of 'requests' with setuptools dependencies
 - added: more URL sources for 'webcheck' IP detection
 - improved: switched optparse to argparse for future-proofing

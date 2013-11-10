@@ -46,7 +46,7 @@ Currently, (at least basic) support is offered for
 
 * `dyndns.org <http://dyndns.org/>`_
 * `no-ip <https://www.no-ip.com/>`_
-* `dnsupdate.info <https://dnsupdate.info/>`_
+* `nsupdate.info <https://nsupdate.info/>`_
 
 Feel free to send pull requests to add more.
 
