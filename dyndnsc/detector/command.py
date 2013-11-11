@@ -16,7 +16,6 @@ class IPDetector_Command(IPDetector):
         """
         self.opts = {'command': ''}
         for k in options.keys():
-            #logging.debug("%s explicitly got option: %s -> %s", self.__class__.__name__, k, options[k])
             self.opts[k] = options[k]
         super(IPDetector_Command, self).__init__()
 

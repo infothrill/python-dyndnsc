@@ -2,5 +2,5 @@
 #disable=missing-docstring
 
 [FORMAT]
-max-line-length=120
+max-line-length=80
 

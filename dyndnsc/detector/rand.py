@@ -45,21 +45,28 @@ class RandomIPGenerator(object):
         return False
 
     def randomIP(self):
-        """Return a randomly generated IPv4 address that is not in a reserved ipv4 address space
+        """Return a randomly generated IPv4 address that is not in a reserved
+        ipv4 address space
 
         @return: IPy ip address
         """
-        randomip = IPy.IP("%i.%i.%i.%i" % (random.randint(1, 254), random.randint(1, 254), random.randint(1, 254), random.randint(1, 254)))
+        randomip = IPy.IP("%i.%i.%i.%i" % (random.randint(1, 254),
+                                           random.randint(1, 254),
+                                           random.randint(1, 254),
+                                           random.randint(1, 254)))
         while self.isReservedIP(randomip):
-            randomip = IPy.IP("%i.%i.%i.%i" % (random.randint(1, 254), random.randint(1, 254), random.randint(1, 254), random.randint(1, 254)))
+            randomip = IPy.IP("%i.%i.%i.%i" % (random.randint(1, 254),
+                                               random.randint(1, 254),
+                                               random.randint(1, 254),
+                                               random.randint(1, 254)))
         return randomip
 
     def next(self):
         return self.__next__()
 
     def __next__(self):
-        """Generator that returns randomly generated IPv4 addresses that are not in a reserved ipv4 address space
-        until we hit self.maxRandomTries
+        """Generator that returns randomly generated IPv4 addresses that are
+        not in a reserved ipv4 address space until we hit self.maxRandomTries
 
         @return: IPy ip address
         """

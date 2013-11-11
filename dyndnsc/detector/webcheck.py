@@ -51,7 +51,8 @@ def _parser_freedns_afraid(text):
 
 
 class IPDetector_WebCheck(IPDetector):
-    """Class to detect an IP address as seen by an online web site that returns parsable output"""
+    """Class to detect an IP address as seen by an online web site that returns
+    parsable output containing the IP address"""
 
     @staticmethod
     def getName():

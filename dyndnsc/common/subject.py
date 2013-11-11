@@ -28,7 +28,8 @@ class Subject(object):
             events = (events,)
 
         if observer in self._observers:
-            log.warn("Observer '%r' already registered, overwriting for events %r", observer, events)
+            log.warn("Observer '%r' already registered, overwriting for events"
+                     " %r", observer, events)
         self._observers[observer] = events
 
     def notify_observers(self, event=None, msg=None):
