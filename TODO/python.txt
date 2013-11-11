@@ -1,4 +1,0 @@
-python 3.3 introduced ipaddress http://docs.python.org/3/library/ipaddress.html
-potentially replacing the need for IPy. It's also backported at
-https://pypi.python.org/pypi/ipaddress
-

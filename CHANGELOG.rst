@@ -1,6 +1,10 @@
 Release history
 ---------------
 
+0.3.2 (November 2013)
++++++++++++++++++++++
+- fixed: typos, test structure
+
 0.3.1 (November 2013)
 +++++++++++++++++++++
 - added: support for https://nsupdate.info
