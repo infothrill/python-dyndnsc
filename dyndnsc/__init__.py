@@ -70,7 +70,9 @@ class DynDnsClient(object):
                 self.status = status
         else:
             self.status = 0
-            log.debug("Nothing to do, dns '%s' equals detection '%s'", self.detector.getCurrentValue(), self.detector.getCurrentValue())
+            log.debug("Nothing to do, dns '%s' equals detection '%s'",
+                      self.detector.getCurrentValue(),
+                      self.detector.getCurrentValue())
 
     def stateHasChanged(self):
         """Detects a change either in the offline detector or a
@@ -99,8 +101,8 @@ class DynDnsClient(object):
 
     def needsCheck(self):
         """This checks if the planned time between checks has elapsed.
-        When this time has elapsed, a state change check through stateHasChanged()
-        should be performed and eventually a sync().
+        When this time has elapsed, a state change check through
+        stateHasChanged() should be performed and eventually a sync().
         """
         if self.lastcheck is None:
             return True
@@ -108,9 +110,10 @@ class DynDnsClient(object):
             return time.time() - self.lastcheck >= self.ipchangedetection_sleep
 
     def needsForcedCheck(self):
-        """This checks if self.forceipchangedetection_sleep between checks has elapsed.
-        When this time has elapsed, a sync() should be performed, no matter what stateHasChanged() says.
-        This is really just a safety thing to enforce consistency in case the state gets messed up.
+        """This checks if self.forceipchangedetection_sleep between checks has
+        elapsed. When this time has elapsed, a sync() should be performed, no
+        matter what stateHasChanged() says. This is really just a safety thing
+        to enforce consistency in case the state gets messed up.
         """
         if self.lastforce is None:
             self.lastforce = time.time()
@@ -126,7 +129,8 @@ class DynDnsClient(object):
                 log.debug("state changed, syncing...")
                 self.sync()
             elif self.needsForcedCheck():
-                log.debug("forcing sync after %s seconds", self.forceipchangedetection_sleep)
+                log.debug("forcing sync after %s seconds",
+                          self.forceipchangedetection_sleep)
                 self.lastforce = time.time()
                 self.sync()
             else:
@@ -134,14 +138,16 @@ class DynDnsClient(object):
                 pass
 
     def loop(self):
-        """Blocking endless loop with built-in sleeping between checks and updates."""
+        """Blocking endless loop with built-in sleeping between checks and
+        updates."""
         while True:
             self.check()
             time.sleep(self.ipchangedetection_sleep)
 
 
 def getDynDnsClientForConfig(config):
-    """Factory method to instantiate and initialize a complete and working dyndns client
+    """Factory method to instantiate and initialize a complete and working
+    dyndns client
 
     @param config: a dictionary with configuration pairs
     """
@@ -158,8 +164,9 @@ def getDynDnsClientForConfig(config):
         return None
     try:
         ip_updater = klass(config)
-    except (AssertionError, KeyError) as e:
-        log.warn("Invalid update protocol configuration: '%s'", str(e), exc_info=e)
+    except (AssertionError, KeyError) as exc:
+        log.warn("Invalid update protocol configuration: '%s'", repr(config),
+                 exc_info=exc)
         return None
 
     dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
@@ -178,8 +185,9 @@ def getDynDnsClientForConfig(config):
         method_optlist = []
     try:
         klass = detector.getDetectorClass(method)
-    except (KeyError) as e:
-        log.warn("Invalid change detector configuration: '%s'", method, exc_info=e)
+    except (KeyError) as exc:
+        log.warn("Invalid change detector configuration: '%s'", method,
+                 exc_info=exc)
         return None
 
     # make a dictionary from method_optlist:
@@ -191,12 +199,13 @@ def getDynDnsClientForConfig(config):
         option, dummysep, value = opt.partition(colon)
         option = option.strip()
         if option in opts:
-            log.warn("Option '%s' specified more than once, using '%s'.", option, value)
+            log.warn("Option '%s' specified more than once, using '%s'.",
+                     option, value)
         opts[option] = value.strip()
     try:
         dyndnsclient.setChangeDetector(klass(opts))
-    except KeyError as e:
-        log.warn("Invalid change detector parameters: '%s'", opts, exc_info=e)
+    except KeyError as exc:
+        log.warn("Invalid change detector parameters: '%s'", opts, exc_info=exc)
         return None
 
     return dyndnsclient
