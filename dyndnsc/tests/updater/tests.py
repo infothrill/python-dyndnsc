@@ -55,11 +55,12 @@ class DyndnsApp(Bottle):
 class AUpdaterTests(unittest.TestCase):
 
     def test_updater_interfaces(self):
-        from dyndnsc.updater import updaterClasses
+        from dyndnsc.updater import updaterClasses, getUpdaterClass
         for c, cls in enumerate(updaterClasses()):
             self.assertTrue(hasattr(cls, 'configuration_key'))
             self.assertTrue(hasattr(cls, 'updateUrl'))
         self.assertTrue(c > 0)
+        self.assertRaises(KeyError, getUpdaterClass, 'nonexistant')
 
     def test_dummy(self):
         NAME = "dummy"

@@ -15,8 +15,10 @@ class PluginDetectorTests(unittest.TestCase):
 
     def test_zdetector_interfaces(self):
         import dyndnsc.detector.manager
+        self.assertTrue(len(dyndnsc.detector.manager.detector_classes()) > 0)
         for cls in dyndnsc.detector.manager.detector_classes():
             self.assertTrue(hasattr(cls, 'getName'))
+        self.assertRaises(KeyError, dyndnsc.detector.manager.get_detector_class, 'nonexistant')
 
 
 class IndividualDetectorTests(unittest.TestCase):
