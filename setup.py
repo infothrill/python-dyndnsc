@@ -38,8 +38,8 @@ else:
 
 if sys.version_info < (3, 2):
     install_requires.append("argparse")
-#if sys.version_info < (2, 7):  # continue support for python 2.6
-#    install_requires.append("importlib")
+if sys.version_info < (2, 7):  # continue support for python 2.6
+    install_requires.append("importlib")
 
 setup(name="dyndnsc",
       packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector",
