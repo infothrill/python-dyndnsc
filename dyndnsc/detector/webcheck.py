@@ -27,7 +27,11 @@ def _get_ip_from_url(url, parser):
 
 
 def _parser_plain(text):
-    return str(IPy.IP(text.strip()))
+    try:
+        return str(IPy.IP(text.strip()))
+    except ValueError as exc:
+        log.warn("Error parsing IP address '%s'", text, exc_info=exc)
+        return None
 
 
 def _parser_checkip(text):
