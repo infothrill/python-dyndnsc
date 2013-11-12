@@ -38,6 +38,12 @@ class DetectorTests(unittest.TestCase):
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
 
+        #det = dyndnsc.detector.IPDetector_Command(options={'command': 'echo "127.0.0.1"'})
+        #self.assertEqual("127.0.0.1", det.detect())
+        #det = dyndnsc.detector.IPDetector_Command(options={'command': 'echo "127.0.0.2"'})
+        #self.assertEqual("127.0.0.2", det.detect())
+
+
     def test_iface(self):
         NAME = "iface"
         self.assertEqual(NAME, dyndnsc.detector.IPDetector_Iface.getName())
@@ -57,6 +63,12 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         #self.assertNotEqual(None, detector.getCurrentValue())
+
+    def test_teredo2(self):
+        # constructor: test invalid options
+        #det = dyndnsc.detector.getDetectorClass('teredo')(options={'iface': 'tun0'})
+        det = dyndnsc.detector.IPDetector_Teredo(options={'iface': 'tun0'})
+        logging.info(det.detect())
 
     def test_webcheck(self):
         NAME = "webcheck"
