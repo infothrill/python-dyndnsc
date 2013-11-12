@@ -89,7 +89,7 @@ class RandomIPGenerator(object):
 
 class IPDetector_Random(IPDetector):
     """For testing: detect randomly generated IP addresses"""
-    def __init__(self, options):
+    def __init__(self, options=None):
         super(IPDetector_Random, self).__init__()
         self.rips = RandomIPGenerator()
 
