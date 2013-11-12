@@ -92,6 +92,17 @@ class IndividualDetectorTests(unittest.TestCase):
         detector = dyndnsc.detector.teredo.IPDetector_Teredo(options={'iface': 'foo0'})
         self.assertEqual(None, detector.detect())
 
+    def test_webcheck_parsers(self):
+        import dyndnsc.detector.webcheck
+        self.assertEqual(None, dyndnsc.detector.webcheck._parser_checkip(""))
+        self.assertEqual("127.0.0.1", dyndnsc.detector.webcheck._parser_checkip("Current IP Address: 127.0.0.1"))
+
+        self.assertEqual(None, dyndnsc.detector.webcheck._parser_plain(""))
+        self.assertEqual("127.0.0.1", dyndnsc.detector.webcheck._parser_plain("127.0.0.1"))
+
+        self.assertEqual(None, dyndnsc.detector.webcheck._parser_freedns_afraid(""))
+        self.assertEqual("127.0.0.1", dyndnsc.detector.webcheck._parser_freedns_afraid("Detected IP : 127.0.0.1"))
+
     def test_webcheck(self):
         import dyndnsc.detector.webcheck
         NAME = "webcheck"
