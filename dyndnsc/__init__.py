@@ -156,7 +156,8 @@ def getDynDnsClientForConfig(config):
     if not 'hostname' in config:
         log.warn("No hostname configured")
         return None
-    dns_detector = detector.IPDetector_DNS(config['hostname'])
+    from .detector import dns
+    dns_detector = dns.IPDetector_DNS(config['hostname'])
     try:
         klass = updater.getUpdaterClass(config['protocol'])
     except KeyError:
@@ -183,8 +184,9 @@ def getDynDnsClientForConfig(config):
         method_optlist = dummy[1:]
     else:
         method_optlist = []
+    from .detector import manager
     try:
-        klass = detector.getDetectorClass(method)
+        klass = manager.get_detector_class(method)
     except (KeyError) as exc:
         log.warn("Invalid change detector configuration: '%s'", method,
                  exc_info=exc)

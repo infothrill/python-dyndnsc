@@ -44,7 +44,7 @@ if sys.version_info < (3, 2):
 setup(name="dyndnsc",
       packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector",
                 "dyndnsc.updater", "dyndnsc.tests"],
-      version="0.3.1",
+      version="0.3.2",
       author="Paul Kremer",
       author_email="@".join(("paul", "spurious.biz")),  # avoid spam,
       license="MIT License",
