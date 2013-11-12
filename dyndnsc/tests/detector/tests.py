@@ -45,6 +45,20 @@ class IndividualDetectorTests(unittest.TestCase):
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
 
+    def test_rand_ip_generator(self):
+        import dyndnsc.detector.rand
+        generator = dyndnsc.detector.rand.RandomIPGenerator()
+        self.assertTrue(generator.isReservedIP("127.0.0.1"))
+        self.assertFalse(generator.isReservedIP("83.169.1.157"))
+        self.assertFalse(generator.isReservedIP(generator.randomIP()))
+        # for the sake of randomness, detect a bunch of IPs:
+        MAX = 100
+        generator = dyndnsc.detector.rand.RandomIPGenerator()
+        for c, ip in enumerate(generator):
+            self.assertFalse(generator.isReservedIP(ip))
+            if c >= MAX:
+                break
+
     def test_rand_detector(self):
         import dyndnsc.detector.rand
         NAME = "random"
