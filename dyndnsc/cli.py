@@ -16,6 +16,7 @@ def main():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--daemon", dest="daemon", help="go into daemon mode (implies --loop)", action="store_true", default=False)
+    parser.add_argument("--debug", dest="debug", help="increase logging level to DEBUG", action="store_true", default=False)
     parser.add_argument("--hostname", dest="hostname", help="hostname to update", default=None)
     parser.add_argument("--key", dest="key", help="your authentication key", default=None)
     parser.add_argument("--userid", dest="userid", help="your userid", default=None)
@@ -31,7 +32,13 @@ def main():
         print("dyndnsc %s" % pkg_resources.get_distribution("dyndnsc").version)  # pylint: disable=E1103
         return 0
 
-    logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
+    if args.debug:
+        level = logging.DEBUG
+    else:
+        level = logging.INFO
+
+    logging.basicConfig(level=level, format='%(asctime)s %(levelname)s %(message)s')
+    # silence 'requests' logging
     requests_log = logging.getLogger("requests")
     requests_log.setLevel(logging.WARNING)
 
