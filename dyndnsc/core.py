@@ -52,13 +52,13 @@ class DynDnsClient(object):
         the state changes.
         """
         if self.dns.detect() != self.detector.detect():
-            detected_ip = self.detector.getCurrentValue()
+            detected_ip = self.detector.get_current_value()
             if detected_ip is None:
                 log.debug("DNS is out of sync, but we don't know what to update it to (detector returned None)")
                 self.status = 2
                 # we don't have a value to set it to, so don't update! Still shouldn't happen though
             else:
-                log.info("Current dns IP '%s' does not match detected IP '%s', updating", self.dns.getCurrentValue(), detected_ip)
+                log.info("Current dns IP '%s' does not match detected IP '%s', updating", self.dns.get_current_value(), detected_ip)
                 # TODO: perform some kind of proxy chaining here?
                 for ipupdater in self.updaters:
                     status = ipupdater.update(detected_ip)
@@ -66,8 +66,8 @@ class DynDnsClient(object):
         else:
             self.status = 0
             log.debug("Nothing to do, dns '%s' equals detection '%s'",
-                      self.detector.getCurrentValue(),
-                      self.detector.getCurrentValue())
+                      self.dns.get_current_value(),
+                      self.detector.get_current_value())
 
     def stateHasChanged(self):
         """Detects a change either in the offline detector or a
@@ -80,9 +80,9 @@ class DynDnsClient(object):
         """
         self.lastcheck = time.time()
         # prefer offline state change detection:
-        if self.detector.canDetectOffline():
+        if self.detector.can_detect_offline():
             self.detector.detect()
-        elif not self.dns.detect() == self.detector.getCurrentValue():  # query current dns, and only detect if there's no match
+        elif not self.dns.detect() == self.detector.get_current_value():  # query current dns, and only detect if there's no match
             # this produces traffic, but probably less traffic overall than the detector
             self.detector.detect()
         if self.detector.hasChanged():

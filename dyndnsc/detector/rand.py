@@ -97,12 +97,12 @@ class IPDetector_Random(IPDetector):
     def getName():
         return "random"
 
-    def canDetectOffline(self):
+    def can_detect_offline(self):
         """Returns True"""
         return True
 
     def detect(self):
         for theip in self.rips:
             log.debug('detected %s', str(theip))
-            self.setCurrentValue(str(theip))
+            self.set_current_value(str(theip))
             return str(theip)

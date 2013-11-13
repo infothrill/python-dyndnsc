@@ -15,7 +15,7 @@ class IPDetector_DNS(IPDetector):
     def getName():
         return "dns"
 
-    def canDetectOffline(self):
+    def can_detect_offline(self):
         """Returns false, as this detector generates dns traffic"""
         return False
 
@@ -26,5 +26,5 @@ class IPDetector_DNS(IPDetector):
             # logging.debug("WARN: dns is None")
             theip = None
         # logging.debug("dnsdetect for %s: %s", self.hostname, ip)
-        self.setCurrentValue(theip)
+        self.set_current_value(theip)
         return theip

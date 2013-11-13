@@ -23,7 +23,7 @@ class IPDetector_Command(IPDetector):
     def getName():
         return "command"
 
-    def canDetectOffline(self):
+    def can_detect_offline(self):
         """Returns false, as this detector possibly generates network traffic"""
         return False
 
@@ -40,5 +40,5 @@ class IPDetector_Command(IPDetector):
             theip = subprocess.getoutput(self.opts['command'])
         except:
             theip = None
-        self.setCurrentValue(theip)
+        self.set_current_value(theip)
         return theip

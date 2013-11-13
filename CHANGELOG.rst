@@ -3,7 +3,8 @@ Release history
 
 0.3.2 (November 2013)
 +++++++++++++++++++++
-- fixed: typos, test structure
+- fixed potential race issues in detector base class
+- fixed: several typos, test structure, naming conventions
 - more dynamic importing of detector code
 
 0.3.1 (November 2013)

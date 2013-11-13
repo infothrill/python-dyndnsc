@@ -38,7 +38,7 @@ class IPDetector_Iface(IPDetector):
     def getName():
         return "iface"
 
-    def canDetectOffline(self):
+    def can_detect_offline(self):
         """Returns true, as this detector only queries local data"""
         return True
 
@@ -86,7 +86,7 @@ class IPDetector_Iface(IPDetector):
                     theip = pair['addr']
                 break  # we use the first IP found
         # theip can still be None at this point!
-        self.setCurrentValue(theip)
+        self.set_current_value(theip)
         return theip
 
     def detect(self):

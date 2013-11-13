@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import warnings
 
 from ..common.subject import Subject
 
@@ -9,39 +10,66 @@ log = logging.getLogger(__name__)
 
 class IPDetector(Subject):
     """
-    Base class for IP detectors. Really is just a state machine for
-    old/current value.
+    Base class for IP detectors. When implementing a new detector, it is
+    usually best to just inherit from this class first.
     """
     def __init__(self, *args, **kwargs):
         super(IPDetector, self).__init__()
 
     def canDetectOffline(self):
+        warnings.warn("canDetectOffline is deprecated; use "
+               "can_detect_offline() instead", DeprecationWarning, stacklevel=2)
+        return self.can_detect_offline()
+
+    def can_detect_offline(self):
         """
-        Must be overwritten. Return True when the IP detection can work
-        offline without causing network traffic.
+        Must be overwritten in subclass. Return True if the IP detection
+        does not generate any network traffic.
         """
         raise NotImplementedError("Abstract method, must be overridden")
 
-    def getOldValue(self):
-        if not '_oldvalue' in vars(self):
-            self._oldvalue = self.getCurrentValue()
-        return self._oldvalue
+    def get_old_value(self):
+        try:
+            self._oldvalue
+        except AttributeError:
+            return self.get_current_value()
 
-    def setOldValue(self, value):
+    def getOldValue(self):
+        warnings.warn("getOldValue is deprecated; use get_old_value() "
+              "instead", DeprecationWarning, stacklevel=2)
+        return self.get_old_value()
+
+    def set_old_value(self, value):
         self._oldvalue = value
 
+    def setOldValue(self, value):
+        warnings.warn("setOldValue is deprecated; use set_old_value() "
+              "instead", DeprecationWarning, stacklevel=2)
+        self.set_old_value(value)
+
+    def get_current_value(self, default=None):
+        try:
+            return self._currentvalue
+        except AttributeError:
+            return default
+
     def getCurrentValue(self, default=None):
-        if not hasattr(self, '_currentvalue'):
-            self._currentvalue = default
-        return self._currentvalue
+        warnings.warn("getCurrentValue is deprecated; use get_current_value() "
+              "instead", DeprecationWarning, stacklevel=2)
+        return self.get_current_value(default)
+
+    def set_current_value(self, value):
+        if value != self.get_current_value():
+            self._oldvalue = self.get_current_value(value)
+            self._currentvalue = value
+            log.debug("new IP set: %s", value)
+        return value
 
     def setCurrentValue(self, value):
-        if value != self.getCurrentValue(value):
-            self._oldvalue = self.getCurrentValue(value)
-            self._currentvalue = value
-            log.info("new IP detected: %s", value)
-        return value
+        warnings.warn("setCurrentValue is deprecated; use set_current_value() "
+              "instead", DeprecationWarning, stacklevel=2)
+        return self.set_current_value(value)
 
     def hasChanged(self):
         """Detect a state change with old and current value"""
-        return self.getOldValue() != self.getCurrentValue()
+        return self.get_old_value() != self.get_current_value()

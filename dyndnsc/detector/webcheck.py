@@ -62,7 +62,7 @@ class IPDetector_WebCheck(IPDetector):
     def getName():
         return "webcheck"
 
-    def canDetectOffline(self):
+    def can_detect_offline(self):
         """Returns false, as this detector generates http traffic"""
         return False
 
@@ -82,5 +82,5 @@ class IPDetector_WebCheck(IPDetector):
         theip = _get_ip_from_url(*choice(urls))
         if theip is None:
             log.info("Could not detect IP using webcheck! Offline?")
-        self.setCurrentValue(theip)
+        self.set_current_value(theip)
         return theip
