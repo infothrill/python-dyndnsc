@@ -1,12 +1,12 @@
 Release history
 ---------------
 
-0.3.2 (November 2013)
-+++++++++++++++++++++
+0.3.2 (?.11.2013)
++++++++++++++++++
 - added: command line option --debug to increase loglevel 
 - fixed potential race issues in detector base class
-- fixed: several typos, test structure, naming conventions
-- more dynamic importing of detector code
+- fixed: several typos, test structure, naming conventions, default loglevel
+- changed: dynamic importing of detector code
 
 0.3.1 (November 2013)
 +++++++++++++++++++++

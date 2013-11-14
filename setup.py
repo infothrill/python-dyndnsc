@@ -50,7 +50,8 @@ setup(name="dyndnsc",
       license="MIT License",
       description="dynamic dns update client package that tries to be "
             "extensible, re-usable and efficient on network resources",
-      long_description=open("README.rst", "r").read(),
+      long_description=(open("README.rst", "r").read() + "\n\n" +
+                        open("CHANGELOG.rst", "r").read()),
       url="https://github.com/infothrill/python-dyndnsc",
       install_requires=install_requires,
       entry_points=("""
