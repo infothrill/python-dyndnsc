@@ -3,8 +3,6 @@
 import unittest
 import logging
 
-import dyndnsc
-
 logging.basicConfig(level=logging.DEBUG)
 
 
@@ -33,6 +31,34 @@ class IndividualDetectorTests(unittest.TestCase):
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
         self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
+
+    def test_detector_base_state_changes(self):
+        import dyndnsc.detector.base
+        ip1 = "127.0.0.1"
+        ip2 = "127.0.0.2"
+        detector = dyndnsc.detector.base.IPDetector()
+
+        self.assertEqual(None, detector.get_current_value())
+        self.assertEqual(None, detector.get_old_value())
+        self.assertFalse(detector.hasChanged())
+
+        # set to ip1
+        self.assertEqual(ip1, detector.set_current_value(ip1))
+        self.assertTrue(detector.hasChanged())
+        self.assertEqual(ip1, detector.get_current_value())
+        self.assertEqual(None, detector.get_old_value())
+
+        # set to ip2
+        self.assertEqual(ip2, detector.set_current_value(ip2))
+        self.assertEqual(ip2, detector.get_current_value())
+        self.assertEqual(ip1, detector.get_old_value())
+        self.assertTrue(detector.hasChanged())
+
+        # set again to ip2
+        self.assertEqual(ip2, detector.set_current_value(ip2))
+        self.assertFalse(detector.hasChanged())
+        self.assertEqual(ip2, detector.get_current_value())
+        self.assertEqual(ip2, detector.get_old_value())
 
     def test_command_detector(self):
         import dyndnsc.detector.command

@@ -30,7 +30,7 @@ class IPDetector(Subject):
 
     def get_old_value(self):
         try:
-            self._oldvalue
+            return self._oldvalue
         except AttributeError:
             return self.get_current_value()
 
@@ -59,10 +59,9 @@ class IPDetector(Subject):
         return self.get_current_value(default)
 
     def set_current_value(self, value):
-        if value != self.get_current_value():
-            self._oldvalue = self.get_current_value(value)
-            self._currentvalue = value
-            log.debug("new IP set: %s", value)
+        self._oldvalue = self.get_current_value()
+        self._currentvalue = value
+        log.debug("set_current_value(%s)", value)
         return value
 
     def setCurrentValue(self, value):
