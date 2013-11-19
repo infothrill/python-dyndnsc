@@ -83,3 +83,7 @@ class IPDetector(Subject):
         warnings.warn("getName() is deprecated; use names() "
               "instead", DeprecationWarning, stacklevel=2)
         return cls.names()[0]
+
+    @staticmethod
+    def names():
+        raise NotImplementedError("Please implement in subclass")
