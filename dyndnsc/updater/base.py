@@ -11,7 +11,9 @@ log = logging.getLogger(__name__)
 
 
 class UpdateProtocol(Subject):
-    """the base class for all update protocols"""
+    """
+    base class for all update protocols that use the dyndns2 update protocol
+    """
 
     _updateurl = None
     theip = None
