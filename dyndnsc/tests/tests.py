@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import logging
 
 import dyndnsc
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 class DynDnscTestCases(unittest.TestCase):

@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 class PluginDetectorTests(unittest.TestCase):
@@ -40,11 +37,11 @@ class IndividualDetectorTests(unittest.TestCase):
 
         self.assertEqual(None, detector.get_current_value())
         self.assertEqual(None, detector.get_old_value())
-        self.assertFalse(detector.hasChanged())
+        self.assertFalse(detector.has_changed())
 
         # set to ip1
         self.assertEqual(ip1, detector.set_current_value(ip1))
-        self.assertTrue(detector.hasChanged())
+        self.assertTrue(detector.has_changed())
         self.assertEqual(ip1, detector.get_current_value())
         self.assertEqual(None, detector.get_old_value())
 
@@ -52,11 +49,11 @@ class IndividualDetectorTests(unittest.TestCase):
         self.assertEqual(ip2, detector.set_current_value(ip2))
         self.assertEqual(ip2, detector.get_current_value())
         self.assertEqual(ip1, detector.get_old_value())
-        self.assertTrue(detector.hasChanged())
+        self.assertTrue(detector.has_changed())
 
         # set again to ip2
         self.assertEqual(ip2, detector.set_current_value(ip2))
-        self.assertFalse(detector.hasChanged())
+        self.assertFalse(detector.has_changed())
         self.assertEqual(ip2, detector.get_current_value())
         self.assertEqual(ip2, detector.get_old_value())
 
