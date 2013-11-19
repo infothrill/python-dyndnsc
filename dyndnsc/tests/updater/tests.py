@@ -47,19 +47,7 @@ class DyndnsV2App(Bottle):
         return 'http://{}:{}'.format(self.host, self.port)
 
 
-class AUpdaterTests(unittest.TestCase):
-    def test_updater_builtin(self):
-        import dyndnsc.updater.builtin
-        self.assertTrue(len(dyndnsc.updater.builtin.plugins) > 0)
-
-    def test_updater_interfaces(self):
-        from dyndnsc.updater.manager import updater_classes, get_updater_class
-        for c, cls in enumerate(updater_classes()):
-            self.assertTrue(hasattr(cls, 'configuration_key'))
-            self.assertTrue(hasattr(cls, 'update'))
-        self.assertTrue(c > 0)
-        self.assertRaises(KeyError, get_updater_class, 'nonexistant')
-
+class DummyUpdaterTests(unittest.TestCase):
     def test_dummy(self):
         import dyndnsc.updater.dummy
         NAME = "dummy"
