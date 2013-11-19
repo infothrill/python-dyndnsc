@@ -134,8 +134,26 @@ class IndividualDetectorTests(unittest.TestCase):
     def test_webcheck(self):
         import dyndnsc.detector.webcheck
         NAME = "webcheck"
-        self.assertTrue(NAME in dyndnsc.detector.webcheck.IPDetector_WebCheck.names())
-        detector = dyndnsc.detector.webcheck.IPDetector_WebCheck()
+        self.assertTrue(NAME in dyndnsc.detector.webcheck.IPDetectorWebCheck.names())
+        detector = dyndnsc.detector.webcheck.IPDetectorWebCheck()
+        self.assertFalse(detector.can_detect_offline())
+        self.assertEqual(None, detector.get_current_value())
+        self.assertTrue(type(detector.detect()) in (type(None), str))
+
+    def test_webcheck6(self):
+        import dyndnsc.detector.webcheck
+        NAME = "webcheck6"
+        self.assertTrue(NAME in dyndnsc.detector.webcheck.IPDetectorWebCheck6.names())
+        detector = dyndnsc.detector.webcheck.IPDetectorWebCheck6()
+        self.assertFalse(detector.can_detect_offline())
+        self.assertEqual(None, detector.get_current_value())
+        self.assertTrue(type(detector.detect()) in (type(None), str))
+
+    def test_webcheck46(self):
+        import dyndnsc.detector.webcheck
+        NAME = "webcheck46"
+        self.assertTrue(NAME in dyndnsc.detector.webcheck.IPDetectorWebCheck46.names())
+        detector = dyndnsc.detector.webcheck.IPDetectorWebCheck46()
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))

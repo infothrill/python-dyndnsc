@@ -84,17 +84,3 @@ Status
 still change at any time. For this to change, it shall be sufficient to have
 documented use of this package which will necessitate stability (i.e.
 community process).
-
-Notes
-=====
-Alternating between IPv4 and IPv6
----------------------------------
-Alternating a DNS hostname between A and AAAA records is less efficient than
-staying within the same RR-Type. This is due to the fact that most
-libc-implementations do both lookups when gettaddrinf() is called and therefore
-negative caching occurs (e.g. caching that a record does not exist.).
-
-This also means that alternating only works well if the zone's SOA record has
-a minimum TTL close to the record TTL, which in turn means that using
-alternation should only be done in a dedicated dyndns-subdomain with its own
-SOA record and a low TTL. 

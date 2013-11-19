@@ -14,7 +14,9 @@ _builtins = (
     ('dyndnsc.detector.iface', 'IPDetector_Iface'),
     ('dyndnsc.detector.rand', 'IPDetector_Random'),
     ('dyndnsc.detector.teredo', 'IPDetector_Teredo'),
-    ('dyndnsc.detector.webcheck', 'IPDetector_WebCheck'),
+    ('dyndnsc.detector.webcheck', 'IPDetectorWebCheck'),
+    ('dyndnsc.detector.webcheck', 'IPDetectorWebCheck6'),
+    ('dyndnsc.detector.webcheck', 'IPDetectorWebCheck46'),
     )
 
 

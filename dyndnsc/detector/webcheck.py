@@ -54,13 +54,18 @@ def _parser_freedns_afraid(text):
     return None
 
 
-class IPDetector_WebCheck(IPDetector):
-    """Class to detect an IP address as seen by an online web site that returns
-    parsable output containing the IP address"""
+class IPDetectorWebCheck(IPDetector):
+    """
+    Class to detect an IPv4 address as seen by an online web site that
+    returns parsable output containing the IP address.
+
+    Note: this detection mechanism requires ipv4 connectivity, otherwise it
+          will simply not detect the IP address.
+    """
 
     @staticmethod
     def names():
-        return ("webcheck",)
+        return ("webcheck", "webcheck4")
 
     def can_detect_offline(self):
         """Returns false, as this detector generates http traffic"""
@@ -86,5 +91,85 @@ class IPDetector_WebCheck(IPDetector):
         theip = _get_ip_from_url(*choice(urls))
         if theip is None:
             log.info("Could not detect IP using webcheck! Offline?")
+        self.set_current_value(theip)
+        return theip
+
+
+class IPDetectorWebCheck6(IPDetector):
+    """
+    Class to detect an IPv6 address as seen by an online web site that
+    returns parsable output containing the IP address.
+
+    Note: this detection mechanism requires ipv6 connectivity, otherwise it
+          will simply not detect the IP address.
+    """
+
+    @staticmethod
+    def names():
+        return ("webcheck6",)
+
+    def can_detect_offline(self):
+        """Returns false, as this detector generates http traffic"""
+        return False
+
+    def detect(self):
+        '''
+        Will try to contact a remote webservice and parse the returned output
+        to determine the IP address
+        '''
+        from random import choice
+        # we only know one webpage that provides this...
+        urls = (
+                ("http://ipv6.nsupdate.info/myip", _parser_plain),
+                )
+        theip = _get_ip_from_url(*choice(urls))
+        if theip is None:
+            log.info("Could not detect IP! Offline?")
+        self.set_current_value(theip)
+        return theip
+
+
+class IPDetectorWebCheck46(IPDetector):
+    """
+    Class to variably detect either an IPv4 xor IPv6 address as seen by an
+    online web site that returns parsable output containing the IP address.
+
+    Note: this detection mechanism works with both ipv4 as well as ipv6
+          connectivity, however it should be noted that most dns resolvers
+          implement negative caching:
+
+        Alternating a DNS hostname between A and AAAA records is less efficient
+        than staying within the same RR-Type. This is due to the fact that most
+        libc-implementations do both lookups when gettaddrinf() is called and
+        therefore negative caching occurs (e.g. caching that a record does not
+        exist).
+
+        This also means that alternating only works well if the zone's SOA
+        record has a minimum TTL close to the record TTL, which in turn means
+        that using alternation should only be done in a dedicated (sub)domain
+        with its own SOA record and a low TTL.
+    """
+
+    @staticmethod
+    def names():
+        return ("webcheck46", "webcheck64")
+
+    def can_detect_offline(self):
+        """Returns false, as this detector generates http traffic"""
+        return False
+
+    def detect(self):
+        '''
+        Will try to contact a remote webservice and parse the returned output
+        to determine the IP address
+        '''
+        from random import choice
+        # we only know one webpage that provides this...
+        urls = (
+                ("http://nsupdate.info/myip", _parser_plain),
+                )
+        theip = _get_ip_from_url(*choice(urls))
+        if theip is None:
+            log.info("Could not detect IP! Offline?")
         self.set_current_value(theip)
         return theip
