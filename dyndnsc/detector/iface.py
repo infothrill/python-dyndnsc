@@ -65,10 +65,10 @@ class IPDetector_Iface(IPDetector):
                 addrlist = netifaces.ifaddresses(self.opts['iface'])[netifaces.AF_INET6]
             else:
                 addrlist = netifaces.ifaddresses(self.opts['iface'])[netifaces.AF_INET]
-        except Exception as e:
-            log.error("netifaces choked while trying to get inet6 interface"
+        except ValueError as exc:
+            log.error("netifaces choked while trying to get network interface"
                       " information for interface '%s'", self.opts['iface'],
-                      exc_info=e)
+                      exc_info=exc)
         else:  # now we have a list of addresses as returned by netifaces
             for pair in addrlist:
                 try:
@@ -77,8 +77,8 @@ class IPDetector_Iface(IPDetector):
                     log.debug("Found invalid IP '%s' on interface '%s'!?",
                               pair['addr'], self.opts['iface'])
                     continue
-                if (not self.netmask is None):
-                    if (detip in self.netmask):
+                if self.netmask is not None:
+                    if detip in self.netmask:
                         theip = pair['addr']
                     else:
                         continue
