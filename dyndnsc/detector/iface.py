@@ -23,7 +23,7 @@ class IPDetector_Iface(IPDetector):
         iface: name of interface (default: en0)
         family: IP address family (default: INET, possible: INET6)
         netmask: netmask to be matched if multiple IPs on interface (default:
-        none (match all)", example for teredo: "2001:0000::/32")
+                none (match all)", example for teredo: "2001:0000::/32")
         """
         if options is None:
             options = {}
@@ -32,6 +32,21 @@ class IPDetector_Iface(IPDetector):
             log.debug("%s explicitly got option: %s -> %s",
                       self.__class__.__name__, k, options[k])
             self.opts[k] = options[k]
+
+        # parse/validate given netmask:
+        if self.opts['netmask'] is not None:  # if a netmask was given
+            try:
+                self.netmask = IPy.IP(self.opts['netmask'])
+            except (TypeError, ValueError) as exc:
+                # We must fail here, since we must avoid sending an IP to the
+                # outside world that should be hidden (because in a "private"
+                # netmask)
+                log.error("Choked while parsing netmask '%s'",
+                          self.opts["netmask"], exc_info=exc)
+                raise
+        else:
+            self.netmask = None
+
         super(IPDetector_Iface, self).__init__()
 
     @staticmethod
@@ -44,21 +59,6 @@ class IPDetector_Iface(IPDetector):
 
     def _detect(self):
         """uses the netifaces module to detect ifconfig information"""
-        if (not 'netmask' in vars(self)):
-            if (not self.opts['netmask'] is None):  # if a netmask was given
-                try:
-                    self.netmask = IPy.IP(self.opts['netmask'])
-                except (TypeError, ValueError) as e:
-                    # TODO: this is a potential trust issue, because if we don't
-                    # fail here, we might end up sending an IP to the outside
-                    # world that should be hidden (because in a "private"
-                    # netmask)
-                    log.error("Choked while parsing netmask '%s'",
-                              self.opts["netmask"], exc_info=e)
-                    self.netmask = None
-
-            else:
-                self.netmask = None
         theip = None
         try:
             if self.opts['family'] == 'INET6':

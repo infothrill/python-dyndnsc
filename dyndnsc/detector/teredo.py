@@ -24,13 +24,13 @@ class IPDetector_Teredo(IPDetector_Iface):
         """
         if options is None:
             options = {}
-        super(IPDetector_Teredo, self).__init__(options)
         self.opts = {'iface': 'tun0', 'family': "INET6",
                      "netmask": "2001:0000::/32"}
         for k in options.keys():
             log.debug("%s explicitly got option: %s -> %s",
                       self.__class__.__name__, k, options[k])
             self.opts[k] = options[k]
+        super(IPDetector_Teredo, self).__init__(self.opts)
 
     @staticmethod
     def getName():

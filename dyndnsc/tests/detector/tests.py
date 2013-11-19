@@ -103,6 +103,8 @@ class IndividualDetectorTests(unittest.TestCase):
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
+        # make sure an invalid netmask will fail construction
+        self.assertRaises(Exception, dyndnsc.detector.iface.IPDetector_Iface, {'netmask': 'fubar'})
 
     def test_teredo_detector(self):
         import dyndnsc.detector.teredo
@@ -113,6 +115,7 @@ class IndividualDetectorTests(unittest.TestCase):
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.getCurrentValue())
         self.assertTrue(type(detector.detect()) in (type(None), str))
+        self.assertNotEqual(None, detector.netmask)
 
         detector = dyndnsc.detector.teredo.IPDetector_Teredo(options={'iface': 'foo0'})
         self.assertEqual(None, detector.detect())
