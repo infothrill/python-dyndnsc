@@ -27,10 +27,10 @@ class IndividualDetectorTests(unittest.TestCase):
         detector = dyndnsc.detector.dns.IPDetector_DNS("localhost")
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(NAME, detector.getName())
-        self.assertEqual(None, detector.getCurrentValue())
+        self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
-        self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
+        self.assertTrue(detector.get_current_value() in ("::1", "127.0.0.1"))
 
     def test_detector_base_state_changes(self):
         import dyndnsc.detector.base
@@ -68,10 +68,10 @@ class IndividualDetectorTests(unittest.TestCase):
         detector = dyndnsc.detector.command.IPDetector_Command({"command": cmd})
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(NAME, detector.getName())
-        self.assertEqual(None, detector.getCurrentValue())
+        self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
-        self.assertTrue(detector.getCurrentValue() in ("::1", "127.0.0.1"))
+        self.assertTrue(detector.get_current_value() in ("::1", "127.0.0.1"))
 
     def test_rand_ip_generator(self):
         import dyndnsc.detector.rand
@@ -94,7 +94,7 @@ class IndividualDetectorTests(unittest.TestCase):
         detector = dyndnsc.detector.rand.IPDetector_Random()
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(NAME, detector.getName())
-        self.assertEqual(None, detector.getCurrentValue())
+        self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (str,))
 
     def test_iface_detector(self):
@@ -104,7 +104,7 @@ class IndividualDetectorTests(unittest.TestCase):
         detector = dyndnsc.detector.iface.IPDetector_Iface()
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(NAME, detector.getName())
-        self.assertEqual(None, detector.getCurrentValue())
+        self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
 
     def test_teredo_detector(self):
@@ -114,7 +114,7 @@ class IndividualDetectorTests(unittest.TestCase):
         detector = dyndnsc.detector.teredo.IPDetector_Teredo()
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(NAME, detector.getName())
-        self.assertEqual(None, detector.getCurrentValue())
+        self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
 
         detector = dyndnsc.detector.teredo.IPDetector_Teredo(options={'iface': 'foo0'})
@@ -138,5 +138,5 @@ class IndividualDetectorTests(unittest.TestCase):
         detector = dyndnsc.detector.webcheck.IPDetector_WebCheck()
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(NAME, detector.getName())
-        self.assertEqual(None, detector.getCurrentValue())
+        self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
