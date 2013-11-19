@@ -56,7 +56,7 @@ class AUpdaterTests(unittest.TestCase):
         from dyndnsc.updater.manager import updater_classes, get_updater_class
         for c, cls in enumerate(updater_classes()):
             self.assertTrue(hasattr(cls, 'configuration_key'))
-            #self.assertTrue(hasattr(cls, 'updateUrl')) # this is only true for dyndns2 protocols
+            self.assertTrue(hasattr(cls, 'update'))
         self.assertTrue(c > 0)
         self.assertRaises(KeyError, get_updater_class, 'nonexistant')
 
