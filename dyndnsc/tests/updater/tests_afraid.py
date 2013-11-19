@@ -31,7 +31,7 @@ class AfraidApp(Bottle):
         assert arg_action == "getdyndns"
         assert len(arg_sha) > 0
         response.content_type = 'text/plain; charset=utf-8'
-        return """dummyhostname.example.com|127.0.0.2|%s/dynamic/update.php?sdvnkdnvv\n\r""" % self.url
+        return """dummyhostname.example.com|127.0.0.2|%s/dynamic/update.php?sdvnkdnvv\r\n""" % self.url
 
     def run(self, debug=False, quiet=True):
         run(self, host=self.host, port=self.port, debug=debug, quiet=quiet)
