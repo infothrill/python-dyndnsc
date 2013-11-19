@@ -61,7 +61,7 @@ class Afraid2BottleServerTests(unittest.TestCase):
         import random
         portnumber = random.randint(8000, 8900)
         self.server = AfraidApp('127.0.0.1', portnumber)
-        self.url = self.server.url + "/api/"
+        self.url = "http://127.0.0.1:%i/api/" % portnumber
         self.server.start()
         unittest.TestCase.setUp(self)
 
