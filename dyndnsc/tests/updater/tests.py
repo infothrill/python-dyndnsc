@@ -16,12 +16,12 @@ def nicupdate():
     return str("good %s" % arg_myip)
 
 
-class DyndnsApp(Bottle):
+class DyndnsV2App(Bottle):
     '''
     A minimal http server that resembles an actual dyndns service
     '''
     def __init__(self, host='localhost', port=8000):
-        super(DyndnsApp, self).__init__()
+        super(DyndnsV2App, self).__init__()
         self.host = host
         self.port = port
         self.process = None
@@ -70,14 +70,14 @@ class AUpdaterTests(unittest.TestCase):
         self.assertEqual(theip, updater.update(theip))
 
 
-class BottleServerTest(unittest.TestCase):
+class DyndnsV2BottleServerTests(unittest.TestCase):
     def setUp(self):
         """
         Start local server
         """
         import random
         portnumber = random.randint(8000, 8900)
-        self.server = DyndnsApp('127.0.0.1', portnumber)
+        self.server = DyndnsV2App('127.0.0.1', portnumber)
         self.url = "http://127.0.0.1:%i/nic/update" % portnumber
         self.server.start()
         unittest.TestCase.setUp(self)
@@ -89,9 +89,6 @@ class BottleServerTest(unittest.TestCase):
         self.server.stop()
         self.server = None
         unittest.TestCase.tearDown(self)
-
-
-class UpdaterTests(BottleServerTest):
 
     def test_noip(self):
         import dyndnsc.updater.noip
@@ -134,4 +131,4 @@ class UpdaterTests(BottleServerTest):
 
 
 if __name__ == '__main__':
-    DyndnsApp('localhost', 8000).run()
+    DyndnsV2App('localhost', 8000).run()
