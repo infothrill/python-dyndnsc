@@ -96,7 +96,7 @@ class IndividualDetectorTests(unittest.TestCase):
         import dyndnsc.detector.iface
         NAME = "iface"
         self.assertTrue(NAME in dyndnsc.detector.iface.IPDetector_Iface.names())
-        detector = dyndnsc.detector.iface.IPDetector_Iface()
+        detector = dyndnsc.detector.iface.IPDetector_Iface({'iface': 'lo'})
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
