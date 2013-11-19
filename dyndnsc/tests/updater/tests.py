@@ -6,8 +6,6 @@ from multiprocessing import Process
 
 from bottle import Bottle, run, response, request
 
-import dyndnsc
-
 
 def nicupdate():
     arg_hostname = request.query.hostname
