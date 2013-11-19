@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import platform
+system = platform.system()
 
 import IPy
 import netifaces
@@ -27,7 +29,12 @@ class IPDetector_Iface(IPDetector):
         """
         if options is None:
             options = {}
-        self.opts = {'iface': 'en0', 'family': "INET", "netmask": None}
+        if system == 'Linux':
+            self.opts = {'iface': 'eth0', 'family': "INET", "netmask": None}
+        elif system == 'Darwin':
+            self.opts = {'iface': 'en0', 'family': "INET", "netmask": None}
+        else:
+            raise ValueError("unsupported platform / missing defaults for %s" % system)
         for k in options.keys():
             log.debug("%s explicitly got option: %s -> %s",
                       self.__class__.__name__, k, options[k])
