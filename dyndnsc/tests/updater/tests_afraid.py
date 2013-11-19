@@ -3,15 +3,11 @@
 import unittest
 from time import sleep
 from multiprocessing import Process
-import logging
+#import logging
 
 from bottle import Bottle, run, response, request
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='%(asctime)s          %(message)s',
-    datefmt='%Y-%m-%dT%H:%M:%S'
-)
+#logging.basicConfig(level=logging.DEBUG, format='%(asctime)s  %(message)s')
 
 
 class AfraidApp(Bottle):

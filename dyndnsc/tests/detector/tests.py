@@ -1,6 +1,21 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import netifaces
+
+
+def give_me_an_interface_ipv6():
+    for interface in netifaces.interfaces():
+        if netifaces.AF_INET6 in netifaces.ifaddresses(interface):
+            return interface
+    return None
+
+
+def give_me_an_interface_ipv4():
+    for interface in netifaces.interfaces():
+        if netifaces.AF_INET in netifaces.ifaddresses(interface):
+            return interface
+    return None
 
 
 class PluginDetectorTests(unittest.TestCase):
@@ -96,7 +111,10 @@ class IndividualDetectorTests(unittest.TestCase):
         import dyndnsc.detector.iface
         NAME = "iface"
         self.assertTrue(NAME in dyndnsc.detector.iface.IPDetector_Iface.names())
-        detector = dyndnsc.detector.iface.IPDetector_Iface({'iface': 'lo'})
+        # auto-detect an interface:
+        interface = give_me_an_interface_ipv4()
+        self.assertNotEqual(None, interface)
+        detector = dyndnsc.detector.iface.IPDetector_Iface({'iface': interface})
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
@@ -111,7 +129,10 @@ class IndividualDetectorTests(unittest.TestCase):
         import dyndnsc.detector.teredo
         NAME = "teredo"
         self.assertTrue(NAME in dyndnsc.detector.teredo.IPDetector_Teredo.names())
-        detector = dyndnsc.detector.teredo.IPDetector_Teredo({'iface': 'lo'})
+        # auto-detect an interface:
+        interface = give_me_an_interface_ipv6()
+        self.assertNotEqual(None, interface)
+        detector = dyndnsc.detector.teredo.IPDetector_Teredo({'iface': interface})
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
