@@ -33,5 +33,5 @@ class IPDetector_Teredo(IPDetector_Iface):
         super(IPDetector_Teredo, self).__init__(self.opts)
 
     @staticmethod
-    def getName():
-        return "teredo"
+    def names():
+        return ("teredo",)

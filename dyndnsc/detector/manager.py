@@ -9,6 +9,6 @@ def detector_classes():
 def get_detector_class(detector="webcheck"):
     detector = detector.lower()
     for cls in detector_classes():
-        if cls.getName().lower() == detector:
+        if detector in cls.names():
             return cls
     raise KeyError("No IPDetector plugin named '%s' could be found" % detector)

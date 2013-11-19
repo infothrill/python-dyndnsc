@@ -77,3 +77,9 @@ class IPDetector(Subject):
         warnings.warn("hasChanged is deprecated; use has_changed() "
               "instead", DeprecationWarning, stacklevel=2)
         return self.has_changed()
+
+    @classmethod
+    def getName(cls):
+        warnings.warn("getName() is deprecated; use names() "
+              "instead", DeprecationWarning, stacklevel=2)
+        return cls.names()[0]

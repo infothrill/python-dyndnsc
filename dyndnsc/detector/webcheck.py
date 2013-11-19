@@ -59,14 +59,18 @@ class IPDetector_WebCheck(IPDetector):
     parsable output containing the IP address"""
 
     @staticmethod
-    def getName():
-        return "webcheck"
+    def names():
+        return ("webcheck",)
 
     def can_detect_offline(self):
         """Returns false, as this detector generates http traffic"""
         return False
 
     def detect(self):
+        '''
+        Will try to contact a remote webservice and parse the returned output
+        to determine the IP address
+        '''
         from random import choice
         urls = (
                 ("http://checkip.dyndns.org/", _parser_checkip),

@@ -12,8 +12,8 @@ class IPDetector_DNS(IPDetector):
         super(IPDetector_DNS, self).__init__()
 
     @staticmethod
-    def getName():
-        return "dns"
+    def names():
+        return ("dns",)
 
     def can_detect_offline(self):
         """Returns false, as this detector generates dns traffic"""

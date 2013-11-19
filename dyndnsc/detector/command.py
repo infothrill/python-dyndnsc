@@ -20,8 +20,8 @@ class IPDetector_Command(IPDetector):
         super(IPDetector_Command, self).__init__()
 
     @staticmethod
-    def getName():
-        return "command"
+    def names():
+        return ("command",)
 
     def can_detect_offline(self):
         """Returns false, as this detector possibly generates network traffic"""

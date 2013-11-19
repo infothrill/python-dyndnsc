@@ -73,8 +73,8 @@ class IPDetector_Iface(IPDetector):
         super(IPDetector_Iface, self).__init__()
 
     @staticmethod
-    def getName():
-        return "iface"
+    def names():
+        return ("iface",)
 
     def can_detect_offline(self):
         """Returns true, as this detector only queries local data"""

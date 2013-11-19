@@ -94,8 +94,8 @@ class IPDetector_Random(IPDetector):
         self.rips = RandomIPGenerator()
 
     @staticmethod
-    def getName():
-        return "random"
+    def names():
+        return ("random",)
 
     def can_detect_offline(self):
         """Returns True"""

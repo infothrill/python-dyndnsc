@@ -13,6 +13,7 @@ class PluginDetectorTests(unittest.TestCase):
         self.assertTrue(len(dyndnsc.detector.manager.detector_classes()) > 0)
         for cls in dyndnsc.detector.manager.detector_classes():
             self.assertTrue(hasattr(cls, 'getName'))
+            self.assertTrue(hasattr(cls, 'names'))
         self.assertRaises(KeyError, dyndnsc.detector.manager.get_detector_class, 'nonexistant')
 
 
@@ -20,10 +21,9 @@ class IndividualDetectorTests(unittest.TestCase):
     def test_dns_detector(self):
         import dyndnsc.detector.dns
         NAME = "dns"
-        self.assertEqual(NAME, dyndnsc.detector.dns.IPDetector_DNS.getName())
+        self.assertTrue(NAME in dyndnsc.detector.dns.IPDetector_DNS.names())
         detector = dyndnsc.detector.dns.IPDetector_DNS("localhost")
         self.assertFalse(detector.can_detect_offline())
-        self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
@@ -61,10 +61,9 @@ class IndividualDetectorTests(unittest.TestCase):
         import dyndnsc.detector.command
         NAME = "command"
         cmd = "echo 127.0.0.1"
-        self.assertEqual(NAME, dyndnsc.detector.command.IPDetector_Command.getName())
+        self.assertTrue(NAME in dyndnsc.detector.command.IPDetector_Command.names())
         detector = dyndnsc.detector.command.IPDetector_Command({"command": cmd})
         self.assertFalse(detector.can_detect_offline())
-        self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
@@ -87,20 +86,18 @@ class IndividualDetectorTests(unittest.TestCase):
     def test_rand_detector(self):
         import dyndnsc.detector.rand
         NAME = "random"
-        self.assertEqual(NAME, dyndnsc.detector.rand.IPDetector_Random.getName())
+        self.assertTrue(NAME in dyndnsc.detector.rand.IPDetector_Random.names())
         detector = dyndnsc.detector.rand.IPDetector_Random()
         self.assertTrue(detector.can_detect_offline())
-        self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (str,))
 
     def test_iface_detector(self):
         import dyndnsc.detector.iface
         NAME = "iface"
-        self.assertEqual(NAME, dyndnsc.detector.iface.IPDetector_Iface.getName())
+        self.assertTrue(NAME in dyndnsc.detector.iface.IPDetector_Iface.names())
         detector = dyndnsc.detector.iface.IPDetector_Iface()
         self.assertTrue(detector.can_detect_offline())
-        self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         # empty interface name must fail construction
@@ -113,10 +110,9 @@ class IndividualDetectorTests(unittest.TestCase):
     def test_teredo_detector(self):
         import dyndnsc.detector.teredo
         NAME = "teredo"
-        self.assertEqual(NAME, dyndnsc.detector.teredo.IPDetector_Teredo.getName())
+        self.assertTrue(NAME in dyndnsc.detector.teredo.IPDetector_Teredo.names())
         detector = dyndnsc.detector.teredo.IPDetector_Teredo()
         self.assertTrue(detector.can_detect_offline())
-        self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         self.assertNotEqual(None, detector.netmask)
@@ -138,9 +134,8 @@ class IndividualDetectorTests(unittest.TestCase):
     def test_webcheck(self):
         import dyndnsc.detector.webcheck
         NAME = "webcheck"
-        self.assertEqual(NAME, dyndnsc.detector.webcheck.IPDetector_WebCheck.getName())
+        self.assertTrue(NAME in dyndnsc.detector.webcheck.IPDetector_WebCheck.names())
         detector = dyndnsc.detector.webcheck.IPDetector_WebCheck()
         self.assertFalse(detector.can_detect_offline())
-        self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
