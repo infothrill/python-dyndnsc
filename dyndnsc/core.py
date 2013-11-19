@@ -85,10 +85,10 @@ class DynDnsClient(object):
         elif not self.dns.detect() == self.detector.get_current_value():  # query current dns, and only detect if there's no match
             # this produces traffic, but probably less traffic overall than the detector
             self.detector.detect()
-        if self.detector.hasChanged():
+        if self.detector.has_changed():
             log.debug("detector changed")
             return True
-        elif self.dns.hasChanged():
+        elif self.dns.has_changed():
             log.debug("dns changed")
             return True
         else:

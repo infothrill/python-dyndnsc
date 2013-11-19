@@ -69,6 +69,11 @@ class IPDetector(Subject):
               "instead", DeprecationWarning, stacklevel=2)
         return self.set_current_value(value)
 
-    def hasChanged(self):
+    def has_changed(self):
         """Detect a state change with old and current value"""
         return self.get_old_value() != self.get_current_value()
+
+    def hasChanged(self):
+        warnings.warn("hasChanged is deprecated; use has_changed() "
+              "instead", DeprecationWarning, stacklevel=2)
+        return self.has_changed()
