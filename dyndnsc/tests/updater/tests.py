@@ -1,15 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import unittest
-import logging
 from time import sleep
 from multiprocessing import Process
 
 from bottle import Bottle, run, response, request
 
 import dyndnsc
-
-logging.basicConfig(level=logging.DEBUG)
 
 
 def nicupdate():
