@@ -111,7 +111,7 @@ class IndividualDetectorTests(unittest.TestCase):
         import dyndnsc.detector.teredo
         NAME = "teredo"
         self.assertTrue(NAME in dyndnsc.detector.teredo.IPDetector_Teredo.names())
-        detector = dyndnsc.detector.teredo.IPDetector_Teredo()
+        detector = dyndnsc.detector.teredo.IPDetector_Teredo({'iface': 'lo'})
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
