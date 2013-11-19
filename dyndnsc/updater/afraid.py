@@ -42,7 +42,11 @@ def compute_auth_key(userid, password):
     authentication key for freedns.afraid.org, which is the SHA1 hash of the
     string 'userid|password'
     """
-    return hashlib.sha1('|'.join((userid, password))).hexdigest()
+    import sys
+    if sys.version_info >= (3, 0):
+        return hashlib.sha1(b'|'.join((userid.encode('ascii'), password.encode('ascii')))).hexdigest()
+    else:
+        return hashlib.sha1('|'.join((userid, password))).hexdigest()
 
 
 def get_dyndns_records(credentials, url='http://freedns.afraid.org/api/'):
