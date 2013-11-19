@@ -73,9 +73,9 @@ class IPDetector_Iface(IPDetector):
             for pair in addrlist:
                 try:
                     detip = IPy.IP(pair['addr'])
-                except (TypeError, ValueError) as e:
+                except (TypeError, ValueError) as exc:
                     log.debug("Found invalid IP '%s' on interface '%s'!?",
-                              pair['addr'], self.opts['iface'])
+                              pair['addr'], self.opts['iface'], exc_info=exc)
                     continue
                 if self.netmask is not None:
                     if detip in self.netmask:

@@ -4,6 +4,7 @@ Release history
 0.3.3 (X.11.2013)
 +++++++++++++++++
 - fixed: long outstanding state bugs in detector base class
+- improved: netmask validation in Iface detection
 
 0.3.2 (16.11.2013)
 ++++++++++++++++++
