@@ -30,7 +30,7 @@ def _parser_plain(text):
     try:
         return str(IPy.IP(text.strip()))
     except ValueError as exc:
-        log.warn("Error parsing IP address '%s'", text, exc_info=exc)
+        log.warning("Error parsing IP address '%s'", text, exc_info=exc)
         return None
 
 

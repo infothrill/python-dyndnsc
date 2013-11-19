@@ -21,8 +21,8 @@ def updaterClasses_external():
     '''
     from pkg_resources import iter_entry_points
     for ep in iter_entry_points(group='dyndnsc.updater_builtin', name=None):
-        log.warn("%s, %s", ep, type(ep))
-        log.warn("%s %s %s %s %s", ep.name, ep.dist, ep.module_name, ep.attrs, ep.extras)
+        log.warning("%s, %s", ep, type(ep))
+        log.warning("%s %s %s %s %s", ep.name, ep.dist, ep.module_name, ep.attrs, ep.extras)
     return [ep.load() for ep in iter_entry_points(group='dyndnsc.updater', name=None)]
 
 

@@ -149,7 +149,7 @@ def getDynDnsClientForConfig(config):
     if config is None:
         return None
     if not 'hostname' in config:
-        log.warn("No hostname configured")
+        log.warning("No hostname configured")
         return None
     from .detector import dns
     dns_detector = dns.IPDetector_DNS(config['hostname'])
@@ -157,12 +157,12 @@ def getDynDnsClientForConfig(config):
     try:
         klass = getUpdaterClass(config['protocol'])
     except KeyError:
-        log.warn("Invalid update protocol: '%s'", config['protocol'])
+        log.warning("Invalid update protocol: '%s'", config['protocol'])
         return None
     try:
         ip_updater = klass(config)
     except (AssertionError, KeyError) as exc:
-        log.warn("Invalid update protocol configuration: '%s'", repr(config),
+        log.warning("Invalid update protocol configuration: '%s'", repr(config),
                  exc_info=exc)
         return None
 
@@ -184,7 +184,7 @@ def getDynDnsClientForConfig(config):
     try:
         klass = manager.get_detector_class(method)
     except (KeyError) as exc:
-        log.warn("Invalid change detector configuration: '%s'", method,
+        log.warning("Invalid change detector configuration: '%s'", method,
                  exc_info=exc)
         return None
 
@@ -197,13 +197,13 @@ def getDynDnsClientForConfig(config):
         option, dummysep, value = opt.partition(colon)
         option = option.strip()
         if option in opts:
-            log.warn("Option '%s' specified more than once, using '%s'.",
+            log.warning("Option '%s' specified more than once, using '%s'.",
                      option, value)
         opts[option] = value.strip()
     try:
         dyndnsclient.setChangeDetector(klass(opts))
     except KeyError as exc:
-        log.warn("Invalid change detector parameters: '%s'", opts, exc_info=exc)
+        log.warning("Invalid change detector parameters: '%s'", opts, exc_info=exc)
         return None
 
     return dyndnsclient
