@@ -50,7 +50,7 @@ class AfraidApp(Bottle):
 
     @property
     def url(self):
-        return 'http://{}:{}'.format(self.host, self.port)
+        return 'http://%s:%s' % (self.host, str(self.port))
 
 
 class Afraid2BottleServerTests(unittest.TestCase):
