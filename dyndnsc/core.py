@@ -153,9 +153,9 @@ def getDynDnsClientForConfig(config):
         return None
     from .detector import dns
     dns_detector = dns.IPDetector_DNS(config['hostname'])
-    from dyndnsc.updater import getUpdaterClass
+    from dyndnsc.updater.manager import get_updater_class
     try:
-        klass = getUpdaterClass(config['protocol'])
+        klass = get_updater_class(config['protocol'])
     except KeyError:
         log.warning("Invalid update protocol: '%s'", config['protocol'])
         return None
