@@ -103,8 +103,12 @@ class IndividualDetectorTests(unittest.TestCase):
         self.assertEqual(NAME, detector.getName())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
-        # make sure an invalid netmask will fail construction
-        self.assertRaises(Exception, dyndnsc.detector.iface.IPDetector_Iface, {'netmask': 'fubar'})
+        # empty interface name must fail construction
+        self.assertRaises(ValueError, dyndnsc.detector.iface.IPDetector_Iface, {'iface': None})
+        # invalid netmask must fail construction
+        self.assertRaises(ValueError, dyndnsc.detector.iface.IPDetector_Iface, {'netmask': 'fubar'})
+        # unknown address family  must fail construction
+        self.assertRaises(ValueError, dyndnsc.detector.iface.IPDetector_Iface, {'family': 'bla'})
 
     def test_teredo_detector(self):
         import dyndnsc.detector.teredo

@@ -10,8 +10,24 @@ from .base import IPDetector
 log = logging.getLogger(__name__)
 
 
+def _default_interface():
+    '''
+    Convenience function to return the default interface name for common
+    operating systems.
+    '''
+    import platform
+    system = platform.system()
+    if system == 'Linux':
+        return 'eth0'
+    elif system == 'Darwin':
+        return 'en0'
+    else:
+        return None
+
+
 class IPDetector_Iface(IPDetector):
-    """IPDetector to detect any ip address of a local interface.
+    """
+    IPDetector to detect any ip address of a local interface.
     """
     def __init__(self, options=None):
         """
@@ -20,30 +36,37 @@ class IPDetector_Iface(IPDetector):
 
         available options:
 
-        iface: name of interface (default: en0)
+        iface: name of interface
         family: IP address family (default: INET, possible: INET6)
         netmask: netmask to be matched if multiple IPs on interface (default:
                 none (match all)", example for teredo: "2001:0000::/32")
         """
         if options is None:
             options = {}
-        self.opts = {'iface': 'en0', 'family': "INET", "netmask": None}
+        # default options:
+        self.opts = {
+                     'iface': _default_interface(),
+                     'family': "INET",
+                     "netmask": None
+                     }
         for k in options.keys():
             log.debug("%s explicitly got option: %s -> %s",
                       self.__class__.__name__, k, options[k])
             self.opts[k] = options[k]
 
+        # ensure an interface name was specified:
+        if self.opts['iface'] is None:
+            raise ValueError("No network interface specified!")
+        # ensure address family is understood:
+        if self.opts['family'] not in ('INET', 'INET6'):
+            raise ValueError("Unsupported address family '%s' specified!" %
+                             self.opts['family'])
         # parse/validate given netmask:
         if self.opts['netmask'] is not None:  # if a netmask was given
-            try:
-                self.netmask = IPy.IP(self.opts['netmask'])
-            except (TypeError, ValueError) as exc:
-                # We must fail here, since we must avoid sending an IP to the
-                # outside world that should be hidden (because in a "private"
-                # netmask)
-                log.error("Choked while parsing netmask '%s'",
-                          self.opts["netmask"], exc_info=exc)
-                raise
+            # This might fail here, but that's OK since we must avoid sending
+            # an IP to the outside world that should be hidden (because in a
+            # "private" netmask)
+            self.netmask = IPy.IP(self.opts['netmask'])
         else:
             self.netmask = None
 
