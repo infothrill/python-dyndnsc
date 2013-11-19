@@ -36,8 +36,7 @@ a hostname dynamically to your ipv6 tunnel?
 
 .. code-block:: bash
 
-    $ dyndnsc  --hostname test.dyndns.com --userid bob
-           --method=Iface,netmask:2001:0000::/32,iface:tun0,family:INET6
+    $ dyndnsc  --hostname test.dyndns.com --userid bob --method=teredo
 
 
 Supported services
