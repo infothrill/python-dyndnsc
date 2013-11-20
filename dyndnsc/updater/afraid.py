@@ -61,7 +61,7 @@ def get_dyndns_records(credentials, url='http://freedns.afraid.org/api/'):
     records = []
     #log.debug(r.text)
     for record_line in [line.strip() for line in r.text.splitlines() if len(line.strip()) > 0]:
-        #log.debug("line : %s", record_line)
+        log.debug("line : %s", record_line)
         hostname, ip, update_url = record_line.split('|')
         records.append({
                         'hostname': hostname,
@@ -114,5 +114,15 @@ class UpdateProtocolAfraid(Subject):
         return self.protocol()
 
     def protocol(self):
+        the_update_url = None
         for record in get_dyndns_records(self._credentials, self._url):
             log.debug(record)
+            if self.hostname == record['hostname']:
+                the_update_url = record['update_url']
+                break
+        if the_update_url is not None:
+            r = requests.get(the_update_url, timeout=60)
+            r.close()
+        else:
+            log.warning("Could not find hostname '%s' at '%s'", self.hostname, self._url)
+            return None

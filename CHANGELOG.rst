@@ -3,6 +3,7 @@ Release history
 
 0.3.3 (X.11.2013)
 +++++++++++++++++
+- added: experimental support for http://freedns.afraid.org
 - added: detecting ipv6 addresses using 'webcheck6' or 'webcheck46'
 - fixed: long outstanding state bugs in detector base class
 - improved: input validation in Iface detection
