@@ -7,6 +7,7 @@ Release history
 - added: detecting ipv6 addresses using 'webcheck6' or 'webcheck46'
 - fixed: long outstanding state bugs in detector base class
 - improved: input validation in Iface detection
+- improved: support pytest conventions
 
 0.3.2 (16.11.2013)
 ++++++++++++++++++
