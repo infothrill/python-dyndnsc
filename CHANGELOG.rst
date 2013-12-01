@@ -1,6 +1,9 @@
 Release history
 ===============
 
+0.3.4 (???)
++++++++++++
+
 0.3.3 (02.12.2013)
 ++++++++++++++++++
 - added: experimental support for http://freedns.afraid.org

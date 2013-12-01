@@ -44,7 +44,7 @@ if sys.version_info < (2, 7):  # continue support for python 2.6
 setup(name="dyndnsc",
       packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector",
                 "dyndnsc.updater", "dyndnsc.tests"],
-      version="0.3.3",
+      version="0.3.4dev",
       author="Paul Kremer",
       author_email="@".join(("paul", "spurious.biz")),  # avoid spam,
       license="MIT License",
