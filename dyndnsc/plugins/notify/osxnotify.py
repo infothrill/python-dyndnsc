@@ -1,14 +1,13 @@
 # -*- coding: utf-8 -*-
-
 """
 Python integration with OS X's notification center
-slightly modified version from https://github.com/maranas/pyNotificationCenter
+Inspired by https://github.com/maranas/pyNotificationCenter
 """
 
 import Foundation
 import objc
 
-from ..base import Notification
+from ..base import Plugin
 
 _NSUserNotification = objc.lookUpClass('NSUserNotification')
 _NSUserNotificationCenter = objc.lookUpClass('NSUserNotificationCenter')
@@ -38,6 +37,26 @@ def nsnotify(title, subtitle, info_text, delay=0, sound=False, user_info=None):
     _NSUserNotificationCenter.defaultUserNotificationCenter().scheduleNotification_(notification)
 
 
-class OSXNotification(Notification):
+class OSXNotification(object):
+    default_title = "Dynamic DNS"
+    application_name = "dyndnsc"
+
     def notify(self, caller, event, message):
         nsnotify(self.default_title, subtitle=None, info_text=message)
+
+
+class OSXNotifyPlugin(Plugin):
+    '''
+    Send desktop notifications with OS X notification center
+    '''
+    name = 'osxnotify'
+    can_configure = True
+
+    def initialize(self):
+        self.osxnotification = OSXNotification()
+
+    def after_remote_ip_update(self, ip, status):
+        if status == 0:
+            self.osxnotification.notify(self, None, "Remote IP updated to %s" % ip)
+        else:
+            self.osxnotification.notify(self, None, "Problem updating remote IP to %s" % ip)

@@ -3,6 +3,7 @@ Release history
 
 0.3.4 (???)
 +++++++++++
+- added: plugin based desktop notification
 
 0.3.3 (02.12.2013)
 ++++++++++++++++++

@@ -27,23 +27,27 @@ Programming Language :: Python :: 3.2
 Programming Language :: Python :: 3.3
 """.splitlines() if len(line) > 0]
 
-install_requires = ["requests", "IPy>=0.56"]
+_install_requires = ["requests", "IPy>=0.56"]
+_tests_require = ['bottle==0.11.6']
+
 if sys.version_info >= (3, 0):
-    install_requires.append("netifaces-py3==0.8")
+    _install_requires.append("netifaces-py3==0.8")
 else:
-    install_requires.append("netifaces>=0.4")
+    _install_requires.append("netifaces>=0.4")
     # work around python issue http://bugs.python.org/issue15881
     # affects only python2 when using multiprocessing and if nose is installed
     import multiprocessing
 
+if sys.version_info < (3, 3):
+    _tests_require.append("mock")
 if sys.version_info < (3, 2):
-    install_requires.append("argparse")
+    _install_requires.append("argparse")
 if sys.version_info < (2, 7):  # continue support for python 2.6
-    install_requires.append("importlib")
+    _install_requires.append("importlib")
 
 setup(name="dyndnsc",
-      packages=["dyndnsc", "dyndnsc.common", "dyndnsc.detector",
-                "dyndnsc.updater", "dyndnsc.tests"],
+      packages=["dyndnsc", "dyndnsc.common", "dyndnsc.plugins",
+                "dyndnsc.detector", "dyndnsc.updater", "dyndnsc.tests"],
       version="0.3.4dev",
       author="Paul Kremer",
       author_email="@".join(("paul", "spurious.biz")),  # avoid spam,
@@ -53,12 +57,12 @@ setup(name="dyndnsc",
       long_description=(open("README.rst", "r").read() + "\n\n" +
                         open("CHANGELOG.rst", "r").read()),
       url="https://github.com/infothrill/python-dyndnsc",
-      install_requires=install_requires,
+      install_requires=_install_requires,
       entry_points=("""
                       [console_scripts]
                       dyndnsc=dyndnsc.cli:main
                       """),
       classifiers=classifiers,
       test_suite='dyndnsc.tests',
-      tests_require=['bottle==0.11.6'],
+      tests_require=_tests_require,
       )
