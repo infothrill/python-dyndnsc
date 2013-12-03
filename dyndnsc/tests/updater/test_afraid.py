@@ -49,7 +49,7 @@ class AfraidApp(Bottle):
         return 'http://%s:%s' % (self.host, str(self.port))
 
 
-class Afraid2BottleServerTests(unittest.TestCase):
+class TestAfraid2BottleServer(unittest.TestCase):
     def setUp(self):
         """
         Start local server

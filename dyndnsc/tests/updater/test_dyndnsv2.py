@@ -47,7 +47,7 @@ class DyndnsV2App(Bottle):
         return 'http://%s:%s' % (self.host, str(self.port))
 
 
-class DummyUpdaterTests(unittest.TestCase):
+class TestDummyUpdater(unittest.TestCase):
     def test_dummy(self):
         import dyndnsc.updater.dummy
         NAME = "dummy"
@@ -58,7 +58,7 @@ class DummyUpdaterTests(unittest.TestCase):
         self.assertEqual(theip, updater.update(theip))
 
 
-class DyndnsV2BottleServerTests(unittest.TestCase):
+class TestDyndnsV2BottleServer(unittest.TestCase):
     def setUp(self):
         """
         Start local server

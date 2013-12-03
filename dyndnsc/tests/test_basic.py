@@ -5,7 +5,7 @@ import unittest
 import dyndnsc
 
 
-class DynDnscTestCases(unittest.TestCase):
+class TestDynDnsc(unittest.TestCase):
     def setUp(self):
         unittest.TestCase.setUp(self)
 

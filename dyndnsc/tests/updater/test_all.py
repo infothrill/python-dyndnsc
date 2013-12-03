@@ -3,7 +3,7 @@
 import unittest
 
 
-class UpdaterCommonTests(unittest.TestCase):
+class TestUpdaterCommon(unittest.TestCase):
     def test_updater_builtin_plugins(self):
         import dyndnsc.updater.builtin
         self.assertTrue(len(dyndnsc.updater.builtin.plugins) > 0)
