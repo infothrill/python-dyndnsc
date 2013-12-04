@@ -56,6 +56,9 @@ class NullPluginManager(object):
         return ()
 
     def __getattr__(self, call):
+        return self._nop
+
+    def _nop(self, *args, **kwds):
         pass
 
     def add_plugin(self, plug):

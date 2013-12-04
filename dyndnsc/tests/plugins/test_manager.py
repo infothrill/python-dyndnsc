@@ -43,7 +43,8 @@ class TestNullPluginManager(unittest.TestCase):
         unittest.TestCase.tearDown(self)
 
     def test_nullplugin_manager(self):
-        manager.NullPluginManager()
+        mgr = manager.NullPluginManager()
+        mgr.initialize()
 
 
 class TestPluginManager(unittest.TestCase):
