@@ -61,7 +61,7 @@ class IPDetector(Subject):
     def set_current_value(self, value):
         self._oldvalue = self.get_current_value()
         self._currentvalue = value
-        log.debug("set_current_value(%s)", value)
+        log.debug("%s.set_current_value(%s)", self.__class__.__name__, value)
         return value
 
     def setCurrentValue(self, value):
