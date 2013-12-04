@@ -13,8 +13,16 @@ from dyndnsc.daemon import daemonize
 
 
 def main():
+    from dyndnsc.plugins.manager import DefaultPluginManager
+    plugins = DefaultPluginManager()
+    plugins.load_plugins()
+    from os import environ
+
     import argparse
     parser = argparse.ArgumentParser()
+
+    plugins.options(parser, environ)
+
     parser.add_argument("-d", "--daemon", dest="daemon",
                         help="go into daemon mode (implies --loop)",
                         action="store_true", default=False)
@@ -73,8 +81,11 @@ def main():
     config['method'] = args.method
     config['sleeptime'] = int(args.sleeptime)
 
+    plugins.configure(args)
+    plugins.initialize()
+
     # done with command line options, bring on the dancing girls
-    dyndnsclient = getDynDnsClientForConfig(config)
+    dyndnsclient = getDynDnsClientForConfig(config, plugins=plugins)
     if dyndnsclient is None:
         return 1
     # do an initial synchronization, before going into endless loop:

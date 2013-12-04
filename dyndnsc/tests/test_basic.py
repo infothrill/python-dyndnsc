@@ -21,8 +21,8 @@ class TestDynDnsc(unittest.TestCase):
         config['method'] = "random"
         config['sleeptime'] = 60
         dyndnsclient = dyndnsc.getDynDnsClientForConfig(config)
-        self.assertTrue(dyndnsclient.needsCheck())
-        dyndnsclient.needsForcedCheck()
+        self.assertTrue(dyndnsclient.needs_check())
+        dyndnsclient.needs_forced_check()
         dyndnsclient.check()
         dyndnsclient.sync()
-        dyndnsclient.stateHasChanged()
+        dyndnsclient.has_state_changed()

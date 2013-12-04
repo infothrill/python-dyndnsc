@@ -4,6 +4,10 @@ import time
 import logging
 import warnings
 
+
+from .plugins.manager import NullPluginManager
+
+
 # Set default logging handler to avoid "No handler found" warnings.
 try:  # Python 2.7+
     from logging import NullHandler
@@ -28,6 +32,7 @@ class DynDnsClient(object):
         self.dns = None
         self.detector = None
         self.status = 0
+        self.plugins = NullPluginManager()
         log.debug("DynDnsClient instantiated")
 
     def add_updater(self, updater):
@@ -39,9 +44,19 @@ class DynDnsClient(object):
         self.add_updater(proto)
 
     def setDNSDetector(self, detector):
+        warnings.warn("setDNSDetector is deprecated; use set_dns_detector() "
+                      "instead", DeprecationWarning)
+        self.set_dns_detector(detector)
+
+    def set_dns_detector(self, detector):
         self.dns = detector
 
     def setChangeDetector(self, detector):
+        warnings.warn("setChangeDetector is deprecated; use set_detector() "
+                      "instead", DeprecationWarning)
+        self.set_detector(detector)
+
+    def set_detector(self, detector):
         self.detector = detector
 
     def sync(self):
@@ -54,15 +69,17 @@ class DynDnsClient(object):
         if self.dns.detect() != self.detector.detect():
             detected_ip = self.detector.get_current_value()
             if detected_ip is None:
-                log.debug("DNS is out of sync, but we don't know what to update it to (detector returned None)")
+                log.debug("DNS out of sync, but detector returned None")
                 self.status = 2
                 # we don't have a value to set it to, so don't update! Still shouldn't happen though
             else:
-                log.info("Current dns IP '%s' does not match detected IP '%s', updating", self.dns.get_current_value(), detected_ip)
+                log.info("Current dns IP '%s' does not match detected IP '%s', updating",
+                         self.dns.get_current_value(), detected_ip)
                 # TODO: perform some kind of proxy chaining here?
                 for ipupdater in self.updaters:
                     status = ipupdater.update(detected_ip)
                 self.status = status
+                self.plugins.after_remote_ip_update(detected_ip, status)
         else:
             self.status = 0
             log.debug("Nothing to do, dns '%s' equals detection '%s'",
@@ -70,6 +87,11 @@ class DynDnsClient(object):
                       self.detector.get_current_value())
 
     def stateHasChanged(self):
+        warnings.warn("stateHasChanged is deprecated; use has_state_changed() "
+                      "instead", DeprecationWarning, stacklevel=2)
+        return self.has_state_changed()
+
+    def has_state_changed(self):
         """Detects a change either in the offline detector or a
         difference between the real DNS value and what the online
         detector last got.
@@ -82,8 +104,9 @@ class DynDnsClient(object):
         # prefer offline state change detection:
         if self.detector.can_detect_offline():
             self.detector.detect()
-        elif not self.dns.detect() == self.detector.get_current_value():  # query current dns, and only detect if there's no match
-            # this produces traffic, but probably less traffic overall than the detector
+        elif not self.dns.detect() == self.detector.get_current_value():
+            # The following produces traffic, but probably less traffic
+            # overall than the detector
             self.detector.detect()
         if self.detector.has_changed():
             log.debug("detector changed")
@@ -95,9 +118,14 @@ class DynDnsClient(object):
             return False
 
     def needsCheck(self):
+        warnings.warn("needsCheck is deprecated; use needs_check() "
+                      "instead", DeprecationWarning, stacklevel=2)
+        return self.needs_check()
+
+    def needs_check(self):
         """This checks if the planned time between checks has elapsed.
         When this time has elapsed, a state change check through
-        stateHasChanged() should be performed and eventually a sync().
+        has_state_changed() should be performed and eventually a sync().
         """
         if self.lastcheck is None:
             return True
@@ -105,9 +133,14 @@ class DynDnsClient(object):
             return time.time() - self.lastcheck >= self.ipchangedetection_sleep
 
     def needsForcedCheck(self):
+        warnings.warn("needsForcedCheck is deprecated; use needs_forced_check() "
+                      "instead", DeprecationWarning, stacklevel=2)
+        return self.needs_forced_check()
+
+    def needs_forced_check(self):
         """This checks if self.forceipchangedetection_sleep between checks has
         elapsed. When this time has elapsed, a sync() should be performed, no
-        matter what stateHasChanged() says. This is really just a safety thing
+        matter what has_state_changed() says. This is really just a safety thing
         to enforce consistency in case the state gets messed up.
         """
         if self.lastforce is None:
@@ -118,12 +151,13 @@ class DynDnsClient(object):
         return True
 
     def check(self):
-        if self.needsCheck():
-            log.debug("needs a check according to ipchangedetection_sleep (%s sec)", self.ipchangedetection_sleep)
-            if self.stateHasChanged():
+        if self.needs_check():
+            log.debug("needs a check according to ipchangedetection_sleep (%s sec)",
+                      self.ipchangedetection_sleep)
+            if self.has_state_changed():
                 log.debug("state changed, syncing...")
                 self.sync()
-            elif self.needsForcedCheck():
+            elif self.needs_forced_check():
                 log.debug("forcing sync after %s seconds",
                           self.forceipchangedetection_sleep)
                 self.lastforce = time.time()
@@ -140,7 +174,7 @@ class DynDnsClient(object):
             time.sleep(self.ipchangedetection_sleep)
 
 
-def getDynDnsClientForConfig(config):
+def getDynDnsClientForConfig(config, plugins=None):
     """Factory method to instantiate and initialize a complete and working
     dyndns client
 
@@ -153,6 +187,7 @@ def getDynDnsClientForConfig(config):
         return None
     from .detector import dns
     dns_detector = dns.IPDetector_DNS(config['hostname'])
+
     from dyndnsc.updater.manager import get_updater_class
     try:
         klass = get_updater_class(config['protocol'])
@@ -167,8 +202,11 @@ def getDynDnsClientForConfig(config):
         return None
 
     dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
+    if plugins is not None:
+        log.debug("Attaching plugins to dyndnsc")
+        dyndnsclient.plugins = plugins
     dyndnsclient.add_updater(ip_updater)
-    dyndnsclient.setDNSDetector(dns_detector)
+    dyndnsclient.set_dns_detector(dns_detector)
 
     # allow config['method'] to be a list or a comma-separated string:
     if type(config['method']) != list:
@@ -201,7 +239,7 @@ def getDynDnsClientForConfig(config):
                      option, value)
         opts[option] = value.strip()
     try:
-        dyndnsclient.setChangeDetector(klass(opts))
+        dyndnsclient.set_detector(klass(opts))
     except KeyError as exc:
         log.warning("Invalid change detector parameters: '%s'", opts, exc_info=exc)
         return None
