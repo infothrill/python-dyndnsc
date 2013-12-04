@@ -18,7 +18,7 @@ def give_me_an_interface_ipv4():
     return None
 
 
-class PluginDetectorTests(unittest.TestCase):
+class TestPluginDetectors(unittest.TestCase):
     def test_detector_builtin(self):
         import dyndnsc.detector.builtin
         self.assertTrue(len(dyndnsc.detector.builtin.plugins) > 0)
@@ -32,7 +32,7 @@ class PluginDetectorTests(unittest.TestCase):
         self.assertRaises(KeyError, dyndnsc.detector.manager.get_detector_class, 'nonexistant')
 
 
-class IndividualDetectorTests(unittest.TestCase):
+class TestIndividualDetectors(unittest.TestCase):
     def test_dns_detector(self):
         import dyndnsc.detector.dns
         NAME = "dns"

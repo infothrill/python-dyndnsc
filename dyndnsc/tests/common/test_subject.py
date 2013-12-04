@@ -21,7 +21,7 @@ class InvalidListener(object):
         pass
 
 
-class SubjectObserverTest(unittest.TestCase):
+class TestSubjectObserver(unittest.TestCase):
 
     def setUp(self):
         unittest.TestCase.setUp(self)
