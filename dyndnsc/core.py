@@ -152,8 +152,6 @@ class DynDnsClient(object):
 
     def check(self):
         if self.needs_check():
-            log.debug("needs a check according to ipchangedetection_sleep (%s sec)",
-                      self.ipchangedetection_sleep)
             if self.has_state_changed():
                 log.debug("state changed, syncing...")
                 self.sync()
