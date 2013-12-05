@@ -261,6 +261,6 @@ class Mock(object):
         else:
             return Mock()
 
-MOCK_MODULES = ['netifaces']
+MOCK_MODULES = ['netifaces', 'netifaces-py3']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
