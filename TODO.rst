@@ -19,6 +19,8 @@ Dyndns update services support
   of the services is down
 * http://www.dnsdynamic.org/api.php
    https://username:password@www.dnsdynamic.org/api/?hostname=techno.ns360.info&myip=127.0.0.1
+* dnsimple.com, see also existing project at
+   https://github.com/rafaelmartins/dnsimple-dyndns
 
 Usability
 ---------
