@@ -3,10 +3,10 @@
 import logging
 import re
 
-import IPy
 import requests
 
 from .base import IPDetector
+from .compat import address
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ def _get_ip_from_url(url, parser):
 
 def _parser_plain(text):
     try:
-        return str(IPy.IP(text.strip()))
+        return str(address(text.strip()))
     except ValueError as exc:
         log.warning("Error parsing IP address '%s'", text, exc_info=exc)
         return None
@@ -39,7 +39,7 @@ def _parser_checkip(text):
     for line in text.splitlines():
         matchObj = regex.search(line)
         if not matchObj is None:
-            return str(IPy.IP(matchObj.group(1)))
+            return str(address(matchObj.group(1)))
     log.debug("Output '%s' could not be parsed", text)
     return None
 
@@ -49,7 +49,7 @@ def _parser_freedns_afraid(text):
     for line in text.splitlines():
         matchObj = regex.search(line)
         if not matchObj is None:
-            return str(IPy.IP(matchObj.group(1)))
+            return str(address(matchObj.group(1)))
     log.debug("Output '%s' could not be parsed", text)
     return None
 
@@ -155,7 +155,8 @@ class IPDetectorWebCheck46(IPDetector):
         return ("webcheck46", "webcheck64")
 
     def can_detect_offline(self):
-        """Returns false, as this detector generates http traffic"""
+        """Returns false, as this detector generates http traffic
+        :return: False"""
         return False
 
     def detect(self):

@@ -3,9 +3,8 @@
 import logging
 import random
 
-import IPy
-
 from .base import IPDetector
+from .compat import address, network
 
 log = logging.getLogger(__name__)
 
@@ -36,11 +35,12 @@ class RandomIPGenerator(object):
     def isReservedIP(self, ip):
         """Check if the given ip address is in a reserved ipv4 address space
 
-        @param ip: IPy ip address
-        @return: boolean
+        :param ip: ip address
+        :return: boolean
         """
+        theip = address(ip)
         for res in self._reserved_netmasks:
-            if ip in IPy.IP(res):
+            if theip in network(res):
                 return True
         return False
 
@@ -48,14 +48,14 @@ class RandomIPGenerator(object):
         """Return a randomly generated IPv4 address that is not in a reserved
         ipv4 address space
 
-        @return: IPy ip address
+        :return: ip address
         """
-        randomip = IPy.IP("%i.%i.%i.%i" % (random.randint(1, 254),
+        randomip = address("%i.%i.%i.%i" % (random.randint(1, 254),
                                            random.randint(1, 254),
                                            random.randint(1, 254),
                                            random.randint(1, 254)))
         while self.isReservedIP(randomip):
-            randomip = IPy.IP("%i.%i.%i.%i" % (random.randint(1, 254),
+            randomip = address("%i.%i.%i.%i" % (random.randint(1, 254),
                                                random.randint(1, 254),
                                                random.randint(1, 254),
                                                random.randint(1, 254)))
@@ -68,7 +68,7 @@ class RandomIPGenerator(object):
         """Generator that returns randomly generated IPv4 addresses that are
         not in a reserved ipv4 address space until we hit self.maxRandomTries
 
-        @return: IPy ip address
+        :return: ip address
         """
         if self.maxRandomTries is None or self.maxRandomTries > 0:
             generate = True
@@ -98,7 +98,7 @@ class IPDetector_Random(IPDetector):
         return ("random",)
 
     def can_detect_offline(self):
-        """Returns True"""
+        """:return: True"""
         return True
 
     def detect(self):

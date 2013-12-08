@@ -27,7 +27,7 @@ Programming Language :: Python :: 3.2
 Programming Language :: Python :: 3.3
 """.splitlines() if len(line) > 0]
 
-_install_requires = ["requests", "IPy>=0.56"]
+_install_requires = ["requests"]
 _tests_require = ['bottle==0.11.6']
 
 if sys.version_info >= (3, 0):
@@ -40,6 +40,7 @@ else:
 
 if sys.version_info < (3, 3):
     _tests_require.append("mock")
+    _install_requires.append("IPy>=0.56")
 if sys.version_info < (3, 2):
     _install_requires.append("argparse")
 if sys.version_info < (2, 7):  # continue support for python 2.6
