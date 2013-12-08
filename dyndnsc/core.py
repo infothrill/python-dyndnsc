@@ -24,6 +24,10 @@ log = logging.getLogger(__name__)
 class DynDnsClient(object):
     """This class represents a client to the dynamic dns service."""
     def __init__(self, sleeptime=300):
+        '''
+        Initializer
+        :param sleeptime: amount of time in seconds that can elapse between checks
+        '''
         self.ipchangedetection_sleep = sleeptime  # check every n seconds if our IP changed
         self.forceipchangedetection_sleep = sleeptime * 5  # force check every n seconds if our IP changed
         self.lastcheck = None
@@ -36,6 +40,10 @@ class DynDnsClient(object):
         log.debug("DynDnsClient instantiated")
 
     def add_updater(self, updater):
+        '''
+        Add an updater to the client
+        :param updater: an instance of type `dyndnsc.updater.UpdateProtocol`
+        '''
         self.updaters.append(updater)
 
     def setProtocolHandler(self, proto):
@@ -49,6 +57,9 @@ class DynDnsClient(object):
         self.set_dns_detector(detector)
 
     def set_dns_detector(self, detector):
+        '''
+        :param detector: an instance of `dyndnsc.detector.base.IPDetector`
+        '''
         self.dns = detector
 
     def setChangeDetector(self, detector):
@@ -57,14 +68,17 @@ class DynDnsClient(object):
         self.set_detector(detector)
 
     def set_detector(self, detector):
+        '''
+        :param detector: an instance of `dyndnsc.detector.base.IPDetector`
+        '''
         self.detector = detector
 
     def sync(self):
-        """Forces a synchronization if there is a difference between the IP from
-        DNS and the detector. This can be expensive, mostly depending on the
-        detector, but also because updating the dynamic ip in itself is costly.
-        Therefore, this method should usually only be called on startup or when
-        the state changes.
+        """Forces a synchronization to the remote service if there is a
+        difference between the IP from DNS and the detector. This can be
+        expensive, mostly depending on the detector, but also because updating
+        the dynamic ip in itself is costly. Therefore, this method should
+        usually only be called on startup or when the state changes.
         """
         if self.dns.detect() != self.detector.detect():
             detected_ip = self.detector.get_current_value()
@@ -98,7 +112,7 @@ class DynDnsClient(object):
         This is efficient, since it only generates minimal dns traffic
         for online detectors and no traffic at all for offline detectors.
 
-        @return: boolean
+        :return: boolean
         """
         self.lastcheck = time.time()
         # prefer offline state change detection:
@@ -126,6 +140,8 @@ class DynDnsClient(object):
         """This checks if the planned time between checks has elapsed.
         When this time has elapsed, a state change check through
         has_state_changed() should be performed and eventually a sync().
+
+        :return: boolean
         """
         if self.lastcheck is None:
             return True
@@ -142,6 +158,8 @@ class DynDnsClient(object):
         elapsed. When this time has elapsed, a sync() should be performed, no
         matter what has_state_changed() says. This is really just a safety thing
         to enforce consistency in case the state gets messed up.
+
+        :return: boolean
         """
         if self.lastforce is None:
             self.lastforce = time.time()
@@ -151,6 +169,10 @@ class DynDnsClient(object):
         return True
 
     def check(self):
+        '''
+        If the sleep time has elapsed, this method will see if the attached
+        detector has had a state change and call sync() accordingly.
+        '''
         if self.needs_check():
             if self.has_state_changed():
                 log.debug("state changed, syncing...")
