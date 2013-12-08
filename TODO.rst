@@ -15,6 +15,7 @@ Dyndns update services support
 
 Usability
 ---------
+* put documentation in place
 * provide a mechanism to store credentials "safely". For example using
    https://pypi.python.org/pypi/keyring. This should be optional (from an API
    point of view), and it should be easy to setup during a first run

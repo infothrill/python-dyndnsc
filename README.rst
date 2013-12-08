@@ -69,6 +69,11 @@ Requirements
 * Python 2.6, 2.7, 3.2 or 3.3
 
 
+Documentation
+=============
+
+Documentation is available at http://dyndnsc.readthedocs.org/.
+
 Goals
 =====
 *dyndnsc* was born as a minimal module for use in the *ANGEL APP*, a p2p
