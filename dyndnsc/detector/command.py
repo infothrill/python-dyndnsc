@@ -24,7 +24,9 @@ class IPDetector_Command(IPDetector):
         return ("command",)
 
     def can_detect_offline(self):
-        """Returns false, as this detector possibly generates network traffic"""
+        """Returns false, as this detector possibly generates network traffic
+        :return: False
+        """
         return False
 
     def setHostname(self, hostname):

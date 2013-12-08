@@ -19,8 +19,8 @@ class IPDetector_Teredo(IPDetector_Iface):
     """
     def __init__(self, options=None):
         """
-        Constructor
-        @param options: dictionary
+        Initializer
+        :param options: dictionary
         """
         if options is None:
             options = {}

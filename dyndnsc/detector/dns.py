@@ -16,7 +16,9 @@ class IPDetector_DNS(IPDetector):
         return ("dns",)
 
     def can_detect_offline(self):
-        """Returns false, as this detector generates dns traffic"""
+        """Returns false, as this detector generates dns traffic
+        :return: False
+        """
         return False
 
     def detect(self):
