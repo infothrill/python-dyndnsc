@@ -4,6 +4,7 @@ Release history
 0.3.4 (???)
 +++++++++++
 - added: plugin based desktop notification
+- changed: for python3.3+, use stdlib 'ipaddress' instead of 'IPy'
 - improved: naming conventions in code
 
 0.3.3 (02.12.2013)
