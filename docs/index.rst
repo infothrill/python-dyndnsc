@@ -1,9 +1,6 @@
-.. dyndnsc documentation master file, created by
-   sphinx-quickstart on Thu Dec  5 14:28:10 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+.. dyndnsc documentation master file
 
-Welcome to dyndnsc's documentation!
+Welcome to Dyndnsc's documentation!
 ===================================
 
 User Guide
@@ -41,6 +38,17 @@ this part of the documentation is for you.
    :maxdepth: 2
 
    api
+
+Contributor Guide
+-----------------
+
+If you want to contribute to the project, this part of the documentation is for
+you.
+
+.. toctree::
+   :maxdepth: 1
+
+   dev/todo
 
 Indices and tables
 ==================
