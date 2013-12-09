@@ -8,6 +8,7 @@ Release history
 - added: plugin based desktop notification
 - changed: for python3.3+, use stdlib 'ipaddress' instead of 'IPy'
 - improved: naming conventions in code
+- added: documentation using sphinx
 
 0.3.3 (02.12.2013)
 ++++++++++++++++++
