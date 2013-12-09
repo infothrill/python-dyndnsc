@@ -5,10 +5,9 @@ Example CLI program
 """
 
 import sys
-import pkg_resources
 import logging
 
-from dyndnsc import getDynDnsClientForConfig
+from dyndnsc import getDynDnsClientForConfig, __version__
 from dyndnsc.daemon import daemonize
 
 
@@ -55,7 +54,7 @@ def main():
     args = parser.parse_args()
 
     if args.version:
-        print("dyndnsc %s" % pkg_resources.get_distribution("dyndnsc").version)  # pylint: disable=E1103
+        print("dyndnsc %s" % __version__)
         return 0
 
     if args.debug:
