@@ -15,4 +15,4 @@ supported:
 * Python 3.3
 * PyPy 1.9
 
-Support for Python 3.2 may be dropped at any time.
+Support for Python 2.6 and 3.2 may be dropped at any time.

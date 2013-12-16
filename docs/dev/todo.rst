@@ -21,7 +21,6 @@ Loose wishlist of todos
    https://username:password@www.dnsdynamic.org/api/?hostname=techno.ns360.info&myip=127.0.0.1
 * services: dnsimple.com, see also existing project at
    https://github.com/rafaelmartins/dnsimple-dyndns
-* usability: put documentation in place
 * usability: provide a mechanism to store credentials "safely". For example using
    https://pypi.python.org/pypi/keyring. This should be optional (from an API
    point of view), and it should be easy to setup during a first run

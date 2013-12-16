@@ -13,6 +13,7 @@ instructions for getting the most out of Dyndnsc.
 .. toctree::
    :maxdepth: 2
 
+   user/intro
    user/install
 
 
