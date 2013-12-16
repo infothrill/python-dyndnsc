@@ -11,10 +11,10 @@ from .compat import address
 log = logging.getLogger(__name__)
 
 
-def _get_ip_from_url(url, parser):
+def _get_ip_from_url(url, parser, timeout=10):
     log.debug("Querying IP address from '%s'", url)
     try:
-        r = requests.get(url)
+        r = requests.get(url, timeout=timeout)
     except (requests.exceptions.RequestException) as exc:
         log.debug("webcheck failed for url '%s'", url, exc_info=exc)
         return None
