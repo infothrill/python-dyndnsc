@@ -4,7 +4,7 @@ import logging
 import random
 
 from .base import IPDetector
-from .compat import address, network
+from ..common.six import ipaddress, ipnetwork
 
 log = logging.getLogger(__name__)
 
@@ -38,9 +38,9 @@ class RandomIPGenerator(object):
         :param ip: ip address
         :return: boolean
         """
-        theip = address(ip)
+        theip = ipaddress(ip)
         for res in self._reserved_netmasks:
-            if theip in network(res):
+            if theip in ipnetwork(res):
                 return True
         return False
 
@@ -50,12 +50,12 @@ class RandomIPGenerator(object):
 
         :return: ip address
         """
-        randomip = address("%i.%i.%i.%i" % (random.randint(1, 254),
+        randomip = ipaddress("%i.%i.%i.%i" % (random.randint(1, 254),
                                            random.randint(1, 254),
                                            random.randint(1, 254),
                                            random.randint(1, 254)))
         while self.isReservedIP(randomip):
-            randomip = address("%i.%i.%i.%i" % (random.randint(1, 254),
+            randomip = ipaddress("%i.%i.%i.%i" % (random.randint(1, 254),
                                                random.randint(1, 254),
                                                random.randint(1, 254),
                                                random.randint(1, 254)))

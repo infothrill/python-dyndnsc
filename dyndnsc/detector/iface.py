@@ -5,7 +5,7 @@ import logging
 import netifaces
 
 from .base import IPDetector
-from .compat import address, network
+from ..common.six import ipaddress, ipnetwork
 
 log = logging.getLogger(__name__)
 
@@ -66,7 +66,7 @@ class IPDetector_Iface(IPDetector):
             # This might fail here, but that's OK since we must avoid sending
             # an IP to the outside world that should be hidden (because in a
             # "private" netmask)
-            self.netmask = network(self.opts['netmask'])
+            self.netmask = ipnetwork(self.opts['netmask'])
         else:
             self.netmask = None
 
@@ -95,7 +95,7 @@ class IPDetector_Iface(IPDetector):
         else:  # now we have a list of addresses as returned by netifaces
             for pair in addrlist:
                 try:
-                    detip = address(pair['addr'])
+                    detip = ipaddress(pair['addr'])
                 except (TypeError, ValueError) as exc:
                     log.debug("Found invalid IP '%s' on interface '%s'!?",
                               pair['addr'], self.opts['iface'], exc_info=exc)

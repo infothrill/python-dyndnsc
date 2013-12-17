@@ -6,7 +6,7 @@ import re
 import requests
 
 from .base import IPDetector
-from .compat import address
+from ..common.six import ipaddress
 
 log = logging.getLogger(__name__)
 
@@ -28,7 +28,7 @@ def _get_ip_from_url(url, parser, timeout=10):
 
 def _parser_plain(text):
     try:
-        return str(address(text.strip()))
+        return str(ipaddress(text.strip()))
     except ValueError as exc:
         log.warning("Error parsing IP address '%s'", text, exc_info=exc)
         return None
@@ -39,7 +39,7 @@ def _parser_checkip(text):
     for line in text.splitlines():
         matchObj = regex.search(line)
         if not matchObj is None:
-            return str(address(matchObj.group(1)))
+            return str(ipaddress(matchObj.group(1)))
     log.debug("Output '%s' could not be parsed", text)
     return None
 
@@ -49,7 +49,7 @@ def _parser_freedns_afraid(text):
     for line in text.splitlines():
         matchObj = regex.search(line)
         if not matchObj is None:
-            return str(address(matchObj.group(1)))
+            return str(ipaddress(matchObj.group(1)))
     log.debug("Output '%s' could not be parsed", text)
     return None
 

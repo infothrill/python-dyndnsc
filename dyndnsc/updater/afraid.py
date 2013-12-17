@@ -8,10 +8,11 @@ http://freedns.afraid.org/.
 import logging
 import hashlib
 import re
-import ipaddress
 from collections import namedtuple
 
 import requests
+
+from ..common.six import ipaddress
 
 log = logging.getLogger(__name__)
 
@@ -86,7 +87,7 @@ def update(url):
     ipregex = re.compile(r'\b(?P<ip>(?:[0-9]{1,3}\.){3}[0-9]{1,3})\b')
     ipmatch = ipregex.search(req.text)
     if ipmatch:
-        return str(ipaddress.ip_address(ipmatch.group('ip')))
+        return str(ipaddress(ipmatch.group('ip')))
     else:
         log.error("couldn't parse the server's response '%s'", req.text)
         return None
