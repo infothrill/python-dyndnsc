@@ -95,7 +95,7 @@ class IPDetectorWebCheck(IPDetector):
                 ("http://ip.dnsexit.com/", _parser_plain),
                 ("http://freedns.afraid.org:8080/dynamic/check.php",
                                                     _parser_freedns_afraid),
-                ("http://icanhazip.com/", _parser_plain),
+                ("http://ipv4.icanhazip.com/", _parser_plain),
                 ("http://ip.arix.com/", _parser_plain),
                 ("http://ipv4.nsupdate.info/myip", _parser_plain),
                 ("http://jsonip.com/", _parser_jsonip),
@@ -132,6 +132,7 @@ class IPDetectorWebCheck6(IPDetector):
         from random import choice
         # we only know one webpage that provides this...
         urls = (
+                ("http://ipv6.icanhazip.com/", _parser_plain),
                 ("http://ipv6.nsupdate.info/myip", _parser_plain),
                 )
         theip = _get_ip_from_url(*choice(urls))
@@ -179,6 +180,7 @@ class IPDetectorWebCheck46(IPDetector):
         from random import choice
         # we only know one webpage that provides this...
         urls = (
+                ("http://icanhazip.com/", _parser_plain),
                 ("http://nsupdate.info/myip", _parser_plain),
                 )
         theip = _get_ip_from_url(*choice(urls))
