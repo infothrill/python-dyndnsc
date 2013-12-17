@@ -54,6 +54,16 @@ def _parser_freedns_afraid(text):
     return None
 
 
+def _parser_jsonip(text):
+    """Parses response text like the one returned by http://jsonip.com/"""
+    import json
+    try:
+        return json.loads(text).get("ip", None)
+    except ValueError as exc:
+        log.debug("Text '%s' could not be parsed", exc_info=exc)
+        return None
+
+
 class IPDetectorWebCheck(IPDetector):
     """
     Class to detect an IPv4 address as seen by an online web site that
@@ -83,10 +93,12 @@ class IPDetectorWebCheck(IPDetector):
                 ("http://dynamic.zoneedit.com/checkip.html", _parser_checkip),
                 ("http://ipcheck.rehbein.net/", _parser_checkip),
                 ("http://ip.dnsexit.com/", _parser_plain),
-                ("http://freedns.afraid.org:8080/dynamic/check.php", _parser_freedns_afraid),
+                ("http://freedns.afraid.org:8080/dynamic/check.php",
+                                                    _parser_freedns_afraid),
                 ("http://icanhazip.com/", _parser_plain),
                 ("http://ip.arix.com/", _parser_plain),
                 ("http://ipv4.nsupdate.info/myip", _parser_plain),
+                ("http://jsonip.com/", _parser_jsonip),
                 )
         theip = _get_ip_from_url(*choice(urls))
         if theip is None:

@@ -152,6 +152,9 @@ class TestIndividualDetectors(unittest.TestCase):
         self.assertEqual(None, dyndnsc.detector.webcheck._parser_freedns_afraid(""))
         self.assertEqual("127.0.0.1", dyndnsc.detector.webcheck._parser_freedns_afraid("Detected IP : 127.0.0.1"))
 
+        self.assertEqual(None, dyndnsc.detector.webcheck._parser_jsonip(""))
+        self.assertEqual("127.0.0.1", dyndnsc.detector.webcheck._parser_jsonip(r'{"ip":"127.0.0.1","about":"/about","Pro!":"http://getjsonip.com"}'))
+
     def test_webcheck(self):
         import dyndnsc.detector.webcheck
         NAME = "webcheck"
