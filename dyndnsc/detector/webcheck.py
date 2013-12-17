@@ -130,7 +130,7 @@ class IPDetectorWebCheck6(IPDetector):
         to determine the IP address
         '''
         from random import choice
-        # we only know one webpage that provides this...
+        # we only know few webpages that provide this...
         urls = (
                 ("http://ipv6.icanhazip.com/", _parser_plain),
                 ("http://ipv6.nsupdate.info/myip", _parser_plain),
@@ -178,7 +178,7 @@ class IPDetectorWebCheck46(IPDetector):
         to determine the IP address
         '''
         from random import choice
-        # we only know one webpage that provides this...
+        # we only know few webpages that provide this...
         urls = (
                 ("http://icanhazip.com/", _parser_plain),
                 ("http://nsupdate.info/myip", _parser_plain),
