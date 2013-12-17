@@ -51,9 +51,17 @@ class UpdateProtocol(Subject):
         self.notify_observers(IP_UPDATE_ERROR, "The provided hostname '%s' is not a valid hostname!" % (self.hostname))
 
     def protocol(self):
+        timeout = 60
         params = {'myip': self.theip, 'hostname': self.hostname}
-        r = requests.get(self.updateUrl(), params=params, auth=(self.userid, self.password), timeout=60)
-        r.close()
+        try:
+            r = requests.get(self.updateUrl(), params=params,
+                             auth=(self.userid, self.password), timeout=timeout)
+        except requests.exceptions.Timeout as exc:
+            log.warning("HTTP timeout(%i) occurred while updating IP at '%s'",
+                      timeout, self.updateUrl(), exc_info=exc)
+            return False
+        finally:
+            r.close()
         log.debug("status %i, %s", r.status_code, r.text)
         if r.status_code == 200:
             if r.text.startswith("good "):
