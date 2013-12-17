@@ -19,8 +19,6 @@ class UpdateProtocol(Subject):
     theip = None
     hostname = None  # this holds the desired dns hostname
     status = 0
-    nochgcount = 0
-    failcount = 0
 
     def __init__(self):
         self.updateurl = self._updateurl
@@ -31,34 +29,25 @@ class UpdateProtocol(Subject):
 
     def success(self):
         self.status = 0
-        self.failcount = 0
-        self.nochgcount = 0
         self.notify_observers(IP_UPDATE_SUCCESS, "Updated IP address of '%s' to %s" % (self.hostname, self.theip))
 
     def abuse(self):
         self.status = 1
-        self.failcount = 0
-        self.nochgcount = 0
         self.notify_observers(IP_UPDATE_ERROR, "This client is considered to be abusive for hostname '%s'" % (self.hostname))
 
     def nochg(self):
         self.status = 0
-        self.failcount = 0
-        self.nochgcount += 1
 
     def nohost(self):
         self.status = 1
-        self.failcount += 1
         self.notify_observers(IP_UPDATE_ERROR, "Invalid/non-existant hostname: [%s]" % (self.hostname))
 
     def failure(self):
         self.status = 1
-        self.failcount += 1
         self.notify_observers(IP_UPDATE_ERROR, "Service is failing")
 
     def notfqdn(self):
         self.status = 1
-        self.failcount += 1
         self.notify_observers(IP_UPDATE_ERROR, "The provided hostname '%s' is not a valid hostname!" % (self.hostname))
 
     def protocol(self):
