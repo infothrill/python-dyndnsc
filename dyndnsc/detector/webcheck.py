@@ -58,7 +58,7 @@ def _parser_jsonip(text):
     """Parses response text like the one returned by http://jsonip.com/"""
     import json
     try:
-        return json.loads(text).get("ip", None)
+        return str(json.loads(text).get("ip"))
     except ValueError as exc:
         log.debug("Text '%s' could not be parsed", exc_info=exc)
         return None

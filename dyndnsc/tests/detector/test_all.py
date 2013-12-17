@@ -162,7 +162,8 @@ class TestIndividualDetectors(unittest.TestCase):
         detector = dyndnsc.detector.webcheck.IPDetectorWebCheck()
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
-        self.assertTrue(type(detector.detect()) in (type(None), str))
+        det_type = type(detector.detect())
+        self.assertTrue(det_type in (type(None), str), "Type '%s' invalid" % str(det_type))
 
     def test_webcheck6(self):
         import dyndnsc.detector.webcheck
