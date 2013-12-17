@@ -1,28 +1,33 @@
 # -*- coding: utf-8 -*-
 
+"""
+Basic dyndns functionality for interacting with a service compatible to
+http://freedns.afraid.org/.
+"""
+
 import logging
 import hashlib
 import re
+import ipaddress
+from collections import namedtuple
 
 import requests
 
-from ..common.subject import Subject
-
 log = logging.getLogger(__name__)
+
+# define a namedtuple for the records returned by the service
+AfraidDynDNSRecord = namedtuple('AfraidDynDNSRecord', 'hostname, ip, update_url')
 
 
 class AfraidCredentials(object):
     '''
-    Container for userid, password and sha
+    Minimal container for userid, password and sha, which will be lazily
+    computed, if not provided at initialization.
     '''
     def __init__(self, userid, password, sha=None):
         self._userid = userid
         self._password = password
-
-        if sha is None:
-            self._sha = compute_auth_key(self._userid, self._password)
-        else:
-            self._sha = sha
+        self._sha = sha
 
     @property
     def userid(self):
@@ -34,67 +39,65 @@ class AfraidCredentials(object):
 
     @property
     def sha(self):
+        if self._sha is None:
+            self._sha = compute_auth_key(self.userid, self.password)
         return self._sha
 
 
 def compute_auth_key(userid, password):
     """
     authentication key for freedns.afraid.org, which is the SHA1 hash of the
-    string 'userid|password'
+    string b'userid|password'
     """
     import sys
     if sys.version_info >= (3, 0):
-        return hashlib.sha1(b'|'.join((userid.encode('ascii'), password.encode('ascii')))).hexdigest()
+        return hashlib.sha1(b'|'.join((userid.encode('ascii'),
+                                       password.encode('ascii')))).hexdigest()
     else:
         return hashlib.sha1('|'.join((userid, password))).hexdigest()
 
 
-def get_dyndns_records(credentials, url='http://freedns.afraid.org/api/'):
-    """Gets the set of dynamic DNS records associated with this account"""
+def records(credentials, url='http://freedns.afraid.org/api/'):
+    """
+    Yields the dynamic DNS records associated with this account
+
+    :param credentials: an AfraidCredentials instance
+    :param url: the service URL
+    """
     params = dict(action='getdyndns', sha=credentials.sha)
-    r = requests.get(
-                     url,
-                     params=params,
-                     timeout=60
-                     )
-
-    records = []
-    #log.debug(r.text)
-    for record_line in [line.strip() for line in r.text.splitlines() if len(line.strip()) > 0]:
-        log.debug("line : %s", record_line)
-        hostname, ip, update_url = record_line.split('|')
-        records.append({
-                        'hostname': hostname,
-                        'ip': ip,
-                        'update_url': update_url
-                        })
-
-    return records
+    req = requests.get(url, params=params, timeout=60)
+    for record_line in (line.strip() for line in req.text.splitlines()
+                        if len(line.strip()) > 0):
+        yield AfraidDynDNSRecord(*record_line.split('|'))
 
 
-def update(record):
+def update(url):
     """
-    Updates remote DNS record by requesting its special endpoint URL
+    Updates remote DNS record by requesting its special endpoint URL. This
+    automatically picks the IP address using the http connection: it is not
+    possible to specify the IP address explicitly.
+
+    :return: IP address
     """
-    ip_pattern = re.compile(r'[0-9]+(?:\.[0-9]+){3}')
-    r = requests.get(record['update_url'], timeout=60)
-    match = ip_pattern.search(r.text)
-    # response must contain an ip address, or else we can't parse it
-    if not match:
-        raise Exception("Couldn't parse the server's response",
-                r.text)
+    req = requests.get(url, timeout=60)
+    req.close()
+    # Response must contain an IP address, or else we can't parse it.
+    # Also, the IP address in the response is the newly assigned IP address.
+    ipregex = re.compile(r'\b(?P<ip>(?:[0-9]{1,3}\.){3}[0-9]{1,3})\b')
+    ipmatch = ipregex.search(req.text)
+    if ipmatch:
+        return str(ipaddress.ip_address(ipmatch.group('ip')))
+    else:
+        log.error("couldn't parse the server's response '%s'", req.text)
+        return None
 
-    record['ip'] = match.group(0)
-    return record['ip']
 
-
-class UpdateProtocolAfraid(Subject):
+class UpdateProtocolAfraid(object):
     """Protocol handler for http://freedns.afraid.org"""
 
     _url = 'http://freedns.afraid.org/api/'
 
     def __init__(self, options):
-        self.theip = None
         self.hostname = options['hostname']
         self._credentials = AfraidCredentials(
                                               options['userid'],
@@ -109,20 +112,17 @@ class UpdateProtocolAfraid(Subject):
     def configuration_key():
         return "afraid"
 
-    def update(self, ip=None):
-        self.theip = ip
+    def update(self, *args, **kwargs):
         return self.protocol()
 
     def protocol(self):
-        the_update_url = None
-        for record in get_dyndns_records(self._credentials, self._url):
-            log.debug(record)
-            if self.hostname == record['hostname']:
-                the_update_url = record['update_url']
-                break
-        if the_update_url is not None:
-            r = requests.get(the_update_url, timeout=60)
-            r.close()
-        else:
-            log.warning("Could not find hostname '%s' at '%s'", self.hostname, self._url)
+        # first find the update_url for the provided account + hostname:
+        update_url = next((r.update_url for r in
+                            records(self._credentials, self._url)
+                            if r.hostname == self.hostname), None)
+        if update_url is None:
+            log.warning("Could not find hostname '%s' at '%s'",
+                        self.hostname, self._url)
             return None
+        else:
+            return update(update_url)
