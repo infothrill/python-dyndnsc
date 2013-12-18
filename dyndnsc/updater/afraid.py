@@ -49,6 +49,10 @@ def compute_auth_key(userid, password):
     """
     authentication key for freedns.afraid.org, which is the SHA1 hash of the
     string b'userid|password'
+
+    :param userid: ascii username
+    :param password: ascii password
+    :return: ascii authentication key (SHA1 at this point)
     """
     import sys
     if sys.version_info >= (3, 0):
@@ -75,9 +79,10 @@ def records(credentials, url='http://freedns.afraid.org/api/'):
 def update(url):
     """
     Updates remote DNS record by requesting its special endpoint URL. This
-    automatically picks the IP address using the http connection: it is not
+    automatically picks the IP address using the HTTP connection: it is not
     possible to specify the IP address explicitly.
 
+    :param url: URL to retrieve for triggering the update
     :return: IP address
     """
     req = requests.get(url, timeout=60)

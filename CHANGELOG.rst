@@ -5,11 +5,13 @@ Release history
 
 0.3.4 (???)
 +++++++++++
-- added: plugin based desktop notification
+- added: plugin based desktop notification (growl and notification center)
 - changed: for python3.3+, use stdlib 'ipaddress' instead of 'IPy'
-- improved: naming conventions in code
+- improved: dyndns2 update is now allowed to timeout
+- improved: freedns.afraid.org robustness
 - improved: webcheck now has an http timeout
-- added: documentation using sphinx
+- improved: naming conventions in code
+- added: initial documentation using sphinx
 
 0.3.3 (02.12.2013)
 ++++++++++++++++++
