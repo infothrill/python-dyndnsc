@@ -36,25 +36,27 @@ a hostname dynamically to your ipv6 tunnel?
     $ dyndnsc  --hostname test.dyndns.com --userid bob --method=teredo
 
 
-Supported protocols
-===================
+Compatible protocols
+====================
+* `dnsimple <http://developer.dnsimple.com/>`_
 * `dyndns2 <http://dyn.com/support/developers/api/>`_
 * `freedns.afraid.org <http://freedns.afraid.org/>`_
 
 Feel free to send pull requests to add more.
 
-Supported services
-==================
-This list is incomplete, since every supported protocol can potentially be used
-with a different service/URL. Work is in progress to decouple protocols from
-services.
+Compatible services
+===================
+This list is incomplete, since there are for example a lot of dyndns2 compatible
+services out there, but we are not keeping a full list here. Also, due to
+current limitations in Dyndnsc (`#4 <https://github.com/infothrill/python-dyndnsc/issues/4>`_)
+it is not yet possible to use an arbitrary service with a compatible protocol
+(yet).
 
+* `dnsimple <http://dnsimple.com/>`_
 * `dyn.com <http://dyn.com/>`_
 * `freedns.afraid.org <http://freedns.afraid.org/>`_
 * `no-ip <https://www.no-ip.com/>`_
 * `nsupdate.info <https://nsupdate.info/>`_
-
-Feel free to send pull requests to add more.
 
 Installation
 ============

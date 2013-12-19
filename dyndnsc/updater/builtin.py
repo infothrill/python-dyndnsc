@@ -14,6 +14,7 @@ _builtins = (
     ('dyndnsc.updater.dyndns', 'UpdateProtocolDyndns'),
     ('dyndnsc.updater.noip', 'UpdateProtocolNoip'),
     ('dyndnsc.updater.nsupdate_info', 'UpdateProtocolNsUpdate'),
+    ('dyndnsc.updater.dnsimple', 'UpdateProtocolDnsimple'),
     )
 
 

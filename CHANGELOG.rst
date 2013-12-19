@@ -3,9 +3,11 @@
 Release history
 ---------------
 
-0.3.4 (???)
-+++++++++++
-- added: plugin based desktop notification (growl and notification center)
+0.3.4 (not released yet)
+++++++++++++++++++++++++
+- added: initial support for dnsimple.com through
+  `dnsimple-dyndns <https://pypi.python.org/pypi/dnsimple-dyndns>`_
+- added: plugin based desktop notification (growl and OS X notification center)
 - changed: for python3.3+, use stdlib 'ipaddress' instead of 'IPy'
 - improved: dyndns2 update is now allowed to timeout
 - improved: freedns.afraid.org robustness
@@ -13,16 +15,16 @@ Release history
 - improved: naming conventions in code
 - added: initial documentation using sphinx
 
-0.3.3 (02.12.2013)
-++++++++++++++++++
+0.3.3 (December 2nd 2013)
++++++++++++++++++++++++++
 - added: experimental support for http://freedns.afraid.org
 - added: detecting ipv6 addresses using 'webcheck6' or 'webcheck46'
 - fixed: long outstanding state bugs in detector base class
 - improved: input validation in Iface detection
 - improved: support pytest conventions
 
-0.3.2 (16.11.2013)
-++++++++++++++++++
+0.3.2 (November 16th 2013)
+++++++++++++++++++++++++++
 - added: command line option --debug to explicitly increase loglevel 
 - fixed potential race issues in detector base class
 - fixed: several typos, test structure, naming conventions, default loglevel
@@ -48,7 +50,7 @@ Release history
   desktop notifications
 - removed growl notification
 - switched all http related code to the "requests" library
-- tentatively added http://www.noip.com
+- added http://www.noip.com
 - removed dyndns.majimoto.net
 - dropped support for python <= 2.5 and added support for python 3.2+
 
