@@ -21,7 +21,7 @@ class TestPluginBase(unittest.TestCase):
     def testPluginBase(self):
         plugin = base.Plugin()
 
-        self.assertEquals(type(plugin.help()), str)
+        self.assertEqual(type(plugin.help()), str)
         plugin.configure(True)
 
         argparser = mock.Mock()

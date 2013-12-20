@@ -23,7 +23,7 @@ class TestPluginProxy(unittest.TestCase):
         self.assertRaises(TypeError, manager.PluginProxy)
         self.assertRaises(AttributeError, manager.PluginProxy, '_invalid_interface_method_', [])
         # now a valid method:
-        self.assertEquals(type(manager.PluginProxy('options', [])), manager.PluginProxy)
+        self.assertEqual(type(manager.PluginProxy('options', [])), manager.PluginProxy)
 
     def test_proxy_mock_plugin(self):
         # mock a plugin and assert it will be called by the proxy:
