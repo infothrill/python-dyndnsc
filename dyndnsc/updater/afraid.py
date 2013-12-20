@@ -103,14 +103,14 @@ class UpdateProtocolAfraid(object):
 
     _url = 'http://freedns.afraid.org/api/'
 
-    def __init__(self, options):
-        self.hostname = options['hostname']
+    def __init__(self, hostname, userid, password, **kwargs):
+        self.hostname = hostname
         self._credentials = AfraidCredentials(
-                                              options['userid'],
-                                              options['password']
+                                              userid,
+                                              password
                                               )
-        if 'url' in options:
-            self._url = options['url']
+        if 'url' in kwargs:
+            self._url = kwargs['url']
 
         super(UpdateProtocolAfraid, self).__init__()
 

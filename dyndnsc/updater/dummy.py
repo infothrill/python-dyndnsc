@@ -7,11 +7,7 @@ class UpdateProtocolDummy(UpdateProtocol):
 
     _updateurl = "http://localhost.nonexistant/nic/update"
 
-    def __init__(self, options=None):
-        if options is None:
-            self._options = {}
-        else:
-            self._options = options
+    def __init__(self, **kwargs):
         super(UpdateProtocolDummy, self).__init__()
 
     @staticmethod

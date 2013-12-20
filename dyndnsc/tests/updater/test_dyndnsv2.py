@@ -79,12 +79,12 @@ class TestDyndnsV2BottleServer(unittest.TestCase):
         unittest.TestCase.tearDown(self)
 
     def test_noip(self):
-        import dyndnsc.updater.noip
+        import dyndnsc.updater.noip as noip
         NAME = "noip"
         theip = "127.0.0.1"
         options = {"hostname": "no-ip.example.com", "userid": "dummy", "password": "1234"}
-        self.assertEqual(NAME, dyndnsc.updater.noip.UpdateProtocolNoip.configuration_key())
-        updater = dyndnsc.updater.noip.UpdateProtocolNoip(options)
+        self.assertEqual(NAME, noip.UpdateProtocolNoip.configuration_key())
+        updater = noip.UpdateProtocolNoip(**options)
         updater.updateurl = self.url
         self.assertEqual(str, type(updater.updateUrl()))
         self.assertEqual(self.url, updater.updateUrl())
@@ -92,12 +92,12 @@ class TestDyndnsV2BottleServer(unittest.TestCase):
         self.assertEqual(theip, res)
 
     def test_dyndns(self):
-        import dyndnsc.updater.dyndns
+        import dyndnsc.updater.dyndns as dyndnsv2
         NAME = "dyndns"
         theip = "127.0.0.1"
         options = {"hostname": "dyndns.example.com", "userid": "dummy", "password": "1234"}
-        self.assertEqual(NAME, dyndnsc.updater.dyndns.UpdateProtocolDyndns.configuration_key())
-        updater = dyndnsc.updater.dyndns.UpdateProtocolDyndns(options)
+        self.assertEqual(NAME, dyndnsv2.UpdateProtocolDyndns.configuration_key())
+        updater = dyndnsv2.UpdateProtocolDyndns(**options)
         updater.updateurl = self.url
         self.assertEqual(str, type(updater.updateUrl()))
         self.assertEqual(self.url, updater.updateUrl())
@@ -105,12 +105,12 @@ class TestDyndnsV2BottleServer(unittest.TestCase):
         self.assertEqual(theip, res)
 
     def test_nsupdate_info(self):
-        import dyndnsc.updater.nsupdate_info
+        import dyndnsc.updater.nsupdate_info as nsupdate_info
         NAME = "nsupdate"
         theip = "127.0.0.1"
         options = {"hostname": "nsupdate_info.example.com", "userid": "dummy", "password": "1234"}
-        self.assertEqual(NAME, dyndnsc.updater.nsupdate_info.UpdateProtocolNsUpdate.configuration_key())
-        updater = dyndnsc.updater.nsupdate_info.UpdateProtocolNsUpdate(options)
+        self.assertEqual(NAME, nsupdate_info.UpdateProtocolNsUpdate.configuration_key())
+        updater = nsupdate_info.UpdateProtocolNsUpdate(**options)
         updater.updateurl = self.url
         self.assertEqual(str, type(updater.updateUrl()))
         self.assertEqual(self.url, updater.updateUrl())

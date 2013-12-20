@@ -8,10 +8,10 @@ class UpdateProtocolDyndns(UpdateProtocol):
 
     _updateurl = "https://members.dyndns.org/nic/update"
 
-    def __init__(self, options):
-        self.hostname = options['hostname']
-        self.userid = options['userid']
-        self.password = options['password']
+    def __init__(self, hostname, userid, password, **kwargs):
+        self.hostname = hostname
+        self.userid = userid
+        self.password = password
 
         super(UpdateProtocolDyndns, self).__init__()
 

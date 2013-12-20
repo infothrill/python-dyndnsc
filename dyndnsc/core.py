@@ -215,7 +215,7 @@ def getDynDnsClientForConfig(config, plugins=None):
         log.warning("Invalid update protocol: '%s'", config['protocol'])
         return None
     try:
-        ip_updater = klass(config)
+        ip_updater = klass(**config)
     except (AssertionError, KeyError) as exc:
         log.warning("Invalid update protocol configuration: '%s'", repr(config),
                  exc_info=exc)

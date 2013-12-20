@@ -36,7 +36,7 @@ class UpdateProtocol(Subject):
             log.warning("HTTP timeout(%i) occurred while updating IP at '%s'",
                       timeout, self.updateUrl(), exc_info=exc)
             return False
-        finally:
+        else:
             r.close()
         log.debug("status %i, %s", r.status_code, r.text)
         if r.status_code == 200:

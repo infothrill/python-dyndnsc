@@ -8,11 +8,12 @@ class UpdateProtocolNoip(UpdateProtocol):
 
     _updateurl = "https://dynupdate.no-ip.com/nic/update"
 
-    def __init__(self, options):
+    def __init__(self, hostname, userid, password, **kwargs):
+        self.hostname = hostname
+        self.userid = userid
+        self.password = password
+
         self.theip = None
-        self.hostname = options['hostname']
-        self.userid = options['userid']
-        self.password = options['password']
 
         super(UpdateProtocolNoip, self).__init__()
 
