@@ -11,6 +11,16 @@ Dyndnsc is under active development, and contributions are more than welcome!
 #. Send a pull request and bug the maintainer until it gets merged and published. :)
    Make sure to add yourself to `AUTHORS <https://github.com/infothrill/python-dyndnsc/blob/master/AUTHORS>`_.
 
+A couple of idioms for contributors
+-----------------------------------
+These are general guidelines for code contributors.
+
+* keep amount of external dependencies low, i.e. if it can be done using the
+  standard library, do it using the standard library
+* do not prefer specific operating systems, i.e. even if we love Linux, we
+  shall not make other suffer from our personal choice
+* write unittests
+
 
 Loose wishlist of todos
 -----------------------

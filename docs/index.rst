@@ -15,6 +15,7 @@ instructions for getting the most out of Dyndnsc.
 
    user/intro
    user/install
+   user/quickstart
 
 
 Community Guide
