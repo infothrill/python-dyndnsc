@@ -3,7 +3,7 @@
 Release history
 ---------------
 
-0.3.4 (not released yet)
+0.3.4 (January 3rd 2014)
 ++++++++++++++++++++++++
 - added: initial support for dnsimple.com through
   `dnsimple-dyndns <https://pypi.python.org/pypi/dnsimple-dyndns>`_
