@@ -52,7 +52,7 @@ current limitations in Dyndnsc (`#4 <https://github.com/infothrill/python-dyndns
 it is not yet possible to use an arbitrary service with a compatible protocol
 (yet).
 
-* `dnsimple <http://dnsimple.com/>`_
+* `dnsimple.com <http://dnsimple.com/>`_
 * `dyn.com <http://dyn.com/>`_
 * `freedns.afraid.org <http://freedns.afraid.org/>`_
 * `no-ip <https://www.no-ip.com/>`_
