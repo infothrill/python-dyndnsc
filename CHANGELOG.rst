@@ -3,9 +3,6 @@
 Release history
 ---------------
 
-0.3.5 (not yet released)
-++++++++++++++++++++++++
-
 0.3.4 (January 3rd 2014)
 ++++++++++++++++++++++++
 - added: initial support for dnsimple.com through
