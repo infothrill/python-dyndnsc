@@ -14,7 +14,7 @@ Installing Dyndnsc is simple with `pip <http://www.pip-installer.org/>`_::
 
     $ pip install dyndnsc
 
-If using python2 and pip >= 1.5, more arguments are required:
+If using python2 and pip >= 1.5, more arguments are required::
 
     $ pip install dyndnsc --allow-external netifaces --allow-unverified netifaces
 
