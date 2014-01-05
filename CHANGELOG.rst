@@ -5,6 +5,7 @@ Release history
 
 0.3.5 (not yet released)
 ++++++++++++++++++++++++
+- fixed: method naming
 
 0.3.4 (January 3rd 2014)
 ++++++++++++++++++++++++
