@@ -46,26 +46,11 @@ class DynDnsClient(object):
         '''
         self.updaters.append(updater)
 
-    def setProtocolHandler(self, proto):
-        warnings.warn("setProtocolHandler is deprecated; use add_updater() "
-                      "instead", DeprecationWarning)
-        self.add_updater(proto)
-
-    def setDNSDetector(self, detector):
-        warnings.warn("setDNSDetector is deprecated; use set_dns_detector() "
-                      "instead", DeprecationWarning)
-        self.set_dns_detector(detector)
-
     def set_dns_detector(self, detector):
         '''
         :param detector: an instance of `dyndnsc.detector.base.IPDetector`
         '''
         self.dns = detector
-
-    def setChangeDetector(self, detector):
-        warnings.warn("setChangeDetector is deprecated; use set_detector() "
-                      "instead", DeprecationWarning)
-        self.set_detector(detector)
 
     def set_detector(self, detector):
         '''
@@ -100,11 +85,6 @@ class DynDnsClient(object):
                       self.dns.get_current_value(),
                       self.detector.get_current_value())
 
-    def stateHasChanged(self):
-        warnings.warn("stateHasChanged is deprecated; use has_state_changed() "
-                      "instead", DeprecationWarning, stacklevel=2)
-        return self.has_state_changed()
-
     def has_state_changed(self):
         """Detects a change either in the offline detector or a
         difference between the real DNS value and what the online
@@ -131,11 +111,6 @@ class DynDnsClient(object):
         else:
             return False
 
-    def needsCheck(self):
-        warnings.warn("needsCheck is deprecated; use needs_check() "
-                      "instead", DeprecationWarning, stacklevel=2)
-        return self.needs_check()
-
     def needs_check(self):
         """This checks if the planned time between checks has elapsed.
         When this time has elapsed, a state change check through
@@ -147,11 +122,6 @@ class DynDnsClient(object):
             return True
         else:
             return time.time() - self.lastcheck >= self.ipchangedetection_sleep
-
-    def needsForcedCheck(self):
-        warnings.warn("needsForcedCheck is deprecated; use needs_forced_check() "
-                      "instead", DeprecationWarning, stacklevel=2)
-        return self.needs_forced_check()
 
     def needs_forced_check(self):
         """This checks if self.forceipchangedetection_sleep between checks has
