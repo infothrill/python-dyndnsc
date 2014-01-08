@@ -75,6 +75,7 @@ Compatible services
 This list is incomplete, since there are a lot of dyndns2 compatible services
 out there.
 
+* `dnsdynamic.org <http://www.dnsdynamic.org/>`_ (protocol: dyndns2)
 * `dnsimple.com <http://dnsimple.com/>`_ (protocol: dnsimple)
 * `dyn.com <http://dyn.com/>`_ (protocol: dyndns2)
 * `freedns.afraid.org <http://freedns.afraid.org/>`_ (protocol: afraid)
