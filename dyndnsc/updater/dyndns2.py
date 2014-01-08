@@ -10,7 +10,7 @@ import requests
 log = getLogger(__name__)
 
 
-class UpdateProtocolDyndnsV2(UpdateProtocol):
+class UpdateProtocolDyndns2(UpdateProtocol):
     """Updater for services compatible with dyndns.com"""
 
     def __init__(self, hostname, userid, password,
@@ -28,11 +28,11 @@ class UpdateProtocolDyndnsV2(UpdateProtocol):
         if sys.version_info < (3, 2) and service_url.startswith("https://nsupdate.info/"):
             log.warn("""To avoid SSL certificate issues when using https://nsupdate.info/, using Python >= 3.2 is strongly recommended (SSL with SNI is painful with requests on Python 2.x)""")
 
-        super(UpdateProtocolDyndnsV2, self).__init__()
+        super(UpdateProtocolDyndns2, self).__init__()
 
     @staticmethod
     def configuration_key():
-        return "dyndnsv2"
+        return "dyndns2"
 
     def update(self, ip):
         self.theip = ip
@@ -71,9 +71,9 @@ class UpdateProtocolDyndnsV2(UpdateProtocol):
             return 'invalid http status code: %s' % r.status_code
 
 
-class UpdateProtocolNsUpdate(UpdateProtocolDyndnsV2):
+class UpdateProtocolNsUpdate(UpdateProtocolDyndns2):
     """
-    Updater for nsupdate.info dynamic dns service (which is dyndnsv2 compatible,
+    Updater for nsupdate.info dynamic dns service (which is dyndns2 compatible,
     so this class is only here for the sake of a different service_url).
 
     To avoid SSL certificate issues when using https, using Python >= 3.2 is
@@ -94,8 +94,8 @@ class UpdateProtocolNsUpdate(UpdateProtocolDyndnsV2):
         return "nsupdate"
 
 
-class UpdateProtocolNoip(UpdateProtocolDyndnsV2):
-    """Protocol handler for www.noip.com, behaves exactly like dyndnsv2 but
+class UpdateProtocolNoip(UpdateProtocolDyndns2):
+    """Protocol handler for www.noip.com, behaves exactly like dyndns2 but
     this point to a different default service_url"""
 
     def __init__(self, hostname, userid, password,

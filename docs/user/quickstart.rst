@@ -17,8 +17,8 @@ First, make sure that:
 Let's get started with some simple examples.
 
 
-Making a dyndns update
-----------------------
+Examples
+--------
 
 Basic example that should fit most peoples needs:
 

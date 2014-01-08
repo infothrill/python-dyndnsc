@@ -21,24 +21,24 @@ protocols.
 Examples
 ========
 
-Basic example that should fit most peoples needs:
+Basic example for dyn.com and automatic ip detection:
 
 .. code-block:: bash
 
-    $ dyndnsc --updater-dyndnsv2-hostname test.dyndns.com \ 
-        --updater-dyndnsv2-userid bob \
-        --updater-dyndnsv2-password=xxxxxxxx
+    $ dyndnsc --updater-dyndns2-hostname test.dyndns.com \ 
+        --updater-dyndns2-userid bob \
+        --updater-dyndns2-password=xxxxxxxx
 
 
-Are you using `Miredo <http://www.remlab.net/miredo/>`_ and want to assign
-a hostname dynamically to your ipv6 tunnel?
+Updating an IPv6 record for a teredo tunnel address:
 
 .. code-block:: bash
 
-    $ dyndnsc --updater-dyndnsv2-hostname test.dyndns.com \ 
-        --updater-dyndnsv2-userid bob \
-        --updater-dyndnsv2-password=xxxxxxxx \
-        --method teredo
+    $ dyndnsc --updater-nsupdate \
+              --updater-nsupdate-hostname test.nsupdate.info \
+              --updater-nsupdate-userid   test.nsupdate.info \
+              --updater-nsupdate-password xxxxxxxx \
+              --method teredo
 
 
 Updating an IPv4 record on nsupdate.info with web based ip autodetection:
@@ -49,7 +49,6 @@ Updating an IPv4 record on nsupdate.info with web based ip autodetection:
               --updater-nsupdate-hostname test.nsupdate.info \
               --updater-nsupdate-userid   test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
-              --loop --sleeptime 300 \
               --method=webcheck
 
 Updating an IPv6 record on nsupdate.info with interface based ip detection:
@@ -60,7 +59,6 @@ Updating an IPv6 record on nsupdate.info with interface based ip detection:
               --updater-nsupdate-hostname test.nsupdate.info \
               --updater-nsupdate-userid test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
-              --loop --sleeptime 300 \
               --method=Iface,netmask:2001:470:1234:5678::/64,iface:eth0,family:INET6
 
 
@@ -78,20 +76,20 @@ This list is incomplete, since there are a lot of dyndns2 compatible services
 out there.
 
 * `dnsimple.com <http://dnsimple.com/>`_ (protocol: dnsimple)
-* `dyn.com <http://dyn.com/>`_ (protocol: dyndnsv2)
+* `dyn.com <http://dyn.com/>`_ (protocol: dyndns2)
 * `freedns.afraid.org <http://freedns.afraid.org/>`_ (protocol: afraid)
-* `hopper.pw <https://www.hopper.pw/>`_ (protocol: dyndnsv2)
-* `no-ip <https://www.no-ip.com/>`_ (protocol: dyndnsv2)
-* `nsupdate.info <https://nsupdate.info/>`_ (protocol: dyndnsv2)
+* `hopper.pw <https://www.hopper.pw/>`_ (protocol: dyndns2)
+* `no-ip <https://www.no-ip.com/>`_ (protocol: dyndns2)
+* `nsupdate.info <https://nsupdate.info/>`_ (protocol: dyndns2)
 
-To specify a dyndnsv2 compatible service on the command line, add the -service_url argument:
+To specify a dyndns2 compatible service on the command line, add the -service_url argument:
 
 .. code-block:: bash
 
-    $ dyndnsc --updater-dyndnsv2-hostname test.dyndns.com \ 
-        --updater-dyndnsv2-userid bob \
-        --updater-dyndnsv2-password=xxxxxxxx \
-        --updater-dyndnsv2-service_url=https://otherservice.example.com/nic/update
+    $ dyndnsc --updater-dyndns2-hostname test.dyndns.com \ 
+        --updater-dyndns2-userid bob \
+        --updater-dyndns2-password=xxxxxxxx \
+        --updater-dyndns2-service_url=https://otherservice.example.com/nic/update
 
 Installation
 ============
