@@ -74,14 +74,15 @@ Feel free to send pull requests to add more.
 
 Compatible services
 ===================
-This list is incomplete, since there are for example a lot of dyndns2 compatible
-services out there, but we are not keeping a full list here.
+This list is incomplete, since there are a lot of dyndns2 compatible services
+out there.
 
-* `dnsimple.com <http://dnsimple.com/>`_
-* `dyn.com <http://dyn.com/>`_
-* `freedns.afraid.org <http://freedns.afraid.org/>`_
-* `no-ip <https://www.no-ip.com/>`_
-* `nsupdate.info <https://nsupdate.info/>`_
+* `dnsimple.com <http://dnsimple.com/>`_ (protocol: dnsimple)
+* `dyn.com <http://dyn.com/>`_ (protocol: dyndnsv2)
+* `freedns.afraid.org <http://freedns.afraid.org/>`_ (protocol: afraid)
+* `hopper.pw <https://www.hopper.pw/>`_ (protocol: dyndnsv2)
+* `no-ip <https://www.no-ip.com/>`_ (protocol: dyndnsv2)
+* `nsupdate.info <https://nsupdate.info/>`_ (protocol: dyndnsv2)
 
 To specify a dyndnsv2 compatible service on the command line, add the -service_url argument:
 
