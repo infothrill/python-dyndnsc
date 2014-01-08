@@ -45,8 +45,8 @@ class TestIndividualDetectors(unittest.TestCase):
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
-        self.assertTrue(detector.detect() in ("::1", "127.0.0.1"))
-        self.assertTrue(detector.get_current_value() in ("::1", "127.0.0.1"))
+        self.assertTrue(detector.detect() in ("::1", "127.0.0.1", "fe80::1%lo0"))
+        self.assertTrue(detector.get_current_value() in ("::1", "127.0.0.1", "fe80::1%lo0"))
 
     def test_detector_base_state_changes(self):
         import dyndnsc.detector.base

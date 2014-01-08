@@ -165,61 +165,66 @@ class DynDnsClient(object):
 
 
 def getDynDnsClientForConfig(config, plugins=None):
-    """Factory method to instantiate and initialize a complete and working
+    """Factory detector_name to instantiate and initialize a complete and working
     dyndns client
 
     @param config: a dictionary with configuration pairs
     """
     if config is None:
         return None
-    if not 'hostname' in config:
-        log.warning("No hostname configured")
-        return None
-    from .detector import dns
-    dns_detector = dns.IPDetector_DNS(config['hostname'])
+#     if not 'hostname' in config:
+#         log.warning("No hostname configured")
+#         return None
 
-    from dyndnsc.updater.manager import get_updater_class
-    try:
-        klass = get_updater_class(config['protocol'])
-    except KeyError:
-        log.warning("Invalid update protocol: '%s'", config['protocol'])
-        return None
-    try:
-        ip_updater = klass(**config)
-    except (AssertionError, KeyError) as exc:
-        log.warning("Invalid update protocol configuration: '%s'", repr(config),
-                 exc_info=exc)
-        return None
+#     from dyndnsc.updater.manager import get_updater_class
+#     try:
+#         klass = get_updater_class(config['protocol'])
+#     except KeyError:
+#         log.warning("Invalid update protocol: '%s'", config['protocol'])
+#         return None
+#     try:
+#         ip_updater = klass(**config)
+#     except (AssertionError, KeyError) as exc:
+#         log.warning("Invalid update protocol configuration: '%s'", repr(config),
+#                  exc_info=exc)
+#         return None
+    if 'sleeptime' in config:
+        dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
+    else:
+        dyndnsclient = DynDnsClient()
 
-    dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
     if plugins is not None:
         log.debug("Attaching plugins to dyndnsc")
         dyndnsclient.plugins = plugins
-    dyndnsclient.add_updater(ip_updater)
+    #dyndnsclient.add_updater(ip_updater)
+    for updater in config['updaters']:
+        dyndnsclient.add_updater(updater)
+    from .detector import dns
+    dns_detector = dns.IPDetector_DNS(config['updaters'][0].hostname)
     dyndnsclient.set_dns_detector(dns_detector)
 
-    # allow config['method'] to be a list or a comma-separated string:
-    if type(config['method']) != list:
-        dummy = config['method'].split(',')
+    # allow config['detector'] to be a list or a comma-separated string:
+    if type(config['detector']) != list:
+        dummy = config['detector'].split(',')
     else:
-        dummy = config['method']
-    method = dummy[0]
+        dummy = config['detector']
+    detector_name = dummy[0]
     if len(dummy) > 1:
-        method_optlist = dummy[1:]
+        detector_optlist = dummy[1:]
     else:
-        method_optlist = []
+        detector_optlist = []
     from .detector import manager
     try:
-        klass = manager.get_detector_class(method)
+        klass = manager.get_detector_class(detector_name)
     except (KeyError) as exc:
-        log.warning("Invalid change detector configuration: '%s'", method,
+        log.warning("Invalid change detector configuration: '%s'", detector_name,
                  exc_info=exc)
         return None
 
-    # make a dictionary from method_optlist:
+    # make a dictionary from detector_optlist:
     opts = {}
     colon = ":"
-    for opt in method_optlist:
+    for opt in detector_optlist:
         # options are key value pairs, separated by a colon ":"
         # allow white-spaces in input, but strip them here:
         option, dummysep, value = opt.partition(colon)

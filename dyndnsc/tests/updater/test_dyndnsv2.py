@@ -79,7 +79,7 @@ class TestDyndnsV2BottleServer(unittest.TestCase):
         unittest.TestCase.tearDown(self)
 
     def test_noip(self):
-        import dyndnsc.updater.noip as noip
+        import dyndnsc.updater.dyndnsv2 as noip
         NAME = "noip"
         theip = "127.0.0.1"
         options = {"hostname": "no-ip.example.com", "userid": "dummy", "password": "1234"}
@@ -92,12 +92,12 @@ class TestDyndnsV2BottleServer(unittest.TestCase):
         self.assertEqual(theip, res)
 
     def test_dyndns(self):
-        import dyndnsc.updater.dyndns as dyndnsv2
-        NAME = "dyndns"
+        import dyndnsc.updater.dyndnsv2 as dyndnsv2
+        NAME = "dyndnsv2"
         theip = "127.0.0.1"
         options = {"hostname": "dyndns.example.com", "userid": "dummy", "password": "1234"}
-        self.assertEqual(NAME, dyndnsv2.UpdateProtocolDyndns.configuration_key())
-        updater = dyndnsv2.UpdateProtocolDyndns(**options)
+        self.assertEqual(NAME, dyndnsv2.UpdateProtocolDyndnsV2.configuration_key())
+        updater = dyndnsv2.UpdateProtocolDyndnsV2(**options)
         updater.updateurl = self.url
         self.assertEqual(str, type(updater.updateUrl()))
         self.assertEqual(self.url, updater.updateUrl())
@@ -105,7 +105,7 @@ class TestDyndnsV2BottleServer(unittest.TestCase):
         self.assertEqual(theip, res)
 
     def test_nsupdate_info(self):
-        import dyndnsc.updater.nsupdate_info as nsupdate_info
+        import dyndnsc.updater.dyndnsv2 as nsupdate_info
         NAME = "nsupdate"
         theip = "127.0.0.1"
         options = {"hostname": "nsupdate_info.example.com", "userid": "dummy", "password": "1234"}

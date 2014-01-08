@@ -12,6 +12,7 @@ from collections import namedtuple
 
 import requests
 
+from .base import UpdateProtocol
 from ..common.six import ipaddress
 
 log = logging.getLogger(__name__)
@@ -98,7 +99,7 @@ def update(url):
         return None
 
 
-class UpdateProtocolAfraid(object):
+class UpdateProtocolAfraid(UpdateProtocol):
     """Protocol handler for http://freedns.afraid.org"""
 
     _url = 'http://freedns.afraid.org/api/'
@@ -109,8 +110,8 @@ class UpdateProtocolAfraid(object):
                                               userid,
                                               password
                                               )
-        if 'url' in kwargs:
-            self._url = kwargs['url']
+        if 'service_url' in kwargs:
+            self._url = kwargs['service_url']
 
         super(UpdateProtocolAfraid, self).__init__()
 

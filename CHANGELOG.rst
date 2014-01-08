@@ -3,9 +3,14 @@
 Release history
 ---------------
 
-0.3.5 (not yet released)
-++++++++++++++++++++++++
-- fixed: method naming
+0.3.5dev (unreleased)
++++++++++++++++++++++
+
+- improved: it is now possible to specify arbitrary service URLs for the
+  different updater protocols. Fixes `#4 <https://github.com/infothrill/python-dyndnsc/issues/4>`_
+- changed (INCOMPATIBLE): command line arguments have been drastically adapted
+  to fit a lot of different protocols and options
+- fixed: naming conventions
 
 0.3.4 (January 3rd 2014)
 ++++++++++++++++++++++++

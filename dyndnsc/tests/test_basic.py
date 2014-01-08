@@ -14,12 +14,10 @@ class TestDynDnsc(unittest.TestCase):
 
     def test_dummy(self):
         config = {}
-        config['hostname'] = "dyndnsc.no-ip.biz"
-        config['userid'] = "example"
-        config['password'] = "foobar"
-        config['protocol'] = "dummy"
-        config['method'] = "random"
-        config['sleeptime'] = 60
+        config['detector'] = "random"
+        from dyndnsc.updater.manager import get_updater_class
+        upd = get_updater_class("dummy")(hostname="example.com")
+        config['updaters'] = (upd,)
         dyndnsclient = dyndnsc.getDynDnsClientForConfig(config)
         self.assertTrue(dyndnsclient.needs_check())
         dyndnsclient.needs_forced_check()

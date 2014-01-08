@@ -25,7 +25,9 @@ Basic example that should fit most peoples needs:
 
 .. code-block:: bash
 
-    $ dyndnsc  --hostname test.dyndns.com --userid bob --password=fub4r
+    $ dyndnsc --updater-dyndnsv2-hostname test.dyndns.com \ 
+        --updater-dyndnsv2-userid bob \
+        --updater-dyndnsv2-password=xxxxxxxx
 
 
 Are you using `Miredo <http://www.remlab.net/miredo/>`_ and want to assign
@@ -33,7 +35,33 @@ a hostname dynamically to your ipv6 tunnel?
 
 .. code-block:: bash
 
-    $ dyndnsc  --hostname test.dyndns.com --userid bob --method=teredo
+    $ dyndnsc --updater-dyndnsv2-hostname test.dyndns.com \ 
+        --updater-dyndnsv2-userid bob \
+        --updater-dyndnsv2-password=xxxxxxxx \
+        --method teredo
+
+
+Updating an IPv4 record on nsupdate.info with web based ip autodetection:
+
+.. code-block:: bash
+
+    $ dyndnsc --updater-nsupdate \
+              --updater-nsupdate-hostname test.nsupdate.info \
+              --updater-nsupdate-userid   test.nsupdate.info \
+              --updater-nsupdate-password xxxxxxxx \
+              --loop --sleeptime 300 \
+              --method=webcheck
+
+Updating an IPv6 record on nsupdate.info with interface based ip detection:
+
+.. code-block:: bash
+
+    $ dyndnsc --updater-nsupdate \
+              --updater-nsupdate-hostname test.nsupdate.info \
+              --updater-nsupdate-userid test.nsupdate.info \
+              --updater-nsupdate-password xxxxxxxx \
+              --loop --sleeptime 300 \
+              --method=Iface,netmask:2001:470:1234:5678::/64,iface:eth0,family:INET6
 
 
 Compatible protocols
@@ -47,16 +75,22 @@ Feel free to send pull requests to add more.
 Compatible services
 ===================
 This list is incomplete, since there are for example a lot of dyndns2 compatible
-services out there, but we are not keeping a full list here. Also, due to
-current limitations in Dyndnsc (`#4 <https://github.com/infothrill/python-dyndnsc/issues/4>`_)
-it is not yet possible to use an arbitrary service with a compatible protocol
-(yet).
+services out there, but we are not keeping a full list here.
 
 * `dnsimple.com <http://dnsimple.com/>`_
 * `dyn.com <http://dyn.com/>`_
 * `freedns.afraid.org <http://freedns.afraid.org/>`_
 * `no-ip <https://www.no-ip.com/>`_
 * `nsupdate.info <https://nsupdate.info/>`_
+
+To specify a dyndnsv2 compatible service on the command line, add the -service_url argument:
+
+.. code-block:: bash
+
+    $ dyndnsc --updater-dyndnsv2-hostname test.dyndns.com \ 
+        --updater-dyndnsv2-userid bob \
+        --updater-dyndnsv2-password=xxxxxxxx \
+        --updater-dyndnsv2-service_url=https://otherservice.example.com/nic/update
 
 Installation
 ============
