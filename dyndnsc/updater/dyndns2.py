@@ -45,8 +45,8 @@ class UpdateProtocolDyndns2(UpdateProtocol):
         try:
             r = requests.get(self.updateUrl(), params=params,
                              auth=(self.userid, self.password), timeout=timeout)
-        except requests.exceptions.Timeout as exc:
-            log.warning("HTTP timeout(%i) occurred while updating IP at '%s'",
+        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
+            log.warning("an error occurred while updating IP at '%s'",
                       timeout, self.updateUrl(), exc_info=exc)
             return False
         else:
