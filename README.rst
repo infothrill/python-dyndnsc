@@ -13,6 +13,9 @@ Dyndnsc - dynamic dns update client
 .. image:: https://badge.fury.io/py/dyndnsc.png
     :target: http://badge.fury.io/py/dyndnsc
 
+.. image:: https://requires.io/github/infothrill/python-dyndnsc/requirements.png?branch=develop
+   :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=develop
+   :alt: Requirements Status
 
 *dyndnsc* is both a script to be used directly as well as a re-usable and
 hopefully extensible python package for doing updates over http to dynamic

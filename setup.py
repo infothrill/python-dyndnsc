@@ -34,7 +34,7 @@ CLASSIFIERS = [
 ]
 
 INSTALL_REQUIRES = ['requests']
-TESTS_REQUIRE = ['bottle==0.11.6']
+TESTS_REQUIRE = ['bottle==0.12.5']
 
 if sys.version_info >= (3, 0):
     INSTALL_REQUIRES.append("netifaces-py3==0.8")
