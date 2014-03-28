@@ -1,7 +1,7 @@
 Dyndnsc - dynamic dns update client
 ===================================
 
-.. image:: https://travis-ci.org/infothrill/python-dyndnsc.png
+.. image:: https://travis-ci.org/infothrill/python-dyndnsc.svg
     :target: https://travis-ci.org/infothrill/python-dyndnsc
 
 .. image:: https://pypip.in/d/dyndnsc/badge.png
