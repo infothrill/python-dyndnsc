@@ -30,16 +30,18 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 2.6',
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3.2',
-    'Programming Language :: Python :: 3.3'
+    'Programming Language :: Python :: 3.3',
+    'Programming Language :: Python :: 3.4'
 ]
 
-INSTALL_REQUIRES = ['requests']
+INSTALL_REQUIRES = ['requests', 'netifaces-merged==0.9.0']
 TESTS_REQUIRE = ['bottle==0.12.5']
 
 if sys.version_info >= (3, 0):
-    INSTALL_REQUIRES.append("netifaces-py3==0.8")
+    pass
+    #INSTALL_REQUIRES.append("netifaces-py3==0.8")
 else:
-    INSTALL_REQUIRES.append("netifaces>=0.4")
+    #INSTALL_REQUIRES.append("netifaces>=0.4")
     # work around python issue http://bugs.python.org/issue15881
     # affects only python2 when using multiprocessing and if nose is installed
     import multiprocessing
