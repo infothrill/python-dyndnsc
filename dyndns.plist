@@ -5,7 +5,7 @@
 	<key>Disabled</key>
 	<false/>
 	<key>Label</key>
-	<string>dyndnspython</string>
+	<string>dyndnsc-python</string>
 	<key>Nice</key>
 	<integer>-15</integer>
 	<key>OnDemand</key>
@@ -14,17 +14,20 @@
 	<array>
 		<string>/Users/bob/bin/dyndnsc.py</string>
 		<string>--loop</string>
-		<string>--hostname</string>
-		<string>YOURHOSTNAME</string>
-		<string>--key</string>
-		<string>YOURKEY</string>
-		<string>--method</string>
-		<string>webcheck OR teredoosx</string>
+        <string>--updater-dyndns2</string>
+        <string>--updater-dyndns2-hostname</string>
+        <string>myhost.example.com</string>
+        <string>--updater-dyndns2-userid</string>
+        <string>YOUR_USERNAME</string>
+		<string> --updater-dyndns2-password</string>
+		<string>YOUR_SECRET_PW</string>
+		<string>--detector</string>
+		<string>webcheck</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>
 	<key>ServiceDescription</key>
-	<string>majimoto.net dyndns client</string>
+	<string>python dyndns client</string>
 	<key>ServiceIPC</key>
 	<false/>
 </dict>

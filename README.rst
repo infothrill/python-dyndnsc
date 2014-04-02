@@ -5,10 +5,10 @@ Dyndnsc - dynamic dns update client
     :target: https://travis-ci.org/infothrill/python-dyndnsc
 
 .. image:: https://pypip.in/d/dyndnsc/badge.png
-        :target: https://crate.io/packages/dyndnsc
+    :target: https://pypi.python.org/pypi/dyndnsc
 
 .. image:: https://coveralls.io/repos/infothrill/python-dyndnsc/badge.png
-        :target: https://coveralls.io/r/infothrill/python-dyndnsc
+    :target: https://coveralls.io/r/infothrill/python-dyndnsc
 
 .. image:: https://badge.fury.io/py/dyndnsc.png
     :target: http://badge.fury.io/py/dyndnsc
@@ -26,47 +26,7 @@ protocols.
 
 Examples
 ========
-
-Basic example for dyn.com and automatic ip detection:
-
-.. code-block:: bash
-
-    $ dyndnsc --updater-dyndns2-hostname test.dyndns.com \ 
-        --updater-dyndns2-userid bob \
-        --updater-dyndns2-password=xxxxxxxx
-
-
-Updating an IPv6 record for a teredo tunnel address:
-
-.. code-block:: bash
-
-    $ dyndnsc --updater-nsupdate \
-              --updater-nsupdate-hostname test.nsupdate.info \
-              --updater-nsupdate-userid   test.nsupdate.info \
-              --updater-nsupdate-password xxxxxxxx \
-              --method teredo
-
-
-Updating an IPv4 record on nsupdate.info with web based ip autodetection:
-
-.. code-block:: bash
-
-    $ dyndnsc --updater-nsupdate \
-              --updater-nsupdate-hostname test.nsupdate.info \
-              --updater-nsupdate-userid   test.nsupdate.info \
-              --updater-nsupdate-password xxxxxxxx \
-              --method=webcheck
-
-Updating an IPv6 record on nsupdate.info with interface based ip detection:
-
-.. code-block:: bash
-
-    $ dyndnsc --updater-nsupdate \
-              --updater-nsupdate-hostname test.nsupdate.info \
-              --updater-nsupdate-userid test.nsupdate.info \
-              --updater-nsupdate-password xxxxxxxx \
-              --method=Iface,netmask:2001:470:1234:5678::/64,iface:eth0,family:INET6
-
+See the Quickstart section of the http://dyndnsc.readthedocs.org/
 
 Compatible protocols
 ====================
@@ -93,7 +53,8 @@ To specify a dyndns2 compatible service on the command line, add the -service_ur
 
 .. code-block:: bash
 
-    $ dyndnsc --updater-dyndns2-hostname test.dyndns.com \ 
+    $ dyndnsc --updater-dyndns2 \
+        --updater-dyndns2-hostname test.dyndns.com \ 
         --updater-dyndns2-userid bob \
         --updater-dyndns2-password=xxxxxxxx \
         --updater-dyndns2-service_url=https://otherservice.example.com/nic/update
