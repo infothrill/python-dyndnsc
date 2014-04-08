@@ -34,24 +34,26 @@ def _parser_plain(text):
         return None
 
 
-def _parser_checkip(text):
-    regex = re.compile("Current IP Address: (.*?)(<.*){0,1}$")
+def _parser_line_regex(text, pattern="Current IP Address: (.*?)(<.*){0,1}$"):
+    regex = re.compile(pattern)
     for line in text.splitlines():
         matchObj = regex.search(line)
         if not matchObj is None:
             return str(ipaddress(matchObj.group(1)))
     log.debug("Output '%s' could not be parsed", text)
     return None
+
+
+def _parser_checkip_dns_he_net(text):
+    return _parser_line_regex(text, pattern="Your IP address is : (.*?)(<.*){0,1}$")
+
+
+def _parser_checkip(text):
+    return _parser_line_regex(text, pattern="Current IP Address: (.*?)(<.*){0,1}$")
 
 
 def _parser_freedns_afraid(text):
-    regex = re.compile("Detected IP : (.*?)(<.*){0,1}$")
-    for line in text.splitlines():
-        matchObj = regex.search(line)
-        if not matchObj is None:
-            return str(ipaddress(matchObj.group(1)))
-    log.debug("Output '%s' could not be parsed", text)
-    return None
+    return _parser_line_regex(text, pattern="Detected IP : (.*?)(<.*){0,1}$")
 
 
 def _parser_jsonip(text):
@@ -99,6 +101,7 @@ class IPDetectorWebCheck(IPDetector):
                 ("http://ip.arix.com/", _parser_plain),
                 ("http://ipv4.nsupdate.info/myip", _parser_plain),
                 ("http://jsonip.com/", _parser_jsonip),
+                ("http://checkip.dns.he.net/", _parser_checkip_dns_he_net),
                 )
         theip = _get_ip_from_url(*choice(urls))
         if theip is None:

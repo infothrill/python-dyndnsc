@@ -38,9 +38,11 @@ Feel free to send pull requests to add more.
 
 Compatible services
 ===================
-This list is incomplete, since there are a lot of dyndns2 compatible services
-out there.
+This list is incomplete, since there are a lot of compatible services
+out there. Some of these services offer free accounts, some are paid or
+subscription based. Either way, this list should probably go elsewhere...
 
+* `dns.he.net <https://dns.he.net/>`_ (protocol: dyndns2)
 * `dnsdynamic.org <http://www.dnsdynamic.org/>`_ (protocol: dyndns2)
 * `dnsimple.com <http://dnsimple.com/>`_ (protocol: dnsimple)
 * `dyn.com <http://dyn.com/>`_ (protocol: dyndns2)

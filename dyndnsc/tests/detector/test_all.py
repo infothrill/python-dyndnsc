@@ -146,9 +146,21 @@ class TestIndividualDetectors(unittest.TestCase):
         self.assertEqual(None, detector.detect())
 
     def test_webcheck_parsers(self):
+        test_data_checkip_dns_he_net = """<!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+ <title>What is my IP address?</title>
+</head>
+<body>
+Your IP address is : 127.0.0.1</body>
+</html>
+"""
         import dyndnsc.detector.webcheck as webcheck
         self.assertEqual(None, webcheck._parser_checkip(""))
         self.assertEqual("127.0.0.1", webcheck._parser_checkip("Current IP Address: 127.0.0.1"))
+
+        self.assertEqual("127.0.0.1", webcheck._parser_checkip_dns_he_net(test_data_checkip_dns_he_net))
 
         self.assertEqual(None, webcheck._parser_plain(""))
         self.assertEqual("127.0.0.1", webcheck._parser_plain("127.0.0.1"))

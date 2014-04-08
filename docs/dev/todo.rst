@@ -24,6 +24,8 @@ These are general guidelines for code contributors.
 
 Loose wishlist of todos
 -----------------------
+* add support for duckdns: http://www.duckdns.org
+* add support for gnudip http://gnudip2.sourceforge.net/
 * services: enable updating mutiple different services with the same IP but a different
   hostname. This would provide some form of poor mans redundancy in case one
   of the services is down
