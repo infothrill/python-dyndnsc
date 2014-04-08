@@ -168,26 +168,10 @@ def getDynDnsClientForConfig(config, plugins=None):
     """Factory detector_name to instantiate and initialize a complete and working
     dyndns client
 
-    @param config: a dictionary with configuration pairs
+    @param config: a dictionary with configuration keys
+    @param plugins: an object that implements PluginManager
     """
-    if config is None:
-        return None
-#     if not 'hostname' in config:
-#         log.warning("No hostname configured")
-#         return None
 
-#     from dyndnsc.updater.manager import get_updater_class
-#     try:
-#         klass = get_updater_class(config['protocol'])
-#     except KeyError:
-#         log.warning("Invalid update protocol: '%s'", config['protocol'])
-#         return None
-#     try:
-#         ip_updater = klass(**config)
-#     except (AssertionError, KeyError) as exc:
-#         log.warning("Invalid update protocol configuration: '%s'", repr(config),
-#                  exc_info=exc)
-#         return None
     if 'sleeptime' in config:
         dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
     else:
@@ -196,9 +180,12 @@ def getDynDnsClientForConfig(config, plugins=None):
     if plugins is not None:
         log.debug("Attaching plugins to dyndnsc")
         dyndnsclient.plugins = plugins
-    #dyndnsclient.add_updater(ip_updater)
-    for updater in config['updaters']:
-        dyndnsclient.add_updater(updater)
+    # require at least 1 updater:
+    if len(config['updaters']) < 1:
+        raise ValueError("At least 1 dyndns updater must be specified")
+    else:
+        for updater in config['updaters']:
+            dyndnsclient.add_updater(updater)
     from .detector import dns
     dns_detector = dns.IPDetector_DNS(config['updaters'][0].hostname)
     dyndnsclient.set_dns_detector(dns_detector)
