@@ -90,7 +90,6 @@ class IPDetectorWebCheck(IPDetector):
         '''
         from random import choice
         urls = (
-                ("http://checkip.dyndns.org/", _parser_checkip),
                 ("http://checkip.eurodyndns.org/", _parser_checkip),
                 ("http://dynamic.zoneedit.com/checkip.html", _parser_checkip),
                 ("http://ipcheck.rehbein.net/", _parser_checkip),
