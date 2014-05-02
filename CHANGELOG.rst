@@ -13,7 +13,7 @@ Release history
 - fixed: naming conventions
 - fixed: http connection robustness (i.e. catch more errors and handle them as
   being transient)
-- changed: upgraded dependency of netifaces to version 0.10.0 which provides
+- changed: upgraded dependency of netifaces to version 0.10+ which provides
   both py2 and py3 compatibility (thank you Alastair)
 
 0.3.4 (January 3rd 2014)
