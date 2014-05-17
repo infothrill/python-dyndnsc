@@ -13,7 +13,7 @@ v = open(os.path.join(os.path.dirname(__file__), 'dyndnsc', '__init__.py'))
 VERSION = re.compile(r".*__version__ = '(.*?)'", re.S).match(v.read()).group(1)
 v.close()
 
-CLASSIFIERS = [
+CLASSIFIERS = (
     'Development Status :: 3 - Alpha',
     'Intended Audience :: Developers',
     'License :: DFSG approved',
@@ -32,10 +32,31 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.2',
     'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4'
-]
+)
 
-INSTALL_REQUIRES = ['requests', 'netifaces==0.10.3']
-TESTS_REQUIRE = ['bottle==0.12.7']
+
+def patch_test_requires(requires):
+    '''python version compatibility'''
+    if sys.version_info < (3, 3):
+        return requires + ["mock"]
+    else:
+        return requires
+
+
+def patch_install_requires(requires):
+    '''python version compatibility'''
+    to_add = []
+    if sys.version_info < (3, 3):
+        to_add.append("IPy>=0.56")
+    if sys.version_info < (3, 2):
+        to_add.append("argparse")
+    if sys.version_info < (3, 0):
+        to_add.append("netifaces==0.10.3")
+    else:
+        to_add.append("netifaces-py3==0.8")
+    if sys.version_info < (2, 7):  # continue support for python 2.6
+        to_add.append("importlib")
+    return requires + to_add
 
 if sys.version_info >= (3, 0):
     pass
@@ -43,14 +64,6 @@ else:
     # work around python issue http://bugs.python.org/issue15881
     # affects only python2 when using multiprocessing and if nose is installed
     import multiprocessing
-
-if sys.version_info < (3, 3):
-    TESTS_REQUIRE.append("mock")
-    INSTALL_REQUIRES.append("IPy>=0.56")
-if sys.version_info < (3, 2):
-    INSTALL_REQUIRES.append("argparse")
-if sys.version_info < (2, 7):  # continue support for python 2.6
-    INSTALL_REQUIRES.append("importlib")
 
 setup(name='dyndnsc',
       packages=[
@@ -70,12 +83,12 @@ setup(name='dyndnsc',
       long_description=(open('README.rst', 'r').read() + '\n\n' +
                         open('CHANGELOG.rst', 'r').read()),
       url='https://github.com/infothrill/python-dyndnsc',
-      install_requires=INSTALL_REQUIRES,
+      install_requires=patch_install_requires(['requests']),
       entry_points=("""
                       [console_scripts]
                       dyndnsc=dyndnsc.cli:main
                       """),
       classifiers=CLASSIFIERS,
       test_suite='dyndnsc.tests',
-      tests_require=TESTS_REQUIRE,
+      tests_require=patch_test_requires(['bottle==0.12.7'])
       )
