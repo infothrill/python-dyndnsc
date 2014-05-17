@@ -34,8 +34,8 @@ CLASSIFIERS = [
     'Programming Language :: Python :: 3.4'
 ]
 
-INSTALL_REQUIRES = ['requests', 'netifaces==0.10.1']
-TESTS_REQUIRE = ['bottle==0.12.6']
+INSTALL_REQUIRES = ['requests', 'netifaces==0.10.3']
+TESTS_REQUIRE = ['bottle==0.12.7']
 
 if sys.version_info >= (3, 0):
     pass
