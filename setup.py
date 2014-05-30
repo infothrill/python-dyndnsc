@@ -52,9 +52,10 @@ def patch_install_requires(requires):
         to_add.append("argparse")
     if sys.version_info < (3, 0):
         to_add.append("netifaces==0.10.4")
-    else:
-        #to_add.append("netifaces==0.10.4") fails on travis?
+    elif sys.version_info < (3, 4):
         to_add.append("netifaces-py3==0.8")
+    else:
+        to_add.append("netifaces==0.10.4")  # fails on travis?
     if sys.version_info < (2, 7):  # continue support for python 2.6
         to_add.append("importlib")
     return requires + to_add
