@@ -134,9 +134,7 @@ class DynDnsClient(object):
         if self.lastforce is None:
             self.lastforce = time.time()
         elapsed = time.time() - self.lastforce
-        if (elapsed < self.forceipchangedetection_sleep):
-            return False
-        return True
+        return elapsed >= self.forceipchangedetection_sleep
 
     def check(self):
         '''
@@ -203,7 +201,7 @@ def getDynDnsClientForConfig(config, plugins=None):
     from .detector import manager
     try:
         klass = manager.get_detector_class(detector_name)
-    except (KeyError) as exc:
+    except KeyError as exc:
         log.warning("Invalid change detector configuration: '%s'", detector_name,
                     exc_info=exc)
         return None
