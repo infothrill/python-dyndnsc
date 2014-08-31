@@ -29,7 +29,7 @@ class Subject(object):
 
         if observer in self._observers:
             log.warning("Observer '%r' already registered, overwriting for events"
-                     " %r", observer, events)
+                        " %r", observer, events)
         self._observers[observer] = events
 
     def notify_observers(self, event=None, msg=None):
@@ -41,7 +41,8 @@ class Subject(object):
                     observer(self, event, msg)
                 except (Exception,) as ex:  # pylint: disable=W0703
                     self.unregister_observer(observer)
-                    errmsg = "Exception in message dispatch: Handler '{0}' unregistered for event '{1}'  ".format(observer.__class__.__name__, event)
+                    errmsg = "Exception in message dispatch: Handler '{0}' unregistered for event '{1}'  ".format(
+                        observer.__class__.__name__, event)
                     log.error(errmsg, exc_info=ex)
 
     def unregister_observer(self, observer):

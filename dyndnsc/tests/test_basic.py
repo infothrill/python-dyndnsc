@@ -18,7 +18,7 @@ class TestDynDnsc(unittest.TestCase):
         self.assertRaises(TypeError, dyndnsc.getDynDnsClientForConfig, None)
         self.assertRaises(KeyError, dyndnsc.getDynDnsClientForConfig, {})
         self.assertRaises(ValueError, dyndnsc.getDynDnsClientForConfig,
-                            {'updaters': ()})
+                          {'updaters': ()})
 
         # create a dummy config:
         config = {}

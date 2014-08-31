@@ -49,11 +49,11 @@ class Plugin(object):
         env_opt = ENV_PREFIX + self.name.upper()
         env_opt = env_opt.replace('-', '_')
         parser.add_argument("--with-%s" % self.name,
-                          action="store_true",
-                          dest=self.enableOpt,
-                          default=env.get(env_opt),
-                          help="Enable plugin %s: %s [%s]" %
-                          (self.__class__.__name__, self.help(), env_opt))
+                            action="store_true",
+                            dest=self.enableOpt,
+                            default=env.get(env_opt),
+                            help="Enable plugin %s: %s [%s]" %
+                            (self.__class__.__name__, self.help(), env_opt))
 
     def configure(self, args):
         """Configure the plugin, based on selected options.

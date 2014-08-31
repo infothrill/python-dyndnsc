@@ -205,7 +205,7 @@ def getDynDnsClientForConfig(config, plugins=None):
         klass = manager.get_detector_class(detector_name)
     except (KeyError) as exc:
         log.warning("Invalid change detector configuration: '%s'", detector_name,
-                 exc_info=exc)
+                    exc_info=exc)
         return None
 
     # make a dictionary from detector_optlist:
@@ -218,7 +218,7 @@ def getDynDnsClientForConfig(config, plugins=None):
         option = option.strip()
         if option in opts:
             log.warning("Option '%s' specified more than once, using '%s'.",
-                     option, value)
+                        option, value)
         opts[option] = value.strip()
     try:
         dyndnsclient.set_detector(klass(opts))

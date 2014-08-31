@@ -11,7 +11,7 @@ from warnings import warn
 _builtins = (
     ('dyndnsc.plugins.notify.growl', 'GrowlPlugin'),
     ('dyndnsc.plugins.notify.osxnotify', 'OSXNotifyPlugin'),
-    )
+)
 
 
 def _load_plugin(module, cls):

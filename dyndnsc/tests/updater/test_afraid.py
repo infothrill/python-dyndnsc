@@ -79,11 +79,11 @@ class TestAfraidBottleServer(unittest.TestCase):
         #import dyndnsc.updater.afraid
         NAME = "afraid"
         options = {
-                   "hostname": "dummyhostname.example.com",
-                   "userid": "dummy",
-                   "password": "1234",
-                   "service_url": self.url
-                   }
+            "hostname": "dummyhostname.example.com",
+            "userid": "dummy",
+            "password": "1234",
+            "service_url": self.url
+        }
         self.assertEqual(NAME, afraid.UpdateProtocolAfraid.configuration_key())
         updater = afraid.UpdateProtocolAfraid(**options)
         res = updater.update()

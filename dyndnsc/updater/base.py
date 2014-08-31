@@ -58,22 +58,22 @@ class UpdateProtocol(Subject):
         """
         cfgkey = cls.configuration_key()
         parser.add_argument("--updater-%s" % cfgkey,
-                          action="store_true",
-                          dest="updater_%s" % cfgkey,
-                          default=False,
-                          help="Use updater %s: %s" %
-                          (cls.__name__, cls.help()))
+                            action="store_true",
+                            dest="updater_%s" % cfgkey,
+                            default=False,
+                            help="Use updater %s: %s" %
+                            (cls.__name__, cls.help()))
         args = cls.init_argnames()
         defaults = cls._init_argdefaults()
         for arg in args[0:len(args) - len(defaults)]:
             parser.add_argument("--updater-%s-%s" % (cfgkey, arg),
-                              dest="updater_%s_%s" % (cfgkey, arg),
-                              help="")
+                                dest="updater_%s_%s" % (cfgkey, arg),
+                                help="")
         for i, arg in enumerate(args[len(args) - len(defaults):]):
             parser.add_argument("--updater-%s-%s" % (cfgkey, arg),
-                              dest="updater_%s_%s" % (cfgkey, arg),
-                              default=defaults[i],
-                              help="default: %(default)s")
+                                dest="updater_%s_%s" % (cfgkey, arg),
+                                default=defaults[i],
+                                help="default: %(default)s")
 
     @classmethod
     def help(cls):

@@ -16,21 +16,21 @@ class RandomIPGenerator(object):
         # Reserved list from http://www.iana.org/assignments/ipv4-address-space
         # (dated  2010-02-22)
         self._reserved_netmasks = frozenset([
-                "0.0.0.0/8",
-                "5.0.0.0/8",
-                "10.0.0.0/8",
-                "23.0.0.0/8",
-                "31.0.0.0/8",
-                "36.0.0.0/8",
-                "39.0.0.0/8",
-                "42.0.0.0/8",
-                "127.0.0.0/8",
-                "169.254.0.0/16",
-                "172.16.0.0/12",
-                "192.168.0.0/16",
-                "224.0.0.0/3",
-                "240.0.0.0/8"
-                ])
+            "0.0.0.0/8",
+            "5.0.0.0/8",
+            "10.0.0.0/8",
+            "23.0.0.0/8",
+            "31.0.0.0/8",
+            "36.0.0.0/8",
+            "39.0.0.0/8",
+            "42.0.0.0/8",
+            "127.0.0.0/8",
+            "169.254.0.0/16",
+            "172.16.0.0/12",
+            "192.168.0.0/16",
+            "224.0.0.0/3",
+            "240.0.0.0/8"
+        ])
 
     def isReservedIP(self, ip):
         """Check if the given ip address is in a reserved ipv4 address space
@@ -51,14 +51,14 @@ class RandomIPGenerator(object):
         :return: ip address
         """
         randomip = ipaddress("%i.%i.%i.%i" % (random.randint(1, 254),
-                                           random.randint(1, 254),
-                                           random.randint(1, 254),
-                                           random.randint(1, 254)))
+                                              random.randint(1, 254),
+                                              random.randint(1, 254),
+                                              random.randint(1, 254)))
         while self.isReservedIP(randomip):
             randomip = ipaddress("%i.%i.%i.%i" % (random.randint(1, 254),
-                                               random.randint(1, 254),
-                                               random.randint(1, 254),
-                                               random.randint(1, 254)))
+                                                  random.randint(1, 254),
+                                                  random.randint(1, 254),
+                                                  random.randint(1, 254)))
         return randomip
 
     def next(self):
