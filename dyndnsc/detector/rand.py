@@ -73,7 +73,7 @@ class RandomIPGenerator(object):
         if self.maxRandomTries is None or self.maxRandomTries > 0:
             generate = True
         c = 0
-        while generate:
+        while generate:  # XXX BUG: generate might be referenced before assignment
             if not self.maxRandomTries is None:
                 c += 1
             yield self.randomIP()
