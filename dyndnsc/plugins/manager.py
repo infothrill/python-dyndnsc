@@ -180,8 +180,11 @@ class BuiltinPluginManager(PluginManager):
 
 try:
     import pkg_resources
+
     class DefaultPluginManager(EntryPointPluginManager, BuiltinPluginManager):
         pass
+
 except ImportError:
+
     class DefaultPluginManager(BuiltinPluginManager):
         pass

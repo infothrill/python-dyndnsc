@@ -106,10 +106,7 @@ class UpdateProtocolAfraid(UpdateProtocol):
 
     def __init__(self, hostname, userid, password, **kwargs):
         self.hostname = hostname
-        self._credentials = AfraidCredentials(
-                                              userid,
-                                              password
-                                              )
+        self._credentials = AfraidCredentials(userid, password)
         if 'service_url' in kwargs:
             self._url = kwargs['service_url']
 
@@ -125,8 +122,8 @@ class UpdateProtocolAfraid(UpdateProtocol):
     def protocol(self):
         # first find the update_url for the provided account + hostname:
         update_url = next((r.update_url for r in
-                            records(self._credentials, self._url)
-                            if r.hostname == self.hostname), None)
+                           records(self._credentials, self._url)
+                           if r.hostname == self.hostname), None)
         if update_url is None:
             log.warning("Could not find hostname '%s' at '%s'",
                         self.hostname, self._url)

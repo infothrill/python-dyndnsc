@@ -169,7 +169,8 @@ Your IP address is : 127.0.0.1</body>
         self.assertEqual("127.0.0.1", webcheck._parser_freedns_afraid("Detected IP : 127.0.0.1"))
 
         self.assertEqual(None, webcheck._parser_jsonip(""))
-        self.assertEqual("127.0.0.1", webcheck._parser_jsonip(r'{"ip":"127.0.0.1","about":"/about","Pro!":"http://getjsonip.com"}'))
+        self.assertEqual("127.0.0.1", webcheck._parser_jsonip(
+            r'{"ip":"127.0.0.1","about":"/about","Pro!":"http://getjsonip.com"}'))
 
     def test_webcheck(self):
         import dyndnsc.detector.webcheck as webcheck

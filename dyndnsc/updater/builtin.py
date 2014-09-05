@@ -15,7 +15,7 @@ _builtins = (
     ('dyndnsc.updater.dyndns2', 'UpdateProtocolNoip'),
     ('dyndnsc.updater.dyndns2', 'UpdateProtocolNsUpdate'),
     ('dyndnsc.updater.dnsimple', 'UpdateProtocolDnsimple'),
-    )
+)
 
 
 def _load_plugin(module, cls):

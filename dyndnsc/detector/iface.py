@@ -45,10 +45,10 @@ class IPDetector_Iface(IPDetector):
             options = {}
         # default options:
         self.opts = {
-                     'iface': _default_interface(),
-                     'family': "INET",
-                     "netmask": None
-                     }
+            'iface': _default_interface(),
+            'family': "INET",
+            'netmask': None
+        }
         for k in options.keys():
             log.debug("%s explicitly got option: %s -> %s",
                       self.__class__.__name__, k, options[k])

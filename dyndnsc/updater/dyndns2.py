@@ -9,6 +9,10 @@ import requests
 
 log = getLogger(__name__)
 
+SNI_WARNING = """To avoid SSL certificate issues, using Python >= 3.2 is \
+strongly recommended (SSL with SNI is painful with requests package on \
+Python 2.x)"""
+
 
 class UpdateProtocolDyndns2(UpdateProtocol):
     """Updater for services compatible with dyndns.com"""
@@ -24,9 +28,6 @@ class UpdateProtocolDyndns2(UpdateProtocol):
         self.userid = userid
         self.password = password
         self._updateurl = service_url
-
-        if sys.version_info < (3, 2) and service_url.startswith("https://nsupdate.info/"):
-            log.warn("""To avoid SSL certificate issues when using https://nsupdate.info/, using Python >= 3.2 is strongly recommended (SSL with SNI is painful with requests on Python 2.x)""")
 
         super(UpdateProtocolDyndns2, self).__init__()
 
@@ -47,7 +48,7 @@ class UpdateProtocolDyndns2(UpdateProtocol):
                              auth=(self.userid, self.password), timeout=timeout)
         except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
             log.warning("an error occurred while updating IP at '%s'",
-                      timeout, self.updateUrl(), exc_info=exc)
+                        timeout, self.updateUrl(), exc_info=exc)
             return False
         else:
             r.close()
@@ -84,10 +85,10 @@ class UpdateProtocolNsUpdate(UpdateProtocolDyndns2):
                  service_url="https://nsupdate.info/nic/update", **kwargs):
 
         super(UpdateProtocolNsUpdate, self).__init__(hostname, userid, password,
-                                                 service_url, **kwargs)
+                                                     service_url, **kwargs)
 
         if sys.version_info < (3, 2) and service_url.startswith("https://nsupdate.info/"):
-            log.warn("""To avoid SSL certificate issues when using https://nsupdate.info/, using Python >= 3.2 is strongly recommended (SSL with SNI is painful with requests on Python 2.x)""")
+            log.warn(SNI_WARNING)
 
     @staticmethod
     def configuration_key():

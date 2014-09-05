@@ -15,7 +15,7 @@ def _get_ip_from_url(url, parser, timeout=10):
     log.debug("Querying IP address from '%s'", url)
     try:
         r = requests.get(url, timeout=timeout)
-    except (requests.exceptions.RequestException) as exc:
+    except requests.exceptions.RequestException as exc:
         log.debug("webcheck failed for url '%s'", url, exc_info=exc)
         return None
     else:
@@ -90,18 +90,17 @@ class IPDetectorWebCheck(IPDetector):
         '''
         from random import choice
         urls = (
-                ("http://checkip.eurodyndns.org/", _parser_checkip),
-                ("http://dynamic.zoneedit.com/checkip.html", _parser_checkip),
-                ("http://ipcheck.rehbein.net/", _parser_checkip),
-                ("http://ip.dnsexit.com/", _parser_plain),
-                ("http://freedns.afraid.org:8080/dynamic/check.php",
-                                                    _parser_freedns_afraid),
-                ("http://ipv4.icanhazip.com/", _parser_plain),
-                ("http://ip.arix.com/", _parser_plain),
-                ("http://ipv4.nsupdate.info/myip", _parser_plain),
-                ("http://jsonip.com/", _parser_jsonip),
-                ("http://checkip.dns.he.net/", _parser_checkip_dns_he_net),
-                )
+            ("http://checkip.eurodyndns.org/", _parser_checkip),
+            ("http://dynamic.zoneedit.com/checkip.html", _parser_checkip),
+            ("http://ipcheck.rehbein.net/", _parser_checkip),
+            ("http://ip.dnsexit.com/", _parser_plain),
+            ("http://freedns.afraid.org:8080/dynamic/check.php", _parser_freedns_afraid),
+            ("http://ipv4.icanhazip.com/", _parser_plain),
+            ("http://ip.arix.com/", _parser_plain),
+            ("http://ipv4.nsupdate.info/myip", _parser_plain),
+            ("http://jsonip.com/", _parser_jsonip),
+            ("http://checkip.dns.he.net/", _parser_checkip_dns_he_net),
+        )
         theip = _get_ip_from_url(*choice(urls))
         if theip is None:
             log.info("Could not detect IP using webcheck! Offline?")
@@ -134,9 +133,9 @@ class IPDetectorWebCheck6(IPDetector):
         from random import choice
         # we only know few webpages that provide this...
         urls = (
-                ("http://ipv6.icanhazip.com/", _parser_plain),
-                ("http://ipv6.nsupdate.info/myip", _parser_plain),
-                )
+            ("http://ipv6.icanhazip.com/", _parser_plain),
+            ("http://ipv6.nsupdate.info/myip", _parser_plain),
+        )
         theip = _get_ip_from_url(*choice(urls))
         if theip is None:
             log.info("Could not detect IP! Offline?")
@@ -182,9 +181,9 @@ class IPDetectorWebCheck46(IPDetector):
         from random import choice
         # we only know few webpages that provide this...
         urls = (
-                ("http://icanhazip.com/", _parser_plain),
-                ("http://nsupdate.info/myip", _parser_plain),
-                )
+            ("http://icanhazip.com/", _parser_plain),
+            ("http://nsupdate.info/myip", _parser_plain),
+        )
         theip = _get_ip_from_url(*choice(urls))
         if theip is None:
             log.info("Could not detect IP! Offline?")

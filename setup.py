@@ -36,7 +36,7 @@ CLASSIFIERS = (
 
 
 def patch_test_requires(requires):
-    '''python version compatibility'''
+    """python version compatibility"""
     if sys.version_info < (3, 3):
         return requires + ["mock"]
     else:
@@ -44,7 +44,7 @@ def patch_test_requires(requires):
 
 
 def patch_install_requires(requires):
-    '''python version compatibility'''
+    """python version compatibility"""
     to_add = []
     if sys.version_info < (3, 3):
         to_add.append("IPy>=0.56")
@@ -67,30 +67,31 @@ else:
     # affects only python2 when using multiprocessing and if nose is installed
     import multiprocessing
 
-setup(name='dyndnsc',
-      packages=[
-                'dyndnsc',
-                'dyndnsc.common',
-                'dyndnsc.detector',
-                'dyndnsc.plugins',
-                'dyndnsc.tests',
-                'dyndnsc.updater',
-                ],
-      version=VERSION,
-      author='Paul Kremer',
-      author_email='@'.join(("paul", "spurious.biz")),  # avoid spam,
-      license='MIT License',
-      description='dynamic dns (dyndns) update client that tries to be '
-            'extensible, re-usable and efficient on network resources',
-      long_description=(open('README.rst', 'r').read() + '\n\n' +
-                        open('CHANGELOG.rst', 'r').read()),
-      url='https://github.com/infothrill/python-dyndnsc',
-      install_requires=patch_install_requires(['requests']),
-      entry_points=("""
-                      [console_scripts]
-                      dyndnsc=dyndnsc.cli:main
-                      """),
-      classifiers=CLASSIFIERS,
-      test_suite='dyndnsc.tests',
-      tests_require=patch_test_requires(['bottle==0.12.7'])
-      )
+setup(
+    name='dyndnsc',
+    packages=[
+        'dyndnsc',
+        'dyndnsc.common',
+        'dyndnsc.detector',
+        'dyndnsc.plugins',
+        'dyndnsc.tests',
+        'dyndnsc.updater',
+    ],
+    version=VERSION,
+    author='Paul Kremer',
+    author_email='@'.join(("paul", "spurious.biz")),  # avoid spam,
+    license='MIT License',
+    description='dynamic dns (dyndns) update client that tries to be '
+                'extensible, re-usable and efficient on network resources',
+    long_description=(open('README.rst', 'r').read() + '\n\n' +
+                      open('CHANGELOG.rst', 'r').read()),
+    url='https://github.com/infothrill/python-dyndnsc',
+    install_requires=patch_install_requires(['requests']),
+    entry_points=("""
+        [console_scripts]
+        dyndnsc=dyndnsc.cli:main
+    """),
+    classifiers=CLASSIFIERS,
+    test_suite='dyndnsc.tests',
+    tests_require=patch_test_requires(['bottle==0.12.7'])
+)

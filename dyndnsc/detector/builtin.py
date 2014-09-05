@@ -17,7 +17,7 @@ _builtins = (
     ('dyndnsc.detector.webcheck', 'IPDetectorWebCheck'),
     ('dyndnsc.detector.webcheck', 'IPDetectorWebCheck6'),
     ('dyndnsc.detector.webcheck', 'IPDetectorWebCheck46'),
-    )
+)
 
 
 def _load_plugin(module, cls):
