@@ -38,7 +38,7 @@ def _parser_line_regex(text, pattern="Current IP Address: (.*?)(<.*){0,1}$"):
     regex = re.compile(pattern)
     for line in text.splitlines():
         matchObj = regex.search(line)
-        if not matchObj is None:
+        if matchObj is not None:
             return str(ipaddress(matchObj.group(1)))
     log.debug("Output '%s' could not be parsed", text)
     return None

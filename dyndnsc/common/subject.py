@@ -35,7 +35,7 @@ class Subject(object):
     def notify_observers(self, event=None, msg=None):
         """notify observers """
         for observer, events in list(self._observers.items()):
-            #log.debug("trying to notify the observer")
+            # log.debug("trying to notify the observer")
             if events is None or event is None or event in events:
                 try:
                     observer(self, event, msg)

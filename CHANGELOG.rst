@@ -15,6 +15,7 @@ Release history
   being transient)
 - changed: upgraded dependency of netifaces to version 0.10+ which provides
   both py2 and py3 compatibility (thank you Alastair)
+- a bunch of pep8 and style fixes
 
 0.3.4 (January 3rd 2014)
 ++++++++++++++++++++++++
