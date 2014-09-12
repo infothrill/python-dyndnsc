@@ -9,10 +9,6 @@ import requests
 
 log = getLogger(__name__)
 
-SNI_WARNING = """To avoid SSL certificate issues, using Python >= 3.2 is \
-strongly recommended (SSL with SNI is painful with requests package on \
-Python 2.x)"""
-
 
 class UpdateProtocolDyndns2(UpdateProtocol):
     """Updater for services compatible with dyndns.com"""
@@ -76,9 +72,6 @@ class UpdateProtocolNsUpdate(UpdateProtocolDyndns2):
     """
     Updater for nsupdate.info dynamic dns service (which is dyndns2 compatible,
     so this class is only here for the sake of a different service_url).
-
-    To avoid SSL certificate issues when using https, using Python >= 3.2 is
-    strongly recommended (SSL with SNI is painful with requests on Python 2.x).
     """
 
     def __init__(self, hostname, userid, password,
@@ -86,9 +79,6 @@ class UpdateProtocolNsUpdate(UpdateProtocolDyndns2):
 
         super(UpdateProtocolNsUpdate, self).__init__(hostname, userid, password,
                                                      service_url, **kwargs)
-
-        if sys.version_info < (3, 2) and service_url.startswith("https://nsupdate.info/"):
-            log.warn(SNI_WARNING)
 
     @staticmethod
     def configuration_key():
