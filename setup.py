@@ -50,10 +50,10 @@ def patch_install_requires(requires):
         to_add.append("IPy>=0.56")
     if sys.version_info < (3, 2):
         to_add.append("argparse")
+        to_add.append("pyOpenSSL>=0.13")
+        to_add.append("ndg-httpsclient>=0.3.2")
+        to_add.append("pyasn1>=0.1.6")
     to_add.append("netifaces>=0.10.4")  # hm, this still breaks on some builds
-    to_add.append("pyOpenSSL>=0.13")  # hm, this still breaks on some builds
-    to_add.append("ndg-httpsclient>=0.3.2")  # hm, this still breaks on some builds
-    to_add.append("pyasn1>=0.1.6")  # hm, this still breaks on some builds
     if sys.version_info < (2, 7):  # continue support for python 2.6
         to_add.append("importlib")
     return requires + to_add
