@@ -66,13 +66,14 @@ Installation
 
 .. code-block:: bash
 
+    $ # from pypi:
     $ pip install dyndnsc
 
-or, if you want to work using the source tarball:
-
-.. code-block:: bash
-
+    $ # from downloaded source:
     $ python setup.py install
+
+    $ # directly from github:
+    $ pip install https://github.com/infothrill/python-dyndnsc/zipball/develop
   
 
 Requirements
