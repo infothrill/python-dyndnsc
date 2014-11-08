@@ -14,6 +14,7 @@ import requests
 
 from .base import UpdateProtocol
 from ..common.six import ipaddress
+from ..common import constants
 
 log = logging.getLogger(__name__)
 
@@ -71,7 +72,7 @@ def records(credentials, url='http://freedns.afraid.org/api/'):
     :param url: the service URL
     """
     params = dict(action='getdyndns', sha=credentials.sha)
-    req = requests.get(url, params=params, timeout=60)
+    req = requests.get(url, params=params, headers=constants.REQUEST_HEADERS_DEFAULT, timeout=60)
     for record_line in (line.strip() for line in req.text.splitlines()
                         if len(line.strip()) > 0):
         yield AfraidDynDNSRecord(*record_line.split('|'))
@@ -86,7 +87,7 @@ def update(url):
     :param url: URL to retrieve for triggering the update
     :return: IP address
     """
-    req = requests.get(url, timeout=60)
+    req = requests.get(url, headers=constants.REQUEST_HEADERS_DEFAULT, timeout=60)
     req.close()
     # Response must contain an IP address, or else we can't parse it.
     # Also, the IP address in the response is the newly assigned IP address.

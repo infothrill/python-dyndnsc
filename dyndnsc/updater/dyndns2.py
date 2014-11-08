@@ -4,6 +4,7 @@ import sys
 from logging import getLogger
 
 from .base import UpdateProtocol
+from ..common import constants
 
 import requests
 
@@ -44,7 +45,7 @@ class UpdateProtocolDyndns2(UpdateProtocol):
         log.debug("Updating '%s' to '%s' at service '%s'", self.hostname, self.theip, self.updateUrl())
         params = {'myip': self.theip, 'hostname': self.hostname}
         try:
-            r = requests.get(self.updateUrl(), params=params,
+            r = requests.get(self.updateUrl(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
                              auth=(self.userid, self.password), timeout=timeout)
         except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
             log.warning("an error occurred while updating IP at '%s'",
