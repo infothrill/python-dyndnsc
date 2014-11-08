@@ -66,7 +66,61 @@ def _parser_jsonip(text):
         return None
 
 
-class IPDetectorWebCheck(IPDetector):
+class IPDetectorWebCheckBase(IPDetector):
+    """
+    Base Class for misc. web service based IP detection classes.
+    """
+
+    urls = None  # override in child class
+
+    def __init__(self, options=None):
+        """
+        Constructor
+        @param options: dictionary
+
+        available options:
+
+        url: url of web site to use for IP detection
+        parser: parser to use to parse IP from web site response
+        """
+        if options is None:
+            options = {}
+        # default options:
+        self.opts = {
+            'url': None,
+            'parser': None,
+        }
+        for k in options.keys():
+            log.debug("%s explicitly got option: %s -> %s",
+                      self.__class__.__name__, k, options[k])
+            self.opts[k] = options[k]
+
+        super(IPDetectorWebCheckBase, self).__init__()
+
+    def can_detect_offline(self):
+        """Returns false, as this detector generates http traffic"""
+        return False
+
+    def detect(self):
+        """
+        Will try to contact a remote webservice and parse the returned output
+        to determine the IP address
+        """
+        if self.opts['url'] and self.opts['parser']:
+            url = self.opts['url']
+            parser = self.opts['parser']
+        else:
+            from random import choice
+            url, parser = choice(self.urls)
+        parser = globals().get('_parser_' + parser)
+        theip = _get_ip_from_url(url, parser)
+        if theip is None:
+            log.info("Could not detect IP using webcheck! Offline?")
+        self.set_current_value(theip)
+        return theip
+
+
+class IPDetectorWebCheck(IPDetectorWebCheckBase):
     """
     Class to detect an IPv4 address as seen by an online web site that
     returns parsable output containing the IP address.
@@ -75,40 +129,25 @@ class IPDetectorWebCheck(IPDetector):
           will simply not detect the IP address.
     """
 
+    urls = (
+        ("http://checkip.eurodyndns.org/", 'checkip'),
+        ("http://dynamic.zoneedit.com/checkip.html", 'checkip'),
+        ("http://ipcheck.rehbein.net/", 'checkip'),
+        ("http://ip.dnsexit.com/", 'plain'),
+        ("http://freedns.afraid.org:8080/dynamic/check.php", 'freedns_afraid'),
+        ("http://ipv4.icanhazip.com/", 'plain'),
+        ("http://ip.arix.com/", 'plain'),
+        ("http://ipv4.nsupdate.info/myip", 'plain'),
+        ("http://jsonip.com/", 'jsonip'),
+        ("http://checkip.dns.he.net/", 'checkip_dns_he_net'),
+    )
+
     @staticmethod
     def names():
         return ("webcheck", "webcheck4")
 
-    def can_detect_offline(self):
-        """Returns false, as this detector generates http traffic"""
-        return False
 
-    def detect(self):
-        '''
-        Will try to contact a remote webservice and parse the returned output
-        to determine the IP address
-        '''
-        from random import choice
-        urls = (
-            ("http://checkip.eurodyndns.org/", _parser_checkip),
-            ("http://dynamic.zoneedit.com/checkip.html", _parser_checkip),
-            ("http://ipcheck.rehbein.net/", _parser_checkip),
-            ("http://ip.dnsexit.com/", _parser_plain),
-            ("http://freedns.afraid.org:8080/dynamic/check.php", _parser_freedns_afraid),
-            ("http://ipv4.icanhazip.com/", _parser_plain),
-            ("http://ip.arix.com/", _parser_plain),
-            ("http://ipv4.nsupdate.info/myip", _parser_plain),
-            ("http://jsonip.com/", _parser_jsonip),
-            ("http://checkip.dns.he.net/", _parser_checkip_dns_he_net),
-        )
-        theip = _get_ip_from_url(*choice(urls))
-        if theip is None:
-            log.info("Could not detect IP using webcheck! Offline?")
-        self.set_current_value(theip)
-        return theip
-
-
-class IPDetectorWebCheck6(IPDetector):
+class IPDetectorWebCheck6(IPDetectorWebCheckBase):
     """
     Class to detect an IPv6 address as seen by an online web site that
     returns parsable output containing the IP address.
@@ -117,33 +156,17 @@ class IPDetectorWebCheck6(IPDetector):
           will simply not detect the IP address.
     """
 
+    urls = (
+        ("http://ipv6.icanhazip.com/", 'plain'),
+        ("http://ipv6.nsupdate.info/myip", 'plain'),
+    )
+
     @staticmethod
     def names():
-        return ("webcheck6",)
-
-    def can_detect_offline(self):
-        """Returns false, as this detector generates http traffic"""
-        return False
-
-    def detect(self):
-        '''
-        Will try to contact a remote webservice and parse the returned output
-        to determine the IP address
-        '''
-        from random import choice
-        # we only know few webpages that provide this...
-        urls = (
-            ("http://ipv6.icanhazip.com/", _parser_plain),
-            ("http://ipv6.nsupdate.info/myip", _parser_plain),
-        )
-        theip = _get_ip_from_url(*choice(urls))
-        if theip is None:
-            log.info("Could not detect IP! Offline?")
-        self.set_current_value(theip)
-        return theip
+        return ("webcheck6", )
 
 
-class IPDetectorWebCheck46(IPDetector):
+class IPDetectorWebCheck46(IPDetectorWebCheckBase):
     """
     Class to variably detect either an IPv4 xor IPv6 address as seen by an
     online web site that returns parsable output containing the IP address.
@@ -164,28 +187,11 @@ class IPDetectorWebCheck46(IPDetector):
         with its own SOA record and a low TTL.
     """
 
+    urls = (
+        ("http://icanhazip.com/", 'plain'),
+        ("http://nsupdate.info/myip", 'plain'),
+    )
+
     @staticmethod
     def names():
         return ("webcheck46", "webcheck64")
-
-    def can_detect_offline(self):
-        """Returns false, as this detector generates http traffic
-        :return: False"""
-        return False
-
-    def detect(self):
-        '''
-        Will try to contact a remote webservice and parse the returned output
-        to determine the IP address
-        '''
-        from random import choice
-        # we only know few webpages that provide this...
-        urls = (
-            ("http://icanhazip.com/", _parser_plain),
-            ("http://nsupdate.info/myip", _parser_plain),
-        )
-        theip = _get_ip_from_url(*choice(urls))
-        if theip is None:
-            log.info("Could not detect IP! Offline?")
-        self.set_current_value(theip)
-        return theip

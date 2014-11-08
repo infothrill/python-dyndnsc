@@ -47,7 +47,7 @@ Updating an IPv4 record on nsupdate.info with web based ip autodetection:
               --updater-nsupdate-hostname test.nsupdate.info \
               --updater-nsupdate-userid   test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
-              --detector webcheck
+              --detector webcheck4,url:http://ipv4.nsupdate.info/myip,parser:plain
 
 Updating an IPv6 record on nsupdate.info with interface based ip detection:
 
@@ -57,7 +57,7 @@ Updating an IPv6 record on nsupdate.info with interface based ip detection:
               --updater-nsupdate-hostname test.nsupdate.info \
               --updater-nsupdate-userid test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
-              --detector=Iface,netmask:2001:470:1234:5678::/64,iface:eth0,family:INET6
+              --detector Iface,netmask:2001:470:1234:5678::/64,iface:eth0,family:INET6
 
 
 Passing parameters for IP detection
@@ -69,6 +69,7 @@ specifying them using comma/colon separated arguments:
 .. code-block:: bash
 
     $ dyndnsc --detector iface,iface:en0,family:INET
+    $ dyndnsc --detector webcheck4,url:http://ipv4.nsupdate.info/myip,parser:plain
 
 This is a bit unflexible an might be changed in future versions.
 
