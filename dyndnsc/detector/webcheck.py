@@ -131,7 +131,7 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
 
     urls = (
         ("http://checkip.eurodyndns.org/", 'checkip'),
-        ("http://dynamic.zoneedit.com/checkip.html", 'checkip'),
+        ("http://dynamic.zoneedit.com/checkip.html", 'plain'),
         ("http://ipcheck.rehbein.net/", 'checkip'),
         ("http://ip.dnsexit.com/", 'plain'),
         ("http://freedns.afraid.org:8080/dynamic/check.php", 'freedns_afraid'),
