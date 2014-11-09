@@ -53,7 +53,7 @@ class TestDummyUpdater(unittest.TestCase):
         NAME = "dummy"
         theip = "127.0.0.1"
         self.assertEqual(NAME, dyndnsc.updater.dummy.UpdateProtocolDummy.configuration_key())
-        updater = dyndnsc.updater.dummy.UpdateProtocolDummy()
+        updater = dyndnsc.updater.dummy.UpdateProtocolDummy(hostname='localhost')
         self.assertEqual(str, type(updater.updateUrl()))
         self.assertEqual(theip, updater.update(theip))
 

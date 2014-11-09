@@ -7,7 +7,8 @@ class UpdateProtocolDummy(UpdateProtocol):
 
     _updateurl = "http://localhost.nonexistant/nic/update"
 
-    def __init__(self, **kwargs):
+    def __init__(self, hostname, **kwargs):
+        self.hostname = hostname
         super(UpdateProtocolDummy, self).__init__()
 
     @staticmethod
