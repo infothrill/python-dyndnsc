@@ -12,6 +12,7 @@ _builtins = (
     ('dyndnsc.detector.command', 'IPDetector_Command'),
     ('dyndnsc.detector.dns', 'IPDetector_DNS'),
     ('dyndnsc.detector.iface', 'IPDetector_Iface'),
+    ('dyndnsc.detector.socket_ip', 'IPDetector_Socket'),
     ('dyndnsc.detector.rand', 'IPDetector_Random'),
     ('dyndnsc.detector.teredo', 'IPDetector_Teredo'),
     ('dyndnsc.detector.webcheck', 'IPDetectorWebCheck'),

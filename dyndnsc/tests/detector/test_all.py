@@ -129,6 +129,17 @@ class TestIndividualDetectors(unittest.TestCase):
         # unknown address family  must fail construction
         self.assertRaises(ValueError, iface.IPDetector_Iface, {'family': 'bla'})
 
+    def test_socket_detector(self):
+        import dyndnsc.detector.socket_ip as socket_ip
+        NAME = "socket"
+        self.assertTrue(NAME in socket_ip.IPDetector_Socket.names())
+        detector = socket_ip.IPDetector_Socket({'family': 'INET'})
+        self.assertFalse(detector.can_detect_offline())
+        self.assertEqual(None, detector.get_current_value())
+        self.assertTrue(type(detector.detect()) in (type(None), str))
+        # unknown address family  must fail construction
+        self.assertRaises(ValueError, socket_ip.IPDetector_Socket, {'family': 'bla'})
+
     def test_teredo_detector(self):
         import dyndnsc.detector.teredo as teredo
         NAME = "teredo"
