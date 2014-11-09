@@ -67,29 +67,31 @@ def detect_ip(kind):
     # No packet will really be sent since we are using UDP.
     af = socket.AF_INET if kind == IPV4 else socket.AF_INET6
     s = socket.socket(af, socket.SOCK_DGRAM)
-
-    if kind in [IPV6_PUBLIC, IPV6_TMP, ]:
-        # caller wants some specific kind of IPv6 address (not IPV6_ANY)
-        try:
-            if kind == IPV6_PUBLIC:
-                preference = socket.IPV6_PREFER_SRC_PUBLIC
-            elif kind == IPV6_TMP:
-                preference = socket.IPV6_PREFER_SRC_TMP
-            s.setsockopt(socket.IPPROTO_IPV6,
-                         socket.IPV6_ADDR_PREFERENCES, preference)
-        except socket.error as e:
-            if e.errno == errno.ENOPROTOOPT:
-                raise GetIpException("Kernel doesn't support IPv6 address preference")
-            else:
-                raise GetIpException("Unable to set IPv6 address preference: %s", e)
-
     try:
-        outside_ip = OUTSIDE_IPV4 if kind == IPV4 else OUTSIDE_IPV6
-        s.connect((outside_ip, 9))
-    except (socket.error, socket.gaierror) as e:
-        raise GetIpException(str(e))
+        if kind in [IPV6_PUBLIC, IPV6_TMP, ]:
+            # caller wants some specific kind of IPv6 address (not IPV6_ANY)
+            try:
+                if kind == IPV6_PUBLIC:
+                    preference = socket.IPV6_PREFER_SRC_PUBLIC
+                elif kind == IPV6_TMP:
+                    preference = socket.IPV6_PREFER_SRC_TMP
+                s.setsockopt(socket.IPPROTO_IPV6,
+                             socket.IPV6_ADDR_PREFERENCES, preference)
+            except socket.error as e:
+                if e.errno == errno.ENOPROTOOPT:
+                    raise GetIpException("Kernel doesn't support IPv6 address preference")
+                else:
+                    raise GetIpException("Unable to set IPv6 address preference: %s", e)
 
-    ip = s.getsockname()[0]
+        try:
+            outside_ip = OUTSIDE_IPV4 if kind == IPV4 else OUTSIDE_IPV6
+            s.connect((outside_ip, 9))
+        except (socket.error, socket.gaierror) as e:
+            raise GetIpException(str(e))
+
+        ip = s.getsockname()[0]
+    finally:
+        s.close()
     return ip
 
 

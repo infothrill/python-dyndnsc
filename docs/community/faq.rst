@@ -33,4 +33,4 @@ command:
 dyndnsc .. --detector=command,command:'ip addr | grep inet6 | grep -v deprecated | grep -v temporary | grep global | perl -pe '"'s/.*?inet6 ([0-9a-f:]+[0-9a-f:]*).*/\1/'"
 
 This command gets all ipv6 addresses, ignores all deprecated, temporary
-and non global adresses and hopes that the rest is a single valid v6 address.
+and non global addresses and hopes that the rest is a single valid v6 address.

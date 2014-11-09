@@ -4,7 +4,7 @@ from .base import IPDetector
 
 
 class IPDetector_Command(IPDetector):
-    """IPDetector to detect IP adress executing shell command/script"""
+    """IPDetector to detect IP address executing shell command/script"""
     def __init__(self, options):
         """
         Constructor
