@@ -137,7 +137,7 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
         ("http://ip.dnsexit.com/", 'plain'),
         ("http://freedns.afraid.org:8080/dynamic/check.php", 'freedns_afraid'),
         ("http://ipv4.icanhazip.com/", 'plain'),
-        ("http://ip.arix.com/", 'plain'),
+        # ("http://ip.arix.com/", 'plain'), # stopped working
         ("http://ipv4.nsupdate.info/myip", 'plain'),
         ("http://jsonip.com/", 'jsonip'),
         ("http://checkip.dns.he.net/", 'checkip_dns_he_net'),
