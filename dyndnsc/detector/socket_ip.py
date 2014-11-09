@@ -51,7 +51,7 @@ class IPDetector_Socket(IPDetector):
     def detect(self):
         if self.opts['family'] == 'INET6':
             kind = IPV6_PUBLIC
-        else: # 'INET':
+        else:  # 'INET':
             kind = IPV4
         theip = None
         try:
