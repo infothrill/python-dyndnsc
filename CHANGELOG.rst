@@ -7,7 +7,10 @@ Release history
 +++++++++++++++++++
 
 - changed (**INCOMPATIBLE**): command line arguments have been drastically adapted
-  to fit a lot of different protocols and options
+  to fit different protocols and options
+- improved: for python < 3.2, install more dependencies to get SNI support
+- improved: it is now possible to force DNS resolution to stay within IPv4 (A)
+  or ipv6 (AAAA) via the --dns command line option
 - improved: it is now possible to specify arbitrary service URLs for the
   different updater protocols. Fixes `#4 <https://github.com/infothrill/python-dyndnsc/issues/4>`_
 - fixed: naming conventions
