@@ -41,7 +41,7 @@ class TestIndividualDetectors(unittest.TestCase):
         import dyndnsc.detector.dns as ns
         NAME = "dns"
         self.assertTrue(NAME in ns.IPDetector_DNS.names())
-        detector = ns.IPDetector_DNS("localhost")
+        detector = ns.IPDetector_DNS(hostname_default="localhost")
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))

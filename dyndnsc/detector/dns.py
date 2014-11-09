@@ -44,8 +44,39 @@ def resolve(hostname, family=None):
 
 class IPDetector_DNS(IPDetector):
     """Class to resolve a hostname using socket.getaddrinfo()"""
-    def __init__(self, hostname):
-        self._hostname = hostname
+
+    def __init__(self, options=None, hostname_default=None):
+        """
+        Constructor
+        @param options: dictionary
+        @param hostname_default: a default hostname to use (if not given in options)
+
+        available options:
+
+        hostname: host name to query from DNS
+        family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')
+        """
+        if options is None:
+            options = {}
+        # default options:
+        self.opts = {
+            'hostname': hostname_default,
+            'family': "",
+        }
+        for k in options.keys():
+            log.debug("%s explicitly got option: %s -> %s",
+                      self.__class__.__name__, k, options[k])
+            self.opts[k] = options[k]
+
+        # ensure a hostname is given:
+        if not self.opts['hostname']:
+            raise ValueError("You need to give a hostname to query from DNS!")
+
+        # ensure address family is understood:
+        if self.opts['family'] not in ('', 'INET', 'INET6'):
+            raise ValueError("Unsupported address family '%s' specified!" %
+                             self.opts['family'])
+
         super(IPDetector_DNS, self).__init__()
 
     @staticmethod
@@ -67,7 +98,13 @@ class IPDetector_DNS(IPDetector):
 
         :return: ip address
         '''
-        ips = resolve(self._hostname)
+        if self.opts['family'] == 'INET6':
+            family = AF_INET6
+        elif self.opts['family'] == 'INET':
+            family = AF_INET
+        else:
+            family = None
+        ips = resolve(self.opts['hostname'], family)
         if len(ips) > 0:
             theip = ips[0]
         else:

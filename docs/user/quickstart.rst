@@ -37,7 +37,8 @@ Updating an IPv6 adress when using `Miredo <http://www.remlab.net/miredo/>`_:
               --updater-nsupdate-hostname test.nsupdate.info \
               --updater-nsupdate-userid   test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
-              --detector teredo
+              --detector teredo \
+              --dns dns,family:INET6
 
 Updating an IPv4 record on nsupdate.info with web based ip autodetection:
 
@@ -47,7 +48,8 @@ Updating an IPv4 record on nsupdate.info with web based ip autodetection:
               --updater-nsupdate-hostname test.nsupdate.info \
               --updater-nsupdate-userid   test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
-              --detector webcheck
+              --detector webcheck \
+              --dns dns,family:INET
 
 Updating an IPv6 record on nsupdate.info with interface based ip detection:
 
@@ -57,7 +59,8 @@ Updating an IPv6 record on nsupdate.info with interface based ip detection:
               --updater-nsupdate-hostname test.nsupdate.info \
               --updater-nsupdate-userid test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
-              --detector=Iface,netmask:2001:470:1234:5678::/64,iface:eth0,family:INET6
+              --detector=Iface,netmask:2001:470:1234:5678::/64,iface:eth0,family:INET6 \
+              --dns dns,family:INET6
 
 
 Passing parameters for IP detection
