@@ -57,7 +57,6 @@ def patch_install_requires(requires):
         to_add.append("pyOpenSSL")
         to_add.append("ndg-httpsclient")
         to_add.append("pyasn1")
-    to_add.append("netifaces>=0.10.4")  # hm, this still breaks on some builds
     if sys.version_info < (2, 7):  # continue support for python 2.6
         to_add.append("importlib")
     return requires + to_add
@@ -88,7 +87,7 @@ setup(
     long_description=(open('README.rst', 'r').read() + '\n\n' +
                       open('CHANGELOG.rst', 'r').read()),
     url='https://github.com/infothrill/python-dyndnsc',
-    install_requires=patch_install_requires(['requests']),
+    install_requires=patch_install_requires(['requests', 'netifaces>=0.10.4']),
     entry_points=("""
         [console_scripts]
         dyndnsc=dyndnsc.cli:main
