@@ -59,7 +59,7 @@ Updating an IPv6 record on nsupdate.info with interface based ip detection:
               --updater-nsupdate-hostname test.nsupdate.info \
               --updater-nsupdate-userid test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
-              --detector Iface,netmask:2001:470:1234:5678::/64,iface:eth0,family:INET6 \
+              --detector socket,family:INET6 \
               --dns dns,family:INET6
 
 
