@@ -42,9 +42,6 @@ def main():
     parser.add_argument("--detector", "--method", dest="detector",
                         help="method for detecting your IP (default webcheck)",
                         default='webcheck')
-    parser.add_argument("--dns", dest="dns",
-                        help="method for querying your IP from dns (default dns, ip v4 or v6)",
-                        default='dns')
     parser.add_argument("--loop", dest="loop",
                         help="loop forever (default is to update once)",
                         action="store_true", default=False)
@@ -85,7 +82,6 @@ def main():
 
     config = {}
     config['detector'] = args.detector
-    config['dns'] = args.dns
     config['sleeptime'] = int(args.sleeptime)
     config['updaters'] = updaters
 
