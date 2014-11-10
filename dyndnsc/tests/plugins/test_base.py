@@ -32,7 +32,7 @@ class TestPluginBase(unittest.TestCase):
             'dest': plugin.enableOpt,
             'default': None,
             'help': "Enable plugin %s: %s [%s]" % ('Plugin', plugin.help(),
-                                                   "DYNDNC_WITH_PLUGIN")
+                                                   "DYNDNSC_WITH_PLUGIN")
         }
 
         plugin.options(argparser, {})

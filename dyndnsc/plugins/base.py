@@ -6,7 +6,7 @@ import logging
 
 log = logging.getLogger(__name__)
 
-ENV_PREFIX = "DYNDNC_WITH_"
+ENV_PREFIX = "DYNDNSC_WITH_"
 
 
 class Plugin(object):
