@@ -20,7 +20,7 @@ def resolve(hostname, family=AF_UNSPEC):
     address family is specified, only IPv4 and IPv6 addresses are returned. If
     multiple IP addresses are found, all are returned.
 
-    :param family: AF_INET or AF_INET6 or 0 (ANY, default)
+    :param family: AF_INET or AF_INET6 or AF_UNSPEC (default)
     :return: tuple of unique IP addresses
     '''
     af_ok = (AF_INET, AF_INET6)
