@@ -30,7 +30,9 @@ def resolve(hostname, family=AF_UNSPEC):
     try:
         addrinfo = socket.getaddrinfo(hostname, None, family)
     except socket.gaierror as exc:
-        log.debug("socket.getaddrinfo() raised an exception", exc_info=exc)
+        # EAI_NODATA and EAI_NONAME are expected if this name is not (yet) present in DNS
+        if exc.errno not in (socket.EAI_NODATA, socket.EAI_NONAME):
+            log.debug("socket.getaddrinfo() raised an exception", exc_info=exc)
     else:
         if family == AF_UNSPEC:
             ips = tuple(set(
