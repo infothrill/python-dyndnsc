@@ -104,7 +104,7 @@ class IPDetector_DNS(IPDetector):
         elif self.opts['family'] == 'INET':
             family = AF_INET
         else:
-            family = None
+            family = AF_UNSPEC
         ips = resolve(self.opts['hostname'], family)
         if len(ips) > 0:
             theip = ips[0]
