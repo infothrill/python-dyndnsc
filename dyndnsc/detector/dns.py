@@ -8,32 +8,33 @@ from .base import IPDetector
 log = logging.getLogger(__name__)
 
 # expose these constants for users of this module:
+AF_UNSPEC = socket.AF_UNSPEC
 AF_INET = socket.AF_INET
 AF_INET6 = socket.AF_INET6
 
 
-def resolve(hostname, family=None):
+def resolve(hostname, family=AF_UNSPEC):
     '''
     Resolves the hostname to one or more IP addresses through the operating
     system. Resolution is carried out for the given address family. If no
     address family is specified, only IPv4 and IPv6 addresses are returned. If
     multiple IP addresses are found, all are returned.
 
+    :param family: AF_INET or AF_INET6 or AF_UNSPEC (default)
     :return: tuple of unique IP addresses
     '''
     af_ok = (AF_INET, AF_INET6)
-    if family is not None and family not in af_ok:
-        raise ValueError("Invalid AF_ '%s'" % family)
+    if family != AF_UNSPEC and family not in af_ok:
+        raise ValueError("Invalid family '%s'" % family)
     ips = ()
     try:
-        if family is None:
-            addrinfo = socket.getaddrinfo(hostname, None)
-        else:
-            addrinfo = socket.getaddrinfo(hostname, None, family)
+        addrinfo = socket.getaddrinfo(hostname, None, family)
     except socket.gaierror as exc:
-        log.debug("socket.getaddrinfo() raised an exception", exc_info=exc)
+        # EAI_NODATA and EAI_NONAME are expected if this name is not (yet) present in DNS
+        if exc.errno not in (socket.EAI_NODATA, socket.EAI_NONAME):
+            log.debug("socket.getaddrinfo() raised an exception", exc_info=exc)
     else:
-        if family is None:
+        if family == AF_UNSPEC:
             ips = tuple(set(
                         [item[4][0] for item in addrinfo if item[0] in af_ok]
                         ))
@@ -103,7 +104,7 @@ class IPDetector_DNS(IPDetector):
         elif self.opts['family'] == 'INET':
             family = AF_INET
         else:
-            family = None
+            family = AF_UNSPEC
         ips = resolve(self.opts['hostname'], family)
         if len(ips) > 0:
             theip = ips[0]

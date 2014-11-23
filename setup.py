@@ -9,9 +9,20 @@ try:
 except ImportError:
     from distutils.core import setup
 
-v = open(os.path.join(os.path.dirname(__file__), 'dyndnsc', '__init__.py'))
-VERSION = re.compile(r".*__version__ = '(.*?)'", re.S).match(v.read()).group(1)
-v.close()
+
+BASEDIR = os.path.dirname(__file__)
+
+with open(os.path.join(BASEDIR, 'dyndnsc', '__init__.py'), 'r') as f:
+    PACKAGE_INIT = f.read()
+
+VERSION = re.compile(r".*__version__ = '(.*?)'", re.S).match(PACKAGE_INIT).group(1)
+
+with open(os.path.join(BASEDIR, 'README.rst'), 'r') as f:
+    README = f.read()
+
+with open(os.path.join(BASEDIR, 'CHANGELOG.rst'), 'r') as f:
+    CHANGELOG = f.read()
+
 
 CLASSIFIERS = (
     'Development Status :: 3 - Alpha',
@@ -84,8 +95,7 @@ setup(
     license='MIT License',
     description='dynamic dns (dyndns) update client that tries to be '
                 'extensible, re-usable and efficient on network resources',
-    long_description=(open('README.rst', 'r').read() + '\n\n' +
-                      open('CHANGELOG.rst', 'r').read()),
+    long_description=README + '\n\n' + CHANGELOG,
     url='https://github.com/infothrill/python-dyndnsc',
     install_requires=patch_install_requires(['requests', 'netifaces>=0.10.4']),
     entry_points=("""
