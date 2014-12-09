@@ -72,11 +72,10 @@ def patch_install_requires(requires):
         to_add.append("importlib")
     return requires + to_add
 
-if sys.version_info >= (3, 0):
-    pass
-else:
+if sys.version_info < (2, 7, 4):
     # work around python issue http://bugs.python.org/issue15881
     # affects only python2 when using multiprocessing and if nose is installed
+    # was fixed in Python 2.7.4
     import multiprocessing
 
 setup(
