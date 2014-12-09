@@ -17,20 +17,14 @@ class IPDetector_Teredo(IPDetector_Iface):
 
     Inherits IPDetector_Iface and sets default options only
     """
-    def __init__(self, options=None):
+    def __init__(self, *args, **kwargs):
         """
         Initializer
-        :param options: dictionary
         """
-        if options is None:
-            options = {}
-        self.opts = {'iface': 'tun0', 'family': "INET6",
-                     "netmask": "2001:0000::/32"}
-        for k in options.keys():
-            log.debug("%s explicitly got option: %s -> %s",
-                      self.__class__.__name__, k, options[k])
-            self.opts[k] = options[k]
-        super(IPDetector_Teredo, self).__init__(self.opts)
+        self.opts_iface = kwargs.get('iface', 'tun0')
+        self.opts_family = kwargs.get('family', 'INET6')
+        self.opts_netmask = kwargs.get('netmask', '2001:0000::/32')
+        super(IPDetector_Teredo, self).__init__(**kwargs)
 
     @staticmethod
     def names():

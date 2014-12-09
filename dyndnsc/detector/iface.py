@@ -29,44 +29,35 @@ class IPDetector_Iface(IPDetector):
     """
     IPDetector to detect any ip address of a local interface.
     """
-    def __init__(self, options=None):
+    def __init__(self, *args, **kwargs):
         """
         Constructor
         @param options: dictionary
 
-        available options:
+        available kwargs:
 
         iface: name of interface
         family: IP address family (default: INET, possible: INET6)
         netmask: netmask to be matched if multiple IPs on interface (default:
                 none (match all)", example for teredo: "2001:0000::/32")
         """
-        if options is None:
-            options = {}
-        # default options:
-        self.opts = {
-            'iface': _default_interface(),
-            'family': "INET",
-            'netmask': None
-        }
-        for k in options.keys():
-            log.debug("%s explicitly got option: %s -> %s",
-                      self.__class__.__name__, k, options[k])
-            self.opts[k] = options[k]
+        self.opts_iface = kwargs.get('iface', _default_interface())
+        self.opts_family = kwargs.get('family', 'INET')
+        self.opts_netmask = kwargs.get('netmask')
 
         # ensure an interface name was specified:
-        if self.opts['iface'] is None:
+        if self.opts_iface is None:
             raise ValueError("No network interface specified!")
         # ensure address family is understood:
-        if self.opts['family'] not in ('INET', 'INET6'):
+        if self.opts_family not in ('INET', 'INET6'):
             raise ValueError("Unsupported address family '%s' specified!" %
-                             self.opts['family'])
+                             self.opts_family)
         # parse/validate given netmask:
-        if self.opts['netmask'] is not None:  # if a netmask was given
+        if self.opts_netmask is not None:  # if a netmask was given
             # This might fail here, but that's OK since we must avoid sending
             # an IP to the outside world that should be hidden (because in a
             # "private" netmask)
-            self.netmask = ipnetwork(self.opts['netmask'])
+            self.netmask = ipnetwork(self.opts_netmask)
         else:
             self.netmask = None
 
@@ -84,13 +75,13 @@ class IPDetector_Iface(IPDetector):
         """uses the netifaces module to detect ifconfig information"""
         theip = None
         try:
-            if self.opts['family'] == 'INET6':
-                addrlist = netifaces.ifaddresses(self.opts['iface'])[netifaces.AF_INET6]
+            if self.opts_family == 'INET6':
+                addrlist = netifaces.ifaddresses(self.opts_iface)[netifaces.AF_INET6]
             else:
-                addrlist = netifaces.ifaddresses(self.opts['iface'])[netifaces.AF_INET]
+                addrlist = netifaces.ifaddresses(self.opts_iface)[netifaces.AF_INET]
         except ValueError as exc:
             log.error("netifaces choked while trying to get network interface"
-                      " information for interface '%s'", self.opts['iface'],
+                      " information for interface '%s'", self.opts_iface,
                       exc_info=exc)
         else:  # now we have a list of addresses as returned by netifaces
             for pair in addrlist:
@@ -98,7 +89,7 @@ class IPDetector_Iface(IPDetector):
                     detip = ipaddress(pair['addr'])
                 except (TypeError, ValueError) as exc:
                     log.debug("Found invalid IP '%s' on interface '%s'!?",
-                              pair['addr'], self.opts['iface'], exc_info=exc)
+                              pair['addr'], self.opts_iface, exc_info=exc)
                     continue
                 if self.netmask is not None:
                     if detip in self.netmask:

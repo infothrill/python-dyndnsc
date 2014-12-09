@@ -216,7 +216,7 @@ def getDynDnsClientForConfig(config, plugins=None):
                     detector_name, exc_info=exc)
         return None
     try:
-        dyndnsclient.set_dns_detector(klass(detector_opts, hostname_default=config['updaters'][0].hostname))
+        dyndnsclient.set_dns_detector(klass(hostname_default=config['updaters'][0].hostname, **detector_opts))
     except KeyError as exc:
         log.warning("Invalid dns detector parameters: '%s'",
                     detector_opts, exc_info=exc)
@@ -230,7 +230,7 @@ def getDynDnsClientForConfig(config, plugins=None):
                     detector_name, exc_info=exc)
         return None
     try:
-        dyndnsclient.set_detector(klass(detector_opts))
+        dyndnsclient.set_detector(klass(**detector_opts))
     except KeyError as exc:
         log.warning("Invalid change detector parameters: '%s'",
                     detector_opts, exc_info=exc)

@@ -12,30 +12,20 @@ class IPDetector_Socket(IPDetector):
     """
     IPDetector to detect IPs used by the system to communicate with outside world.
     """
-    def __init__(self, options=None):
+    def __init__(self, *args, **kwargs):
         """
         Constructor
         @param options: dictionary
 
-        available options:
+        available kwargs:
 
         family: IP address family (default: INET, possible: INET6)
         """
-        if options is None:
-            options = {}
-        # default options:
-        self.opts = {
-            'family': 'INET',
-        }
-        for k in options.keys():
-            log.debug("%s explicitly got option: %s -> %s",
-                      self.__class__.__name__, k, options[k])
-            self.opts[k] = options[k]
-
+        self.opts_family = kwargs.get('family', 'INET')
         # ensure address family is understood:
-        if self.opts['family'] not in ('INET', 'INET6'):
+        if self.opts_family not in ('INET', 'INET6'):
             raise ValueError("Unsupported address family '%s' specified!" %
-                             self.opts['family'])
+                             self.opts_family)
 
         super(IPDetector_Socket, self).__init__()
 
@@ -49,7 +39,7 @@ class IPDetector_Socket(IPDetector):
         return False
 
     def detect(self):
-        if self.opts['family'] == 'INET6':
+        if self.opts_family == 'INET6':
             kind = IPV6_PUBLIC
         else:  # 'INET':
             kind = IPV4

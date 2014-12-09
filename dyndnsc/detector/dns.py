@@ -30,7 +30,8 @@ def resolve(hostname, family=AF_UNSPEC):
     try:
         addrinfo = socket.getaddrinfo(hostname, None, family)
     except socket.gaierror as exc:
-        # EAI_NODATA and EAI_NONAME are expected if this name is not (yet) present in DNS
+        # EAI_NODATA and EAI_NONAME are expected if this name is not (yet)
+        # present in DNS
         if exc.errno not in (socket.EAI_NODATA, socket.EAI_NONAME):
             log.debug("socket.getaddrinfo() raised an exception", exc_info=exc)
     else:
@@ -44,39 +45,34 @@ def resolve(hostname, family=AF_UNSPEC):
 
 
 class IPDetector_DNS(IPDetector):
+
     """Class to resolve a hostname using socket.getaddrinfo()"""
 
-    def __init__(self, options=None, hostname_default=None):
-        """
-        Constructor
-        @param options: dictionary
+    def __init__(self, hostname_default=None, *args, **kwargs):
+        '''
+        Initializer
+
         @param hostname_default: a default hostname to use (if not given in options)
 
-        available options:
+        available kwargs:
 
         hostname: host name to query from DNS
         family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')
-        """
-        if options is None:
-            options = {}
-        # default options:
-        self.opts = {
-            'hostname': hostname_default,
-            'family': "",
-        }
-        for k in options.keys():
-            log.debug("%s explicitly got option: %s -> %s",
-                      self.__class__.__name__, k, options[k])
-            self.opts[k] = options[k]
+        '''
+        self.opts_hostname = hostname_default or kwargs.get('hostname')
+        self.opts_family = kwargs.get('family')
 
-        # ensure a hostname is given:
-        if not self.opts['hostname']:
-            raise ValueError("You need to give a hostname to query from DNS!")
+        if self.opts_hostname is None:
+            raise ValueError(
+                "IPDetector_DNS(): a hostname to be queried in DNS must be specified!")
 
         # ensure address family is understood:
-        if self.opts['family'] not in ('', 'INET', 'INET6'):
-            raise ValueError("Unsupported address family '%s' specified!" %
-                             self.opts['family'])
+        af_ok = {None: AF_UNSPEC, 'INET': AF_INET, 'INET6': AF_INET6}
+        if self.opts_family not in af_ok:
+            raise ValueError("IPDetector_DNS(): Unsupported address family '%s' specified, please use one of %r" %
+                             (self.opts_family, af_ok.keys()))
+        else:
+            self.opts_family = af_ok[self.opts_family]
 
         super(IPDetector_DNS, self).__init__()
 
@@ -99,13 +95,7 @@ class IPDetector_DNS(IPDetector):
 
         :return: ip address
         '''
-        if self.opts['family'] == 'INET6':
-            family = AF_INET6
-        elif self.opts['family'] == 'INET':
-            family = AF_INET
-        else:
-            family = AF_UNSPEC
-        ips = resolve(self.opts['hostname'], family)
+        ips = resolve(self.opts_hostname, self.opts_family)
         if len(ips) > 0:
             theip = ips[0]
         else:

@@ -74,27 +74,18 @@ class IPDetectorWebCheckBase(IPDetector):
 
     urls = None  # override in child class
 
-    def __init__(self, options=None):
+    def __init__(self, *args, **kwargs):
         """
         Constructor
         @param options: dictionary
 
-        available options:
+        available kwargs:
 
         url: url of web site to use for IP detection
         parser: parser to use to parse IP from web site response
         """
-        if options is None:
-            options = {}
-        # default options:
-        self.opts = {
-            'url': None,
-            'parser': None,
-        }
-        for k in options.keys():
-            log.debug("%s explicitly got option: %s -> %s",
-                      self.__class__.__name__, k, options[k])
-            self.opts[k] = options[k]
+        self.opts_url = kwargs.get('url', None)
+        self.opts_parser = kwargs.get('parser', None)
 
         super(IPDetectorWebCheckBase, self).__init__()
 
@@ -107,9 +98,9 @@ class IPDetectorWebCheckBase(IPDetector):
         Will try to contact a remote webservice and parse the returned output
         to determine the IP address
         """
-        if self.opts['url'] and self.opts['parser']:
-            url = self.opts['url']
-            parser = self.opts['parser']
+        if self.opts_url and self.opts_parser:
+            url = self.opts_url
+            parser = self.opts_parser
         else:
             from random import choice
             url, parser = choice(self.urls)

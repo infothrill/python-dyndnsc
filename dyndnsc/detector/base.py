@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import warnings
 
 from ..common.subject import Subject
 

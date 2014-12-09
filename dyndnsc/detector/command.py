@@ -5,7 +5,7 @@ from .base import IPDetector
 
 class IPDetector_Command(IPDetector):
     """IPDetector to detect IP address executing shell command/script"""
-    def __init__(self, options):
+    def __init__(self, *args, **kwargs):
         """
         Constructor
         @param options: dictionary
@@ -14,10 +14,8 @@ class IPDetector_Command(IPDetector):
 
         command: shell command that writes IP address to STDOUT
         """
-        self.opts = {'command': ''}
-        for k in options.keys():
-            self.opts[k] = options[k]
-        super(IPDetector_Command, self).__init__()
+        self.opts_command = kwargs.get('command', '')
+        super(IPDetector_Command, self).__init__(**kwargs)
 
     @staticmethod
     def names():
@@ -39,7 +37,7 @@ class IPDetector_Command(IPDetector):
         else:
             import commands as subprocess
         try:
-            theip = subprocess.getoutput(self.opts['command'])
+            theip = subprocess.getoutput(self.opts_command)
         except:
             theip = None
         self.set_current_value(theip)
