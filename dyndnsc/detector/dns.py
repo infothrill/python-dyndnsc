@@ -14,7 +14,7 @@ AF_INET6 = socket.AF_INET6
 
 
 def resolve(hostname, family=AF_UNSPEC):
-    '''
+    """
     Resolves the hostname to one or more IP addresses through the operating
     system. Resolution is carried out for the given address family. If no
     address family is specified, only IPv4 and IPv6 addresses are returned. If
@@ -22,7 +22,7 @@ def resolve(hostname, family=AF_UNSPEC):
 
     :param family: AF_INET or AF_INET6 or AF_UNSPEC (default)
     :return: tuple of unique IP addresses
-    '''
+    """
     af_ok = (AF_INET, AF_INET6)
     if family != AF_UNSPEC and family not in af_ok:
         raise ValueError("Invalid family '%s'" % family)
@@ -49,7 +49,7 @@ class IPDetector_DNS(IPDetector):
     """Class to resolve a hostname using socket.getaddrinfo()"""
 
     def __init__(self, hostname_default=None, *args, **kwargs):
-        '''
+        """
         Initializer
 
         @param hostname_default: a default hostname to use (if not given in options)
@@ -58,7 +58,7 @@ class IPDetector_DNS(IPDetector):
 
         hostname: host name to query from DNS
         family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')
-        '''
+        """
         self.opts_hostname = hostname_default or kwargs.get('hostname')
         self.opts_family = kwargs.get('family')
 
@@ -88,13 +88,13 @@ class IPDetector_DNS(IPDetector):
         return False
 
     def detect(self):
-        '''
+        """
         Resolves the hostname to an IP address through the operating system.
         Both ipv4 and ipv6 resolution is carried out. If multiple IP addresses
         are found, the first one is returned.
 
         :return: ip address
-        '''
+        """
         ips = resolve(self.opts_hostname, self.opts_family)
         if len(ips) > 0:
             theip = ips[0]

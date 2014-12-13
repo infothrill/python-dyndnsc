@@ -29,10 +29,10 @@ class UpdateProtocol(Subject):
 
     @staticmethod
     def configuration_key():
-        '''
+        """
         This method must be implemented by all updater subclasses. Returns a
         human readable string identifying the protocol.
-        '''
+        """
         return "none_base_class"
 
     @classmethod

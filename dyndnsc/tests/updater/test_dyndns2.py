@@ -17,9 +17,9 @@ def nicupdate():
 
 
 class Dyndns2App(Bottle):
-    '''
+    """
     A minimal http server that resembles an actual dyndns service
-    '''
+    """
     def __init__(self, host='localhost', port=8000):
         super(Dyndns2App, self).__init__()
         self.host = host

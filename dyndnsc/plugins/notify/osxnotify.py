@@ -46,9 +46,9 @@ class OSXNotification(object):
 
 
 class OSXNotifyPlugin(Plugin):
-    '''
+    """
     Send desktop notifications with OS X notification center
-    '''
+    """
     name = 'osxnotify'
     can_configure = True
 

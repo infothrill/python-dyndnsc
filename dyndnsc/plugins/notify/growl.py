@@ -20,9 +20,9 @@ class Growl(object):
 
 
 class GrowlPlugin(Plugin):
-    '''
+    """
     Send desktop notifications with Growl
-    '''
+    """
     name = 'growl'
     can_configure = True
 

@@ -23,10 +23,10 @@ AfraidDynDNSRecord = namedtuple('AfraidDynDNSRecord', 'hostname, ip, update_url'
 
 
 class AfraidCredentials(object):
-    '''
+    """
     Minimal container for userid, password and sha, which will be lazily
     computed, if not provided at initialization.
-    '''
+    """
     def __init__(self, userid, password, sha=None):
         self._userid = userid
         self._password = password

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import sys
 from logging import getLogger
 
 from .base import UpdateProtocol
@@ -16,11 +15,11 @@ class UpdateProtocolDyndns2(UpdateProtocol):
 
     def __init__(self, hostname, userid, password,
                  service_url="https://members.dyndns.org/nic/update", **kwargs):
-        '''
+        """
         :param hostname: the fully qualified hostname to be managed
         :param userid: the userid for identification
         :param password: the password for authentication
-        '''
+        """
         self.hostname = hostname
         self.userid = userid
         self.password = password

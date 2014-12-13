@@ -24,10 +24,10 @@ log = logging.getLogger(__name__)
 class DynDnsClient(object):
     """This class represents a client to the dynamic dns service."""
     def __init__(self, sleeptime=300):
-        '''
+        """
         Initializer
         :param sleeptime: amount of time in seconds that can elapse between checks
-        '''
+        """
         self.ipchangedetection_sleep = sleeptime  # check every n seconds if our IP changed
         self.forceipchangedetection_sleep = sleeptime * 5  # force check every n seconds if our IP changed
         self.lastcheck = None
@@ -40,22 +40,22 @@ class DynDnsClient(object):
         log.debug("DynDnsClient instantiated")
 
     def add_updater(self, updater):
-        '''
+        """
         Add an updater to the client
         :param updater: an instance of type `dyndnsc.updater.UpdateProtocol`
-        '''
+        """
         self.updaters.append(updater)
 
     def set_dns_detector(self, detector):
-        '''
+        """
         :param detector: an instance of `dyndnsc.detector.base.IPDetector`
-        '''
+        """
         self.dns = detector
 
     def set_detector(self, detector):
-        '''
+        """
         :param detector: an instance of `dyndnsc.detector.base.IPDetector`
-        '''
+        """
         self.detector = detector
 
     def sync(self):
@@ -137,10 +137,10 @@ class DynDnsClient(object):
         return elapsed >= self.forceipchangedetection_sleep
 
     def check(self):
-        '''
+        """
         If the sleep time has elapsed, this method will see if the attached
         detector has had a state change and call sync() accordingly.
-        '''
+        """
         if self.needs_check():
             if self.has_state_changed():
                 log.debug("state changed, syncing...")

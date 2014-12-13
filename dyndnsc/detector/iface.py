@@ -11,10 +11,10 @@ log = logging.getLogger(__name__)
 
 
 def _default_interface():
-    '''
+    """
     Convenience function to return the default interface name for common
     operating systems.
-    '''
+    """
     import platform
     system = platform.system()
     if system == 'Linux':

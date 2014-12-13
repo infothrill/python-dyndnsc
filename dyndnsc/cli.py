@@ -12,10 +12,10 @@ from dyndnsc.daemon import daemonize
 
 
 def main():
-    '''
+    """
     The main. Initializes the stack, parses command line arguments, and fires
     requested logic.
-    '''
+    """
     from dyndnsc.plugins.manager import DefaultPluginManager
     plugins = DefaultPluginManager()
     plugins.load_plugins()

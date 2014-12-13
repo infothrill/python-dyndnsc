@@ -11,9 +11,9 @@ from bottle import Bottle, run, response, request
 
 
 class AfraidApp(Bottle):
-    '''
+    """
     A minimal http server that resembles an actual freedns.afraid.org service
-    '''
+    """
     def __init__(self, host='localhost', port=8000):
         super(AfraidApp, self).__init__()
         self.host = host
