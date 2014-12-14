@@ -90,8 +90,11 @@ class IPDetector_DNS(IPDetector):
     def detect(self):
         """
         Resolves the hostname to an IP address through the operating system.
-        Both ipv4 and ipv6 resolution is carried out. If multiple IP addresses
-        are found, the first one is returned.
+
+        Depending on the 'family' option, either ipv4 or ipv6 resolution is
+        carried out.
+
+        If multiple IP addresses are found, the first one is returned.
 
         :return: ip address
         """
