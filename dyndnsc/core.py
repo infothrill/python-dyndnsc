@@ -2,7 +2,6 @@
 
 import time
 import logging
-import warnings
 
 
 from .plugins.manager import NullPluginManager
@@ -208,20 +207,7 @@ def getDynDnsClientForConfig(config, plugins=None):
 
     from .detector import manager
 
-    detector_name, detector_opts = parse_detector_opts(config['dns'])
-    try:
-        klass = manager.get_detector_class(detector_name)
-    except KeyError as exc:
-        log.warning("Invalid dns detector configuration: '%s'",
-                    detector_name, exc_info=exc)
-        return None
-    try:
-        dyndnsclient.set_dns_detector(klass(hostname_default=config['updaters'][0].hostname, **detector_opts))
-    except KeyError as exc:
-        log.warning("Invalid dns detector parameters: '%s'",
-                    detector_opts, exc_info=exc)
-        return None
-
+    # find class and instantiate the detector:
     detector_name, detector_opts = parse_detector_opts(config['detector'])
     try:
         klass = manager.get_detector_class(detector_name)
@@ -229,11 +215,14 @@ def getDynDnsClientForConfig(config, plugins=None):
         log.warning("Invalid change detector configuration: '%s'",
                     detector_name, exc_info=exc)
         return None
-    try:
-        dyndnsclient.set_detector(klass(**detector_opts))
-    except KeyError as exc:
-        log.warning("Invalid change detector parameters: '%s'",
-                    detector_opts, exc_info=exc)
-        return None
+    thedetector = klass(**detector_opts)
+    dyndnsclient.set_detector(thedetector)
+
+    log.debug("Doing IP detecting using address family %r", thedetector.af())
+
+    # add the DNS detector with the same address family option as the user
+    # configured detector:
+    klass = manager.get_detector_class("dns")
+    dyndnsclient.set_dns_detector(klass(hostname_default=config['updaters'][0].hostname, family=thedetector.af()))
 
     return dyndnsclient

@@ -23,11 +23,11 @@ class TestDynDnsc(unittest.TestCase):
         # create a dummy config:
         config = {}
         config['detector'] = "random"
-        config['dns'] = "dns"
         from dyndnsc.updater.manager import get_updater_class
         upd_cls = get_updater_class("dummy")(hostname="example.com")
         config['updaters'] = (upd_cls,)
         dyndnsclient = dyndnsc.getDynDnsClientForConfig(config)
+        self.assertEqual(dyndnsclient.detector.af(), dyndnsclient.dns.af())
         self.assertTrue(dyndnsclient.needs_check())
         dyndnsclient.needs_forced_check()
         dyndnsclient.check()
