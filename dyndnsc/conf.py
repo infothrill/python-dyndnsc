@@ -23,7 +23,7 @@ def getConfiguration(config_file=None):
     """
     Returns an initialized ConfigParser
     """
-    parser = configparser.SafeConfigParser()
+    parser = configparser.ConfigParser()
     if config_file is None:
         # fallback to default config file
         default_user_conf = os.path.join(os.getenv("HOME"), DEFAULT_USER_INI)

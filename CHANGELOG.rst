@@ -8,6 +8,7 @@ Release history
 
 - changed (**INCOMPATIBLE**): command line arguments have been drastically adapted
   to fit different protocols and options
+- added: config file support
 - improved: for python < 3.2, install more dependencies to get SNI support
 - improved: the DNS resolution automatically resolves using the same address
   family (ipv4/A or ipv6/AAAA or any) then the detector configured

@@ -6,6 +6,7 @@ import dyndnsc
 
 
 class TestDynDnsc(unittest.TestCase):
+
     def setUp(self):
         unittest.TestCase.setUp(self)
 
@@ -22,10 +23,8 @@ class TestDynDnsc(unittest.TestCase):
 
         # create a dummy config:
         config = {}
-        config['detector'] = "random"
-        from dyndnsc.updater.manager import get_updater_class
-        upd_cls = get_updater_class("dummy")(hostname="example.com")
-        config['updaters'] = (upd_cls,)
+        config['detector'] = ("random", {})
+        config['updaters'] = (("dummy", {'hostname': "example.com"}),)
         dyndnsclient = dyndnsc.getDynDnsClientForConfig(config)
         self.assertEqual(dyndnsclient.detector.af(), dyndnsclient.dns.af())
         self.assertTrue(dyndnsclient.needs_check())
