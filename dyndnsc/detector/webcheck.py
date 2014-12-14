@@ -119,7 +119,7 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
     Note: this detection mechanism requires ipv4 connectivity, otherwise it
           will simply not detect the IP address.
     """
-
+    # the lack of TLS is baffling ;-(
     urls = (
         ("http://checkip.eurodyndns.org/", 'checkip'),
         ("http://dynamic.zoneedit.com/checkip.html", 'plain'),
@@ -131,6 +131,8 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
         ("http://ipv4.nsupdate.info/myip", 'plain'),
         ("http://jsonip.com/", 'jsonip'),
         ("http://checkip.dns.he.net/", 'checkip_dns_he_net'),
+        ("http://ip1.dynupdate.no-ip.com/", "plain"),
+        ("http://ip2.dynupdate.no-ip.com/", "plain"),
     )
 
     def __init__(self, *args, **kwargs):
