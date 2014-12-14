@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+from socket import AF_INET, AF_INET6, AF_UNSPEC
 
 from ..common.subject import Subject
 
@@ -13,7 +14,21 @@ class IPDetector(Subject):
     usually best to just inherit from this class first.
     """
     def __init__(self, *args, **kwargs):
+        """
+        Default initializer for all detectors. Since we want to support ipv4
+        and ipv6 in a concise manner, we make it a feature of the base class to
+        handle these options.
+        """
         super(IPDetector, self).__init__()
+
+        self.opts_family = kwargs.get('family')
+        # ensure address family is understood:
+        af_ok = {None: AF_UNSPEC, 'INET': AF_INET, 'INET6': AF_INET6}
+        if self.opts_family not in af_ok:
+            raise ValueError("IPDetector(): Unsupported address family '%s' specified, please use one of %r" %
+                             (self.opts_family, af_ok.keys()))
+        else:
+            self.opts_family = af_ok[self.opts_family]
 
     def can_detect_offline(self):
         """
@@ -21,6 +36,13 @@ class IPDetector(Subject):
         does not generate any network traffic.
         """
         raise NotImplementedError("Abstract method, must be overridden")
+
+    def af(self):
+        """
+        Might be overwritten in subclass. Returns the address family detected
+        by this detector.
+        """
+        return self.opts_family
 
     def get_old_value(self):
         try:

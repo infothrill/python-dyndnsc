@@ -5,7 +5,7 @@ import re
 
 import requests
 
-from .base import IPDetector
+from .base import IPDetector, AF_INET, AF_INET6, AF_UNSPEC
 from ..common.six import ipaddress
 from ..common import constants
 
@@ -76,18 +76,17 @@ class IPDetectorWebCheckBase(IPDetector):
 
     def __init__(self, *args, **kwargs):
         """
-        Constructor
-        @param options: dictionary
+        Initializer
 
         available kwargs:
 
-        url: url of web site to use for IP detection
-        parser: parser to use to parse IP from web site response
+        url: URL to fetch and parse for IP detection
+        parser: parser to use for above URL
         """
+        super(IPDetectorWebCheckBase, self).__init__(*args, **kwargs)
+
         self.opts_url = kwargs.get('url', None)
         self.opts_parser = kwargs.get('parser', None)
-
-        super(IPDetectorWebCheckBase, self).__init__()
 
     def can_detect_offline(self):
         """Returns false, as this detector generates http traffic"""
@@ -134,6 +133,11 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
         ("http://checkip.dns.he.net/", 'checkip_dns_he_net'),
     )
 
+    def __init__(self, *args, **kwargs):
+        super(IPDetectorWebCheck, self).__init__(*args, **kwargs)
+
+        self.opts_family = AF_INET
+
     @staticmethod
     def names():
         return ("webcheck", "webcheck4")
@@ -152,6 +156,11 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
         ("http://ipv6.icanhazip.com/", 'plain'),
         ("http://ipv6.nsupdate.info/myip", 'plain'),
     )
+
+    def __init__(self, *args, **kwargs):
+        super(IPDetectorWebCheck6, self).__init__(*args, **kwargs)
+
+        self.opts_family = AF_INET6
 
     @staticmethod
     def names():
@@ -183,6 +192,11 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
         ("http://icanhazip.com/", 'plain'),
         ("http://nsupdate.info/myip", 'plain'),
     )
+
+    def __init__(self, *args, **kwargs):
+        super(IPDetectorWebCheck46, self).__init__(*args, **kwargs)
+
+        self.opts_family = AF_UNSPEC
 
     @staticmethod
     def names():

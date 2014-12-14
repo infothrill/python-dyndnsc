@@ -2,7 +2,7 @@
 
 import logging
 
-from .base import IPDetector
+from .base import IPDetector, AF_INET6
 from ..common.detect_ip import detect_ip, IPV4, IPV6_PUBLIC, GetIpException
 
 log = logging.getLogger(__name__)
@@ -21,13 +21,7 @@ class IPDetector_Socket(IPDetector):
 
         family: IP address family (default: INET, possible: INET6)
         """
-        self.opts_family = kwargs.get('family', 'INET')
-        # ensure address family is understood:
-        if self.opts_family not in ('INET', 'INET6'):
-            raise ValueError("Unsupported address family '%s' specified!" %
-                             self.opts_family)
-
-        super(IPDetector_Socket, self).__init__()
+        super(IPDetector_Socket, self).__init__(*args, **kwargs)
 
     @staticmethod
     def names():
@@ -39,7 +33,7 @@ class IPDetector_Socket(IPDetector):
         return False
 
     def detect(self):
-        if self.opts_family == 'INET6':
+        if self.opts_family == AF_INET6:
             kind = IPV6_PUBLIC
         else:  # 'INET':
             kind = IPV4

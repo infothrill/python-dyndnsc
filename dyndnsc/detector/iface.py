@@ -4,7 +4,7 @@ import logging
 
 import netifaces
 
-from .base import IPDetector
+from .base import IPDetector, AF_INET, AF_INET6, AF_UNSPEC
 from ..common.six import ipaddress, ipnetwork
 
 log = logging.getLogger(__name__)
@@ -41,17 +41,14 @@ class IPDetector_Iface(IPDetector):
         netmask: netmask to be matched if multiple IPs on interface (default:
                 none (match all)", example for teredo: "2001:0000::/32")
         """
+        super(IPDetector_Iface, self).__init__(*args, **kwargs)
+
         self.opts_iface = kwargs.get('iface', _default_interface())
-        self.opts_family = kwargs.get('family', 'INET')
         self.opts_netmask = kwargs.get('netmask')
 
         # ensure an interface name was specified:
         if self.opts_iface is None:
             raise ValueError("No network interface specified!")
-        # ensure address family is understood:
-        if self.opts_family not in ('INET', 'INET6'):
-            raise ValueError("Unsupported address family '%s' specified!" %
-                             self.opts_family)
         # parse/validate given netmask:
         if self.opts_netmask is not None:  # if a netmask was given
             # This might fail here, but that's OK since we must avoid sending
@@ -60,8 +57,6 @@ class IPDetector_Iface(IPDetector):
             self.netmask = ipnetwork(self.opts_netmask)
         else:
             self.netmask = None
-
-        super(IPDetector_Iface, self).__init__()
 
     @staticmethod
     def names():
@@ -75,7 +70,7 @@ class IPDetector_Iface(IPDetector):
         """uses the netifaces module to detect ifconfig information"""
         theip = None
         try:
-            if self.opts_family == 'INET6':
+            if self.opts_family == AF_INET6:
                 addrlist = netifaces.ifaddresses(self.opts_iface)[netifaces.AF_INET6]
             else:
                 addrlist = netifaces.ifaddresses(self.opts_iface)[netifaces.AF_INET]

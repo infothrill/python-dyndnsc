@@ -14,8 +14,9 @@ class IPDetector_Command(IPDetector):
 
         command: shell command that writes IP address to STDOUT
         """
+        super(IPDetector_Command, self).__init__(*args, **kwargs)
+
         self.opts_command = kwargs.get('command', '')
-        super(IPDetector_Command, self).__init__(**kwargs)
 
     @staticmethod
     def names():

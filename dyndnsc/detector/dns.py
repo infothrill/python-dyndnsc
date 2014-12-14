@@ -3,14 +3,9 @@
 import socket
 import logging
 
-from .base import IPDetector
+from .base import IPDetector, AF_INET, AF_INET6, AF_UNSPEC
 
 log = logging.getLogger(__name__)
-
-# expose these constants for users of this module:
-AF_UNSPEC = socket.AF_UNSPEC
-AF_INET = socket.AF_INET
-AF_INET6 = socket.AF_INET6
 
 
 def resolve(hostname, family=AF_UNSPEC):
@@ -59,22 +54,13 @@ class IPDetector_DNS(IPDetector):
         hostname: host name to query from DNS
         family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')
         """
+        super(IPDetector_DNS, self).__init__(*args, **kwargs)
+
         self.opts_hostname = hostname_default or kwargs.get('hostname')
-        self.opts_family = kwargs.get('family')
 
         if self.opts_hostname is None:
             raise ValueError(
                 "IPDetector_DNS(): a hostname to be queried in DNS must be specified!")
-
-        # ensure address family is understood:
-        af_ok = {None: AF_UNSPEC, 'INET': AF_INET, 'INET6': AF_INET6}
-        if self.opts_family not in af_ok:
-            raise ValueError("IPDetector_DNS(): Unsupported address family '%s' specified, please use one of %r" %
-                             (self.opts_family, af_ok.keys()))
-        else:
-            self.opts_family = af_ok[self.opts_family]
-
-        super(IPDetector_DNS, self).__init__()
 
     @staticmethod
     def names():

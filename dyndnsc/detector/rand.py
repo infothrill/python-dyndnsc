@@ -3,7 +3,7 @@
 import logging
 import random
 
-from .base import IPDetector
+from .base import IPDetector, AF_INET
 from ..common.six import ipaddress, ipnetwork
 
 log = logging.getLogger(__name__)
@@ -92,7 +92,9 @@ class RandomIPGenerator(object):
 class IPDetector_Random(IPDetector):
     """For testing: detect randomly generated IP addresses"""
     def __init__(self, *args, **kwargs):
-        super(IPDetector_Random, self).__init__()
+        super(IPDetector_Random, self).__init__(*args, **kwargs)
+
+        self.opts_family = AF_INET
         self.rips = RandomIPGenerator()
 
     @staticmethod

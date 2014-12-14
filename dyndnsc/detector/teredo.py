@@ -2,7 +2,7 @@
 
 import logging
 
-from .iface import IPDetector_Iface
+from .iface import IPDetector_Iface, AF_INET6
 
 log = logging.getLogger(__name__)
 
@@ -21,10 +21,11 @@ class IPDetector_Teredo(IPDetector_Iface):
         """
         Initializer
         """
+        super(IPDetector_Teredo, self).__init__(*args, **kwargs)
+
         self.opts_iface = kwargs.get('iface', 'tun0')
-        self.opts_family = kwargs.get('family', 'INET6')
         self.opts_netmask = kwargs.get('netmask', '2001:0000::/32')
-        super(IPDetector_Teredo, self).__init__(**kwargs)
+        self.opts_family = AF_INET6
 
     @staticmethod
     def names():
