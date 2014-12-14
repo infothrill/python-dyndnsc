@@ -19,6 +19,8 @@ def parse_cmdline_updater_args(args):
 
     :param args: argparse arguments
     """
+    if args is None:
+        raise ValueError("args must not be None")
     updaters = []
     for kls in updater_classes():
         if getattr(args, 'updater_%s' % kls.configuration_key(), False):
@@ -43,10 +45,14 @@ def parse_cmdline_detector_args(detargs):
 
     :param detargs: string
     """
+    if detargs is None:
+        raise ValueError("args must not be None")
     # allow opts to be a list or a comma-separated string:
     if type(detargs) != list:
         detargs = detargs.split(',')
     name, opts = detargs[0], detargs[1:]
+    if name == '':
+        raise ValueError("The detector name must not be empty (parsed from '%s')" % ",".join(detargs))
     # make a dictionary from opts:
     options = {}
     colon = ":"
