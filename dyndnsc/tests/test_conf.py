@@ -3,6 +3,7 @@
 import unittest
 
 from dyndnsc.conf import getConfiguration
+from dyndnsc.resources import getFilename, PROFILES_INI
 
 
 class TestConfig(unittest.TestCase):
@@ -14,4 +15,5 @@ class TestConfig(unittest.TestCase):
         unittest.TestCase.tearDown(self)
 
     def testgetConfiguration(self):
-        getConfiguration()
+        parser = getConfiguration(getFilename(PROFILES_INI))
+        self.assertFalse(parser.getboolean('dyndnsc', 'daemon'))
