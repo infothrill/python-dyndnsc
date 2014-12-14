@@ -15,7 +15,8 @@ BASEDIR = os.path.dirname(__file__)
 with open(os.path.join(BASEDIR, 'dyndnsc', '__init__.py'), 'r') as f:
     PACKAGE_INIT = f.read()
 
-VERSION = re.compile(r".*__version__ = '(.*?)'", re.S).match(PACKAGE_INIT).group(1)
+VERSION = re.compile(
+    r".*__version__ = '(.*?)'", re.S).match(PACKAGE_INIT).group(1)
 
 with open(os.path.join(BASEDIR, 'README.rst'), 'r') as f:
     README = f.read()
@@ -85,6 +86,7 @@ setup(
         'dyndnsc.common',
         'dyndnsc.detector',
         'dyndnsc.plugins',
+        'dyndnsc.resources',
         'dyndnsc.tests',
         'dyndnsc.updater',
     ],
@@ -96,7 +98,8 @@ setup(
                 'extensible, re-usable and efficient on network resources',
     long_description=README + '\n\n' + CHANGELOG,
     url='https://github.com/infothrill/python-dyndnsc',
-    install_requires=patch_install_requires(['requests', 'netifaces>=0.10.4']),
+    install_requires=patch_install_requires(
+        ['requests', 'netifaces>=0.10.4', 'setuptools']),
     entry_points=("""
         [console_scripts]
         dyndnsc=dyndnsc.cli:main
