@@ -79,41 +79,10 @@ def main():
 
     if args.config:
         logging.debug(args.config)
-        from dyndnsc.conf import getConfiguration
+        from dyndnsc.conf import getConfiguration, collect_config
         cfg = getConfiguration(args.config)
-        clientconfigs = [
-            x.strip() for x in cfg.get("dyndnsc", "configs").split(",") if x.strip()]
-        updaters = []
-        for clientconfig in clientconfigs:
-            logging.debug("client configuration: %r", clientconfig)
-            clientcfg = dict(cfg.items(clientconfig))
-            if cfg.has_option(clientconfig, "use_profile"):
-                prf = dict(
-                    cfg.items("profile:" + cfg.get(clientconfig, "use_profile")))
-                clientcfg.update(prf)
-            else:
-                # raw config with NO profile in use, so no updating of dict
-                pass
-            logging.debug(clientcfg)
-            _det_str = "detector"
-            detector_name = clientcfg.get(_det_str)
-            detector_options = {}
-            for k in clientcfg:
-                if k.startswith(_det_str + "-"):
-                    detector_options[
-                        k.replace(_det_str + "-", "")] = clientcfg[k]
-            logging.debug(detector_options)
-            collected_config[_det_str] = detector_name, detector_options
-            _upd_str = "updater"
-            updater_name = clientcfg.get(_upd_str)
-            updater_options = {}
-            for k in clientcfg:
-                if k.startswith(_upd_str + "-"):
-                    updater_options[
-                        k.replace(_upd_str + "-", "")] = clientcfg[k]
-            logging.debug(updater_options)
-            updaters.append((updater_name, updater_options))
-            collected_config[_upd_str + "s"] = updaters
+        more_conf = collect_config(cfg)
+        collected_config.update(more_conf)
     else:
         collected_config['detector'] = parse_cmdline_detector_args(args.detector)
         collected_config['updaters'] = parse_cmdline_updater_args(args)
