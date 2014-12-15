@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+try:
+    import configparser
+except ImportError:
+    import ConfigParser as configparser
+try:
+    from io import StringIO
+except ImportError:
+    from StringIO import StringIO
 
 from dyndnsc.conf import getConfiguration, collect_config
 from dyndnsc.resources import getFilename, PROFILES_INI
@@ -39,9 +47,7 @@ detector-family = INET
 detector-url = http://ip.example.com/
 detector-parser = plain
         """
-        from ConfigParser import ConfigParser
-        from StringIO import StringIO
-        p = ConfigParser()
+        p = configparser.ConfigParser()
         p.readfp(StringIO(sample_config))
         config = collect_config(p)
         self.assertEqual(dict, type(config))
