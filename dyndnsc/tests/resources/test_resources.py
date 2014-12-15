@@ -22,7 +22,7 @@ class TestResources(unittest.TestCase):
         self.assertFalse(exists(getFilename(".fubar-non-existant")))
 
     def test_get_string(self):
-        self.assertEqual(str, type(getString(PROFILES_INI)))
+        self.assertTrue(type(getString(PROFILES_INI)) in (str, bytes))
 
     def test_get_stream(self):
         self.assertTrue(hasattr(getStream(PROFILES_INI), 'close'))
