@@ -11,7 +11,7 @@ Release history
 - added: config file support
 - improved: for python < 3.2, install more dependencies to get SNI support
 - improved: the DNS resolution automatically resolves using the same address
-  family (ipv4/A or ipv6/AAAA or any) then the detector configured
+  family (ipv4/A or ipv6/AAAA or any) as the detector configured
 - improved: it is now possible to specify arbitrary service URLs for the
   different updater protocols. Fixes `#4 <https://github.com/infothrill/python-dyndnsc/issues/4>`_
 - fixed: naming conventions
