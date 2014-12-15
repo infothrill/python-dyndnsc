@@ -16,4 +16,4 @@ script: "coverage run --source=dyndnsc setup.py test"
 after_success: "coveralls"
 matrix:
     allow_failures:
-        python: pypy
+        - python: pypy
