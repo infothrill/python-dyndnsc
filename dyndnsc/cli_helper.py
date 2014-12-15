@@ -37,29 +37,31 @@ def parse_cmdline_updater_args(args):
     return updaters
 
 
-def parse_cmdline_detector_args(detargs):
+def parse_cmdline_detector_args(args_str):
     """
-    parse an options string (or list) into the detector name and an options dict
+    Parses an options string into a detector name and an options dict.
+
     Example:
         "iface,family:INET" -> ("iface", {"family": "INET"})
 
-    :param detargs: string
+    :param args_str: string
     """
-    if detargs is None:
+    if args_str is None:
         raise ValueError("args must not be None")
+    COMMA = ','
+    COLON = ":"
     # allow opts to be a list or a comma-separated string:
-    if type(detargs) != list:
-        detargs = detargs.split(',')
-    name, opts = detargs[0], detargs[1:]
-    if name == '':
-        raise ValueError("The detector name must not be empty (parsed from '%s')" % ",".join(detargs))
+    name, dummysep, opts = args_str.partition(COMMA)
+    if len(name) == 0:
+        raise ValueError("The detector name must not be empty (parsed from '%s')" % args_str)
     # make a dictionary from opts:
     options = {}
-    colon = ":"
-    for opt in opts:
-        # options are key value pairs, separated by a colon ":"
+    for opt in opts.split(COMMA):
+        if len(opt) == 0:
+            break
+        # options are key value pairs, separated by a COLON ":"
         # allow white-spaces in input, but strip them here:
-        key, dummysep, value = opt.partition(colon)
+        key, dummysep, value = opt.partition(COLON)
         key, value = key.strip(), value.strip()
         if key in options:
             log.warning("Option '%s' specified more than once, using '%s'.",

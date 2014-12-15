@@ -37,7 +37,10 @@ class Test_cli_helper(unittest.TestCase):
 
     def test_parse_cmdline_detector_args(self):
         self.assertRaises(ValueError, parse_cmdline_detector_args, None)
-        self.assertRaises(AttributeError, parse_cmdline_detector_args, object())
+        self.assertRaises(
+            AttributeError, parse_cmdline_detector_args, object())
         self.assertRaises(ValueError, parse_cmdline_detector_args, "")
-        self.assertEqual(('fancydetector', {}), parse_cmdline_detector_args("fancydetector"))
-        self.assertEqual(('fancydetector', {"opt":"val"}), parse_cmdline_detector_args("fancydetector,opt:val"))
+        self.assertEqual(
+            ('foo', {}), parse_cmdline_detector_args("foo"))
+        self.assertEqual(('foo', {"opt": "val"}), parse_cmdline_detector_args(
+            "foo,opt:val"))
