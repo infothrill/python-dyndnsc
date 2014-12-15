@@ -24,8 +24,12 @@ These are general guidelines for code contributors.
 
 Loose wishlist of todos
 -----------------------
-* add support for duckdns: http://www.duckdns.org
+* config file support with a nice starter howto
+* man page?
+* linux packages?
+* add support for duckdns http://www.duckdns.org
 * add support for gnudip http://gnudip2.sourceforge.net/
+* add support for linode https://github.com/myano/linode-dyndns
 * services: enable updating mutiple different services with the same IP but a different
   hostname. This would provide some form of poor mans redundancy in case one
   of the services is down
