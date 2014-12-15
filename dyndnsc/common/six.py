@@ -5,6 +5,10 @@ Module for providing python compatibility across interpreter versions.
 
 import sys
 
+if sys.version_info < (3, 0):
+    from cStringIO import StringIO
+else:
+    from io import StringIO
 
 if sys.version_info < (3, 3):
     import IPy as _IPy

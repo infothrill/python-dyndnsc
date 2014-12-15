@@ -5,10 +5,8 @@ try:
     import configparser
 except ImportError:
     import ConfigParser as configparser
-try:
-    from io import StringIO
-except ImportError:
-    from StringIO import StringIO
+
+from dyndnsc.common.six import StringIO
 
 from dyndnsc.conf import getConfiguration, collect_config
 from dyndnsc.resources import getFilename, PROFILES_INI
