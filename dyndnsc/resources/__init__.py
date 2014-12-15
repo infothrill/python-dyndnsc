@@ -28,4 +28,3 @@ def getString(resource_name):
 
 def getFilename(resource_name):
     return _resfname(__name__, resource_name)
-

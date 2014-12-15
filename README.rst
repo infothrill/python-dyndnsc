@@ -19,8 +19,8 @@ Dyndnsc - dynamic dns update client
 
 *dyndnsc* is both a script to be used directly as well as a re-usable and
 hopefully extensible python package for doing updates over http to dynamic
-dns services. This package currently focuses on supporting http based update
-protocols.
+dns services. This package currently focuses on supporting differnet http based
+update protocols.
 
 
 
@@ -38,9 +38,11 @@ Feel free to send pull requests to add more.
 
 Compatible services
 ===================
-This list is incomplete, since there are a lot of compatible services
-out there. Some of these services offer free accounts, some are paid or
-subscription based. Either way, this list should probably go elsewhere...
+Dyndnsc can be configured to work with any third party service that supports
+one of the above protocols. This list is incomplete, since there are a lot of
+compatible services out there. Some of these services offer free accounts,
+some are paid or subscription based. Either way, this list should probably
+go elsewhere...
 
 * `dns.he.net <https://dns.he.net/>`_ (protocol: dyndns2)
 * `dnsdynamic.org <http://www.dnsdynamic.org/>`_ (protocol: dyndns2)
@@ -48,7 +50,7 @@ subscription based. Either way, this list should probably go elsewhere...
 * `dyn.com <http://dyn.com/>`_ (protocol: dyndns2)
 * `freedns.afraid.org <http://freedns.afraid.org/>`_ (protocol: afraid)
 * `hopper.pw <https://www.hopper.pw/>`_ (protocol: dyndns2)
-* `no-ip <https://www.no-ip.com/>`_ (protocol: dyndns2)
+* `no-ip.com <https://www.no-ip.com/>`_ (protocol: dyndns2)
 * `nsupdate.info <https://nsupdate.info/>`_ (protocol: dyndns2)
 
 To specify a dyndns2 compatible service on the command line, add the -service_url argument:

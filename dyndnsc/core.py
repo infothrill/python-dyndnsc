@@ -26,6 +26,7 @@ class DynDnsClient(object):
     def __init__(self, sleeptime=300):
         """
         Initializer
+
         :param sleeptime: amount of time in seconds that can elapse between checks
         """
         self.ipchangedetection_sleep = sleeptime  # check every n seconds if our IP changed
@@ -42,24 +43,30 @@ class DynDnsClient(object):
     def add_updater(self, updater):
         """
         Add an updater to the client
+
         :param updater: an instance of type `dyndnsc.updater.UpdateProtocol`
         """
         self.updaters.append(updater)
 
     def set_dns_detector(self, detector):
         """
+        Set the DNS detector to be used for querying the DNS
+
         :param detector: an instance of `dyndnsc.detector.base.IPDetector`
         """
         self.dns = detector
 
     def set_detector(self, detector):
         """
+        Set the detector to be used to detect our IP
+
         :param detector: an instance of `dyndnsc.detector.base.IPDetector`
         """
         self.detector = detector
 
     def sync(self):
-        """Forces a synchronization to the remote service if there is a
+        """
+        Forces a synchronization to the remote service if there is a
         difference between the IP from DNS and the detector. This can be
         expensive, mostly depending on the detector, but also because updating
         the dynamic ip in itself is costly. Therefore, this method should
@@ -86,13 +93,14 @@ class DynDnsClient(object):
                       self.detector.get_current_value())
 
     def has_state_changed(self):
-        """Detects a change either in the offline detector or a
+        """
+        Detects a change either in the offline detector or a
         difference between the real DNS value and what the online
         detector last got.
         This is efficient, since it only generates minimal dns traffic
         for online detectors and no traffic at all for offline detectors.
 
-        :return: boolean
+        :rtype: boolean
         """
         self.lastcheck = time.time()
         # prefer offline state change detection:
@@ -112,11 +120,12 @@ class DynDnsClient(object):
             return False
 
     def needs_check(self):
-        """This checks if the planned time between checks has elapsed.
+        """
+        This checks if the planned time between checks has elapsed.
         When this time has elapsed, a state change check through
         has_state_changed() should be performed and eventually a sync().
 
-        :return: boolean
+        :rtype: boolean
         """
         if self.lastcheck is None:
             return True
@@ -129,7 +138,7 @@ class DynDnsClient(object):
         matter what has_state_changed() says. This is really just a safety thing
         to enforce consistency in case the state gets messed up.
 
-        :return: boolean
+        :rtype: boolean
         """
         if self.lastforce is None:
             self.lastforce = time.time()
@@ -155,8 +164,10 @@ class DynDnsClient(object):
                 pass
 
     def loop(self):
-        """Blocking endless loop with built-in sleeping between checks and
-        updates."""
+        """
+        locking endless loop with built-in sleeping between checks and
+        updates.
+        """
         while True:
             self.check()
             time.sleep(self.ipchangedetection_sleep)
@@ -166,8 +177,8 @@ def getDynDnsClientForConfig(config, plugins=None):
     """Factory detector_name to instantiate and initialize a complete and working
     dyndns client
 
-    @param config: a dictionary with configuration keys
-    @param plugins: an object that implements PluginManager
+    :param config: a dictionary with configuration keys
+    :param plugins: an object that implements PluginManager
     """
 
     if 'sleeptime' in config:

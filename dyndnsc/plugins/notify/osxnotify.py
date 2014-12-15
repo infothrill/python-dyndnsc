@@ -23,7 +23,7 @@ def nsnotify(title, subtitle, info_text, delay=0, sound=False, user_info=None):
     user_info: a dictionary that can be used to handle clicks in your
     app's applicationDidFinishLaunching:aNotification method
     """
-    #logging.debug("os x notify called")
+    # logging.debug("os x notify called")
     if user_info is None:
         user_info = {}
     notification = _NSUserNotification.alloc().init()

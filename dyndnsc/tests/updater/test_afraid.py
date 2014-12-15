@@ -3,11 +3,11 @@
 import unittest
 from time import sleep
 from multiprocessing import Process
-#import logging
+# import logging
 
 from bottle import Bottle, run, response, request
 
-#logging.basicConfig(level=logging.DEBUG, format='%(asctime)s  %(message)s')
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s  %(message)s')
 
 
 class AfraidApp(Bottle):
@@ -76,7 +76,6 @@ class TestAfraidBottleServer(unittest.TestCase):
 
     def test_afraid(self):
         import dyndnsc.updater.afraid as afraid
-        #import dyndnsc.updater.afraid
         NAME = "afraid"
         options = {
             "hostname": "dummyhostname.example.com",
