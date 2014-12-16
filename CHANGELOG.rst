@@ -15,14 +15,13 @@ Release history
 - improved: the DNS resolution automatically resolves using the same address
   family (ipv4/A or ipv6/AAAA or any) as the detector configured
 - improved: it is now possible to specify arbitrary service URLs for the
-  different updater protocols. Fixes `#4 <https://github.com/infothrill/python-dyndnsc/issues/4>`_
+  different updater protocols.
 - fixed: naming conventions
 - fixed: http connection robustness (i.e. catch more errors and handle them as
   being transient)
 - changed: upgraded dependency of netifaces to version 0.10+ which provides
   both py2 and py3 compatibility (thank you Alastair)
 - a bunch of pep8 and style fixes
-- Add conditional imports to support SNI with python 2.7
 
 0.3.4 (January 3rd 2014)
 ++++++++++++++++++++++++
