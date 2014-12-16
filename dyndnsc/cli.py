@@ -74,37 +74,49 @@ def main():
     requests_log.setLevel(logging.WARNING)
 
     # we collect cmd line args, config file into a separate dict:
-    collected_config = {}
-    collected_config['sleeptime'] = int(args.sleeptime)
+    # TODO: park the sleep time parameter with the detector and call it
+    # interval
+    collected_configs = []
+    # collected_configs['sleeptime'] = int(args.sleeptime)
 
     if args.config:
         logging.debug(args.config)
         from dyndnsc.conf import getConfiguration, collect_config
         cfg = getConfiguration(args.config)
         more_conf = collect_config(cfg)
-        collected_config.update(more_conf)
+        for m in more_conf:
+            if 'interval' not in more_conf[m]:
+                more_conf[m]['interval'] = int(args.sleeptime)
+        collected_configs = more_conf
     else:
-        collected_config['detector'] = parse_cmdline_detector_args(args.detector)
-        collected_config['updaters'] = parse_cmdline_updater_args(args)
+        thisconfig = {'cmdline':
+                      {
+                          'detector': parse_cmdline_detector_args(args.detector),
+                          'updaters': parse_cmdline_updater_args(args),
+                          'interval': int(args.sleeptime)
+                      }
+                      }
+        collected_configs.append(thisconfig)
 
     plugins.configure(args)
     plugins.initialize()
 
-    # done with command line options, bring on the dancing girls
-    dyndnsclient = getDynDnsClientForConfig(collected_config, plugins=plugins)
-    if dyndnsclient is None:
-        return 1
-    # do an initial synchronization, before going into endless loop:
-    dyndnsclient.sync()
+    for thisconfig in collected_configs:
+        # done with options, bring on the dancing girls
+        dyndnsclient = getDynDnsClientForConfig(collected_configs[thisconfig], plugins=plugins)
+        if dyndnsclient is None:
+            return 1
+        # do an initial synchronization, before going into endless loop:
+        dyndnsclient.sync()
 
-    if args.daemon:
-        daemonize()  # fork into background
-        args.loop = True
+        if args.daemon:
+            daemonize()  # fork into background
+            args.loop = True
 
-    if args.loop:
-        dyndnsclient.loop()
-    else:
-        dyndnsclient.check()
+        if args.loop:
+            dyndnsclient.loop()
+        else:
+            dyndnsclient.check()
 
     return 0
 

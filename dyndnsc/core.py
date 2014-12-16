@@ -180,9 +180,8 @@ def getDynDnsClientForConfig(config, plugins=None):
     :param config: a dictionary with configuration keys
     :param plugins: an object that implements PluginManager
     """
-
-    if 'sleeptime' in config:
-        dyndnsclient = DynDnsClient(sleeptime=config['sleeptime'])
+    if 'interval' in config:
+        dyndnsclient = DynDnsClient(sleeptime=config['interval'])
     else:
         dyndnsclient = DynDnsClient()
 
