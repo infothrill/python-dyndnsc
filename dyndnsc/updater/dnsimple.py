@@ -21,15 +21,15 @@ log = logging.getLogger(__name__)
 class UpdateProtocolDnsimple(UpdateProtocol):
     """Protocol handler for https://dnsimple.com/"""
 
-    def __init__(self, hostname, key, service_url=None, **kwargs):
+    def __init__(self, hostname, key, url=None, **kwargs):
         self.theip = None
         self._recordname, _, self._domain = hostname.partition(".")
         self.handler = DNSimple(domain=self._domain,
                                 domain_token=key)
-        if service_url is not None:
+        if url is not None:
             # The url must be a format string like this:
             #      'https://dnsimple.com/domains/%s/records'
-            self.handler._baseurl = service_url % self._domain
+            self.handler._baseurl = url % self._domain
 
     @staticmethod
     def configuration_key():

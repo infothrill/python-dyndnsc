@@ -23,7 +23,7 @@ class Test_cli_helper(unittest.TestCase):
         args.updater_dyndns2_userid = "bob"
         args.updater_dyndns2_password = "******"
         args.updater_dyndns2_hostname = "ahost.example.com"
-        args.updater_dyndns2_service_url = "http://service.example.com"
+        args.updater_dyndns2_url = "http://service.example.com"
 
         updaters = parse_cmdline_updater_args(args)
         self.assertEqual(1, len(updaters))
@@ -33,7 +33,7 @@ class Test_cli_helper(unittest.TestCase):
         self.assertTrue("userid" in updaters[0][1].keys())
         self.assertTrue("password" in updaters[0][1].keys())
         self.assertTrue("hostname" in updaters[0][1].keys())
-        self.assertTrue("service_url" in updaters[0][1].keys())
+        self.assertTrue("url" in updaters[0][1].keys())
 
     def test_parse_cmdline_detector_args(self):
         self.assertRaises(ValueError, parse_cmdline_detector_args, None)

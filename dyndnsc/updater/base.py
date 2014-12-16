@@ -27,6 +27,9 @@ class UpdateProtocol(Subject):
     def service_url(self):
         return self.updateUrl()
 
+    def url(self):
+        return self.updateUrl()
+
     @staticmethod
     def configuration_key():
         """

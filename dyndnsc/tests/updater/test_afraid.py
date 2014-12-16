@@ -81,7 +81,7 @@ class TestAfraidBottleServer(unittest.TestCase):
             "hostname": "dummyhostname.example.com",
             "userid": "dummy",
             "password": "1234",
-            "service_url": self.url
+            "url": self.url
         }
         self.assertEqual(NAME, afraid.UpdateProtocolAfraid.configuration_key())
         updater = afraid.UpdateProtocolAfraid(**options)

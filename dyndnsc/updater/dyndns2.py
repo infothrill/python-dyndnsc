@@ -14,7 +14,7 @@ class UpdateProtocolDyndns2(UpdateProtocol):
     """Updater for services compatible with dyndns.com"""
 
     def __init__(self, hostname, userid, password,
-                 service_url="https://members.dyndns.org/nic/update", **kwargs):
+                 url="https://members.dyndns.org/nic/update", **kwargs):
         """
         :param hostname: the fully qualified hostname to be managed
         :param userid: the userid for identification
@@ -23,7 +23,7 @@ class UpdateProtocolDyndns2(UpdateProtocol):
         self.hostname = hostname
         self.userid = userid
         self.password = password
-        self._updateurl = service_url
+        self._updateurl = url
 
         super(UpdateProtocolDyndns2, self).__init__()
 
@@ -71,14 +71,14 @@ class UpdateProtocolDyndns2(UpdateProtocol):
 class UpdateProtocolNsUpdate(UpdateProtocolDyndns2):
     """
     Updater for nsupdate.info dynamic dns service (which is dyndns2 compatible,
-    so this class is only here for the sake of a different service_url).
+    so this class is only here for the sake of a different url).
     """
 
     def __init__(self, hostname, userid, password,
-                 service_url="https://nsupdate.info/nic/update", **kwargs):
+                 url="https://nsupdate.info/nic/update", **kwargs):
 
         super(UpdateProtocolNsUpdate, self).__init__(hostname, userid, password,
-                                                     service_url, **kwargs)
+                                                     url, **kwargs)
 
     @staticmethod
     def configuration_key():
@@ -87,14 +87,14 @@ class UpdateProtocolNsUpdate(UpdateProtocolDyndns2):
 
 class UpdateProtocolNoip(UpdateProtocolDyndns2):
     """Protocol handler for www.noip.com, behaves exactly like dyndns2 but
-    this point to a different default service_url"""
+    this point to a different default url"""
 
     def __init__(self, hostname, userid, password,
-                 service_url="https://dynupdate.no-ip.com/nic/update",
+                 url="https://dynupdate.no-ip.com/nic/update",
                  **kwargs):
 
         super(UpdateProtocolNoip, self).__init__(hostname, userid, password,
-                                                 service_url, **kwargs)
+                                                 url, **kwargs)
 
     @staticmethod
     def configuration_key():

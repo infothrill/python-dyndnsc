@@ -53,7 +53,7 @@ go elsewhere...
 * `no-ip.com <https://www.no-ip.com/>`_ (protocol: dyndns2)
 * `nsupdate.info <https://nsupdate.info/>`_ (protocol: dyndns2)
 
-To specify a dyndns2 compatible service on the command line, add the -service_url argument:
+To specify a dyndns2 compatible service on the command line, add the -url argument:
 
 .. code-block:: bash
 
@@ -61,7 +61,7 @@ To specify a dyndns2 compatible service on the command line, add the -service_ur
         --updater-dyndns2-hostname test.dyndns.com \ 
         --updater-dyndns2-userid bob \
         --updater-dyndns2-password=xxxxxxxx \
-        --updater-dyndns2-service_url=https://otherservice.example.com/nic/update
+        --updater-dyndns2-url=https://otherservice.example.com/nic/update
 
 Installation
 ============

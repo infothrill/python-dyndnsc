@@ -38,7 +38,6 @@ Updating an IPv6 address when using `Miredo <http://www.remlab.net/miredo/>`_:
               --updater-nsupdate-userid   test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
               --detector teredo \
-              --dns dns,family:INET6
 
 Updating an IPv4 record on nsupdate.info with web based ip autodetection:
 
@@ -49,7 +48,6 @@ Updating an IPv4 record on nsupdate.info with web based ip autodetection:
               --updater-nsupdate-userid   test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
               --detector webcheck4,url:http://ipv4.nsupdate.info/myip,parser:plain \
-              --dns dns,family:INET
 
 Updating an IPv6 record on nsupdate.info with interface based ip detection:
 
@@ -60,7 +58,6 @@ Updating an IPv6 record on nsupdate.info with interface based ip detection:
               --updater-nsupdate-userid test.nsupdate.info \
               --updater-nsupdate-password xxxxxxxx \
               --detector socket,family:INET6 \
-              --dns dns,family:INET6
 
 
 Passing parameters for IP detection
@@ -80,11 +77,15 @@ Custom services
 ---------------
 
 If you are using a dyndns2 compatible service and need to specify the update
-URL explicitly, you can add the argument --updater-dyndns2-service_url:
+URL explicitly, you can add the argument --updater-dyndns2-url:
 
 .. code-block:: bash
 
-    $ dyndnsc --updater-dyndns2 --updater-dyndns2-hostname=test.dyndns.com --updater-dyndns2-userid=bob --updater-dyndns2-password=fub4r --updater-dyndns2-service_url=https://dyndns.example.com/nic/update
+    $ dyndnsc --updater-dyndns2 \
+              --updater-dyndns2-hostname=test.dyndns.com \
+              --updater-dyndns2-userid=bob \
+              --updater-dyndns2-password=fub4r \
+              --updater-dyndns2-url=https://dyndns.example.com/nic/update
 
 
 Error handling
