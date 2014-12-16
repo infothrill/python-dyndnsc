@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import unittest
+import logging
 
 from dyndnsc.common.subject import Subject
 
@@ -24,6 +25,7 @@ class InvalidListener(object):
 class TestSubjectObserver(unittest.TestCase):
 
     def setUp(self):
+        logging.disable(logging.CRITICAL)
         unittest.TestCase.setUp(self)
 
     def tearDown(self):

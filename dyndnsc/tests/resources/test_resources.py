@@ -25,4 +25,8 @@ class TestResources(unittest.TestCase):
         self.assertTrue(type(getString(PROFILES_INI)) in (str, bytes))
 
     def test_get_stream(self):
-        self.assertTrue(hasattr(getStream(PROFILES_INI), 'close'))
+        obj = getStream(PROFILES_INI)
+        if hasattr(obj, 'close'):
+            obj.close()
+        else:
+            self.fail("getStream() didn't return an object with a close() method")

@@ -2,6 +2,7 @@
 
 import unittest
 import netifaces
+import logging
 
 from dyndnsc.detector.base import AF_INET, AF_INET6, AF_UNSPEC
 
@@ -35,6 +36,13 @@ class TestPluginDetectors(unittest.TestCase):
 
 
 class TestIndividualDetectors(unittest.TestCase):
+    def setUp(self):
+        logging.disable(logging.CRITICAL)
+        unittest.TestCase.setUp(self)
+
+    def tearDown(self):
+        unittest.TestCase.tearDown(self)
+
     def test_dns_resolve(self):
         import dyndnsc.detector.dns as ns
         self.assertTrue(len(ns.resolve("localhost")) > 0)
