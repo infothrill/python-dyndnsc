@@ -1,5 +1,2 @@
 [report]
 omit = dyndnsc/tests/*
-    /usr/*
-    /Library/*
-    /System/*

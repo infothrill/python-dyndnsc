@@ -1,5 +1,6 @@
 include AUTHORS
 include *.rst
 include LICENSE
-#recursive-include docs *
+include example.ini
+recursive-include docs *
 recursive-include dyndnsc/resources *

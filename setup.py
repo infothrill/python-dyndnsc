@@ -99,12 +99,15 @@ setup(
     long_description=README + '\n\n' + CHANGELOG,
     url='https://github.com/infothrill/python-dyndnsc',
     install_requires=patch_install_requires(
-        ['requests', 'netifaces>=0.10.4', 'setuptools']),
+        ['requests>=2.0.1', 'netifaces>=0.10.4', 'setuptools']),
     entry_points=("""
         [console_scripts]
         dyndnsc=dyndnsc.cli:main
     """),
     classifiers=CLASSIFIERS,
     test_suite='dyndnsc.tests',
-    tests_require=patch_test_requires(['bottle==0.12.7'])
+    tests_require=patch_test_requires(['bottle==0.12.7']),
+    package_data={'dyndnsc/resources': ['dyndnsc/resources/*.ini']},
+    include_package_data=True,
+    zip_safe = False
 )

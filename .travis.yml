@@ -1,19 +1,18 @@
 language: python
 python:
-    - "2.6"
-    - "2.7"
-    - "3.2"
-    - "3.3"
-    - "3.4"
-    - "pypy"
+  - "2.6"
+  - "2.7"
+  - "3.2"
+  - "3.3"
+  - "3.4"
+  - "pypy"
 install:
-    - "pip install -U setuptools pip"
-    # let's install netifaces separately as long as https://bitbucket.org/al45tair/netifaces/issue/13/0104-install-is-broken-on-python-3x isn't fixed
-    - "pip install netifaces"
-    - "python setup.py install"
-    - "pip install coveralls --use-mirrors"
-script: "coverage run --source=dyndnsc setup.py test"
-after_success: "coveralls"
+  - "make init"
+  - "make install"
+script:
+  - "make coverage"
+after_success:
+  - "make coveralls"
 matrix:
-    allow_failures:
-        - python: pypy
+  allow_failures:
+    - python: pypy

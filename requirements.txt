@@ -1,0 +1,4 @@
+# netifaces is listed here because of issues when installing from setup.py
+# See https://bitbucket.org/al45tair/netifaces/issue/13/0104-install-is-broken-on-python-3x
+netifaces
+coverage

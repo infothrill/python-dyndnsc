@@ -36,3 +36,6 @@ coverage.xml
 
 # virtualenv
 env/
+
+#python fubar
+MANIFEST
