@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Python integration with OS X's notification center
+Python integration with OS X's notification center.
+
 Inspired by https://github.com/maranas/pyNotificationCenter
 """
 
@@ -14,14 +15,15 @@ _NSUserNotificationCenter = objc.lookUpClass('NSUserNotificationCenter')
 
 
 def nsnotify(title, subtitle, info_text, delay=0, sound=False, user_info=None):
-    """ Python method to show a desktop notification on Mountain Lion. Where:
-    title: Title of notification
-    subtitle: Subtitle of notification
-    info_text: Informative text of notification
-    delay: Delay (in seconds) before showing the notification
-    sound: Play the default notification sound
-    user_info: a dictionary that can be used to handle clicks in your
-    app's applicationDidFinishLaunching:aNotification method
+    """Show a desktop notification on OS X 10.8+.
+
+    :param title: Title of notification
+    :param subtitle: Subtitle of notification
+    :param info_text: Informative text of notification
+    :param delay: Delay (in seconds) before showing the notification
+    :param sound: Play the default notification sound
+    :param user_info: a dictionary that can be used to handle clicks in your
+        app's applicationDidFinishLaunching:aNotification method
     """
     # logging.debug("os x notify called")
     if user_info is None:
@@ -46,9 +48,9 @@ class OSXNotification(object):
 
 
 class OSXNotifyPlugin(Plugin):
-    """
-    Send desktop notifications with OS X notification center
-    """
+
+    """Send desktop notifications with OS X notification center."""
+
     name = 'osxnotify'
     can_configure = True
 

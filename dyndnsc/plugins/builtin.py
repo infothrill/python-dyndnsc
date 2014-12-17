@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 """
+Dynamic loading of built-in plugins.
+
 All built-in plugins are listed here and will be dynamically imported
 on importing this module. If importing a plugin fails, it will be ignored.
 """
@@ -15,8 +17,8 @@ _builtins = (
 
 
 def _load_plugin(module, cls):
-    """
-    Try to load one plugin, return None if it failed to load
+    """Try to load one plugin, return None if it failed to load.
+
     :param module: module name
     :param cls: class name
     """
@@ -31,8 +33,8 @@ def _load_plugin(module, cls):
 
 
 def _iload_plugins(builtins):
-    """
-    return a generator for all 'importable' built-in plugins
+    """return a generator for all 'importable' built-in plugins.
+
     :param builtins: set of tuples(modulename, classname)
     """
     for m, c in builtins:
