@@ -1,4 +1,10 @@
+# -*- coding: utf-8 -*-
+
 import unittest
+import argparse
+
+
+from dyndnsc import cli
 
 
 class TestCli(unittest.TestCase):
@@ -9,6 +15,6 @@ class TestCli(unittest.TestCase):
     def tearDown(self):
         unittest.TestCase.tearDown(self)
 
-    def testCli(self):
-        # all we do here is import code, no running...
-        from dyndnsc import cli
+    def test_create_argparser(self):
+        parser = cli.create_argparser()
+        self.assertTrue(isinstance(parser, argparse.ArgumentParser))

@@ -1,38 +1,23 @@
 # -*- coding: utf-8 -*-
 
-"""
-Main CLI program
-"""
+"""Main CLI program."""
 
 import sys
 import logging
+import argparse
 
-from dyndnsc import getDynDnsClientForConfig, __version__
-from dyndnsc.daemon import daemonize
-from dyndnsc.cli_helper import parse_cmdline_detector_args,\
-    parse_cmdline_updater_args
+from .plugins.manager import DefaultPluginManager
+from .updater.manager import updater_classes
+from .core import getDynDnsClientForConfig
 
 
-def main():
+def create_argparser():
     """
-    The main. Initializes the stack, parses command line arguments, and fires
-    requested logic.
-    """
-    from dyndnsc.plugins.manager import DefaultPluginManager
-    plugins = DefaultPluginManager()
-    plugins.load_plugins()
-    from os import environ
+    Instantiate an `argparse.ArgumentParser`.
 
-    import argparse
+    Adds all common cli options.
+    """
     parser = argparse.ArgumentParser()
-
-    # add the updater protocol options to the CLI:
-    from dyndnsc.updater.manager import updater_classes
-    for kls in updater_classes():
-        kls.register_arguments(parser)
-
-    # add the plugin options to the CLI:
-    plugins.options(parser, environ)
 
     # add generic client options to the CLI:
     parser.add_argument("-c", "--config", dest="config",
@@ -56,9 +41,32 @@ def main():
                         help="show version and exit",
                         action="store_true", default=False)
 
+    return parser
+
+
+def main():
+    """
+    The main CLI program.
+
+    Initializes the stack, parses command line arguments, and fires requested
+    logic.
+    """
+    plugins = DefaultPluginManager()
+    plugins.load_plugins()
+
+    parser = create_argparser()
+    # add the updater protocol options to the CLI:
+    for kls in updater_classes():
+        kls.register_arguments(parser)
+
+    # add the plugin options to the CLI:
+    from os import environ
+    plugins.options(parser, environ)
+
     args = parser.parse_args()
 
     if args.version:
+        from . import __version__
         print("dyndnsc %s" % __version__)
         return 0
 
@@ -80,8 +88,8 @@ def main():
     # collected_configs['sleeptime'] = int(args.sleeptime)
 
     if args.config:
-        logging.debug(args.config)
         from dyndnsc.conf import getConfiguration, collect_config
+        logging.debug(args.config)
         cfg = getConfiguration(args.config)
         more_conf = collect_config(cfg)
         for m in more_conf:
@@ -89,6 +97,8 @@ def main():
                 more_conf[m]['interval'] = int(args.sleeptime)
         collected_configs = more_conf
     else:
+        from .cli_helper import parse_cmdline_detector_args,\
+            parse_cmdline_updater_args
         thisconfig = {'cmdline':
                       {
                           'detector': parse_cmdline_detector_args(args.detector),
@@ -103,13 +113,15 @@ def main():
 
     for thisconfig in collected_configs:
         # done with options, bring on the dancing girls
-        dyndnsclient = getDynDnsClientForConfig(collected_configs[thisconfig], plugins=plugins)
+        dyndnsclient = getDynDnsClientForConfig(
+            collected_configs[thisconfig], plugins=plugins)
         if dyndnsclient is None:
             return 1
         # do an initial synchronization, before going into endless loop:
         dyndnsclient.sync()
 
         if args.daemon:
+            from .daemon import daemonize
             daemonize()  # fork into background
             args.loop = True
 
