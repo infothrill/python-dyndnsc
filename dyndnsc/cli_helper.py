@@ -53,7 +53,8 @@ def parse_cmdline_detector_args(args_str):
     # allow opts to be a list or a comma-separated string:
     name, dummysep, opts = args_str.partition(COMMA)
     if len(name) == 0:
-        raise ValueError("The detector name must not be empty (parsed from '%s')" % args_str)
+        raise ValueError(
+            "detector name must not be empty (parsed from '%s')" % args_str)
     # make a dictionary from opts:
     options = {}
     for opt in opts.split(COMMA):

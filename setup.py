@@ -106,7 +106,7 @@ setup(
     """),
     classifiers=CLASSIFIERS,
     test_suite='dyndnsc.tests',
-    tests_require=patch_test_requires(['bottle==0.12.7']),
+    tests_require=patch_test_requires(['bottle==0.12.7', 'pep8>=1.3']),
     package_data={'dyndnsc/resources': ['dyndnsc/resources/*.ini']},
     include_package_data=True,
     zip_safe = False
