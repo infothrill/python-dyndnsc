@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-Module for providing python compatibility across interpreter versions.
-"""
+
+"""Module for providing python compatibility across interpreter versions."""
 
 import sys
 

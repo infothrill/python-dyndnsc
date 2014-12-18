@@ -44,7 +44,8 @@ if not hasattr(socket, "IPV6_PREFER_SRC_PUBLIC"):
 
 
 class GetIpException(Exception):
-    """generic base class for all exceptions raised here"""
+
+    """Generic base class for all exceptions raised here."""
 
 
 def detect_ip(kind):
