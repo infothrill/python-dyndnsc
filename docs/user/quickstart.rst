@@ -17,8 +17,8 @@ First, make sure that:
 Let's get started with some simple examples.
 
 
-Examples
---------
+Examples (using commandline params)
+-----------------------------------
 
 A basic example that should fit most peoples needs using the dyndns.com service:
 
@@ -86,6 +86,36 @@ URL explicitly, you can add the argument --updater-dyndns2-url:
               --updater-dyndns2-userid=bob \
               --updater-dyndns2-password=fub4r \
               --updater-dyndns2-url=https://dyndns.example.com/nic/update
+
+
+Examples (using config file)
+----------------------------
+
+Create a config file test.cfg with this content (no spaces at the left!):
+
+.. code-block:: ini
+
+    [dyndnsc]
+    configs = test_ipv4,test_ipv6
+    daemon = false
+
+    [test_ipv4]
+    use_profile = nsupdate.info:ipv4
+    updater-hostname = test.nsupdate.info
+    updater-userid = test.nsupdate.info
+    updater-password = xxxxxxxx
+
+    [test_ipv6]
+    use_profile = nsupdate.info:ipv6
+    updater-hostname = test.nsupdate.info
+    updater-userid = test.nsupdate.info
+    updater-password = xxxxxxxx
+
+Now invoke dyndnsc and give this file as configuration:
+
+.. code-block:: bash
+
+    $ dyndnsc --config test.cfg
 
 
 Error handling

@@ -106,7 +106,7 @@ def main():
                           'interval': int(args.sleeptime)
                       }
                       }
-        collected_configs.append(thisconfig)
+        collected_configs = thisconfig
 
     plugins.configure(args)
     plugins.initialize()

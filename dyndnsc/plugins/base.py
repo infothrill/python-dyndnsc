@@ -53,7 +53,7 @@ class Plugin(object):
         --with-$name option to be registered, be sure to call super().
 
         :param parser: argparse parser object
-        :param defaults:
+        :param env:
         """
         env_opt = ENV_PREFIX + self.name.upper()
         env_opt = env_opt.replace('-', '_')
