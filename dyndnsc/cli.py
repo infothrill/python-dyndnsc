@@ -4,6 +4,7 @@
 
 import sys
 import logging
+import time
 import argparse
 
 from .plugins.manager import DefaultPluginManager
@@ -111,6 +112,7 @@ def main():
     plugins.configure(args)
     plugins.initialize()
 
+    dyndnsclients = []
     for thisconfig in collected_configs:
         # done with options, bring on the dancing girls
         dyndnsclient = getDynDnsClientForConfig(
@@ -119,18 +121,25 @@ def main():
             return 1
         # do an initial synchronization, before going into endless loop:
         dyndnsclient.sync()
+        dyndnsclients.append(dyndnsclient)
 
-        if args.daemon:
-            from .daemon import daemonize
-            daemonize()  # fork into background
-            args.loop = True
+    if args.daemon:
+        from .daemon import daemonize
+        daemonize()  # fork into background
+        args.loop = True
 
-        if args.loop:
-            dyndnsclient.loop()
-        else:
+    while True:
+        for dyndnsclient in dyndnsclients:
             dyndnsclient.check()
+        if args.loop:
+            # only sleep with fine granularity here,
+            # needs_check() is cheap and does the rest.
+            time.sleep(10)
+        else:
+            break
 
     return 0
+
 
 if __name__ == '__main__':
     sys.exit(main())
