@@ -47,7 +47,7 @@ detector-url = http://ip.example.com/
 detector-parser = plain
         """
         p = configparser.ConfigParser()
-        p.readfp(StringIO(sample_config))
+        p.readfp(StringIO(sample_config))  # XXX readfp() is deprecated since py 3.2
         config = collect_config(p)
         self.assertEqual(dict, type(config))
         self.assertTrue('testconfig' in config)
