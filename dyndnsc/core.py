@@ -163,15 +163,6 @@ class DynDnsClient(object):
                 # nothing to be done
                 pass
 
-    def loop(self):
-        """
-        locking endless loop with built-in sleeping between checks and
-        updates.
-        """
-        while True:
-            self.check()
-            time.sleep(self.ipchangedetection_sleep)
-
 
 def getDynDnsClientForConfig(config, plugins=None):
     """Factory detector_name to instantiate and initialize a complete and working
