@@ -133,7 +133,8 @@ class DynDnsClient(object):
             return time.time() - self.lastcheck >= self.ipchangedetection_sleep
 
     def needs_forced_check(self):
-        """This checks if self.forceipchangedetection_sleep between checks has
+        """
+        This checks if self.forceipchangedetection_sleep between checks has
         elapsed. When this time has elapsed, a sync() should be performed, no
         matter what has_state_changed() says. This is really just a safety thing
         to enforce consistency in case the state gets messed up.
@@ -142,8 +143,7 @@ class DynDnsClient(object):
         """
         if self.lastforce is None:
             self.lastforce = time.time()
-        elapsed = time.time() - self.lastforce
-        return elapsed >= self.forceipchangedetection_sleep
+        return time.time() - self.lastforce >= self.forceipchangedetection_sleep
 
     def check(self):
         """
