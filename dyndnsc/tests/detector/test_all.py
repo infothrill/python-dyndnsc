@@ -89,7 +89,7 @@ class TestIndividualDetectors(unittest.TestCase):
         # test address family restriction to ipv4:
         detector = ns.IPDetector_DNS(hostname_default="localhost", family='INET')
         self.assertEqual(AF_INET, detector.af())
-        self.assertTrue(detector.detect() in ("127.0.0.1"))
+        self.assertTrue(detector.detect() in ("127.0.0.1", ))
         # test address family restriction to ipv6:
         detector = ns.IPDetector_DNS(hostname_default="localhost", family='INET6')
         self.assertEqual(AF_INET6, detector.af())
