@@ -100,13 +100,13 @@ Create a config file test.cfg with this content (no spaces at the left!):
     daemon = false
 
     [test_ipv4]
-    use_profile = nsupdate.info:ipv4
+    use_preset = nsupdate.info:ipv4
     updater-hostname = test.nsupdate.info
     updater-userid = test.nsupdate.info
     updater-password = xxxxxxxx
 
     [test_ipv6]
-    use_profile = nsupdate.info:ipv6
+    use_preset = nsupdate.info:ipv6
     updater-hostname = test.nsupdate.info
     updater-userid = test.nsupdate.info
     updater-password = xxxxxxxx
