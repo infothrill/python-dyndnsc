@@ -65,7 +65,7 @@ def patch_install_requires(requires):
         # This is equivalent to requests[security] which exists since
         # requests 2.4.1 It is required in older Pythons that do not
         # understand SNI certificates. When these libraries are available
-        # they are being used and incidently also support SNI
+        # they are being used and incidentally also support SNI
         to_add.append("pyOpenSSL")
         to_add.append("ndg-httpsclient")
         to_add.append("pyasn1")

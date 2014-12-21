@@ -32,7 +32,7 @@ class TestPluginDetectors(unittest.TestCase):
         for cls in dyndnsc.detector.manager.detector_classes():
             self.assertTrue(hasattr(cls, 'names'))
             self.assertTrue(hasattr(cls, 'af'))
-        self.assertRaises(KeyError, dyndnsc.detector.manager.get_detector_class, 'nonexistant')
+        self.assertRaises(KeyError, dyndnsc.detector.manager.get_detector_class, 'nonexistent')
 
 
 class TestIndividualDetectors(unittest.TestCase):
