@@ -19,7 +19,7 @@ Dyndnsc - dynamic dns update client
 
 *dyndnsc* is both a script to be used directly as well as a re-usable and
 hopefully extensible python package for doing updates over http to dynamic
-dns services. This package currently focuses on supporting differnet http based
+dns services. This package currently focuses on supporting different http based
 update protocols.
 
 

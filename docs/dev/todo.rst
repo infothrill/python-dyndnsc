@@ -24,15 +24,10 @@ These are general guidelines for code contributors.
 
 Loose wishlist of todos
 -----------------------
-* config file support with a nice starter howto
-* man page?
 * linux packages?
 * add support for duckdns http://www.duckdns.org
 * add support for gnudip http://gnudip2.sourceforge.net/
 * add support for linode https://github.com/myano/linode-dyndns
-* services: enable updating mutiple different services with the same IP but a different
-  hostname. This would provide some form of poor mans redundancy in case one
-  of the services is down
 * usability: provide a mechanism to store credentials "safely". For example using
    https://pypi.python.org/pypi/keyring. This should be optional (from an API
    point of view), and it should be easy to setup during a first run
