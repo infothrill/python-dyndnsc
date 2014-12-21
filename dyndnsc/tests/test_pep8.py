@@ -7,6 +7,11 @@ import pep8
 
 import dyndnsc
 
+MAX_LINE_LENGTH = 132
+
+# sequence of "Ennn" strings to ignore:
+IGNORE_CODES = ()
+
 
 class Pep8ConformanceTestCase(unittest.TestCase):
 
@@ -19,10 +24,8 @@ class Pep8ConformanceTestCase(unittest.TestCase):
         unittest.TestCase.tearDown(self)
 
     def test_pep8_conformance(self):
-        ignore_codes = (
-            "E501",  # line length
-        )
-        pep8style = pep8.StyleGuide(show_source=True, ignore=ignore_codes)
+        pep8style = pep8.StyleGuide(show_source=True, ignore=IGNORE_CODES,
+                                    max_line_length=MAX_LINE_LENGTH)
         for package in self.packages:
             path = os.path.dirname(package.__file__)
             pep8style.input_dir(path)
