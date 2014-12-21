@@ -3,6 +3,7 @@
 """Main CLI program."""
 
 import sys
+import os
 import logging
 import time
 import argparse
@@ -10,39 +11,67 @@ import argparse
 from .plugins.manager import DefaultPluginManager
 from .updater.manager import updater_classes
 from .core import getDynDnsClientForConfig
+from .conf import get_configuration, collect_config
+
+
+def list_presets(cfg, out=sys.stdout):
+    """Write a human readable list of available presets to out.
+
+    :param cfg: ConfigParser instance
+    :param out: file object to write to
+    """
+    for section in cfg.sections():
+        if section.startswith("preset:"):
+            out.write((section.replace("preset:", "")) + os.linesep)
+            for k, v in cfg.items(section):
+                out.write("\t%s = %s" % (k, v) + os.linesep)
 
 
 def create_argparser():
-    """
-    Instantiate an `argparse.ArgumentParser`.
+    """Instantiate an `argparse.ArgumentParser`.
 
-    Adds all common cli options.
+    Adds all basic cli options including default values.
     """
     parser = argparse.ArgumentParser()
+    arg_defaults = {
+        "daemon": False,
+        "loop": False,
+        "listpresets": False,
+        "config": None,
+        "debug": False,
+        "detector": "webcheck",
+        "sleeptime": 300,
+        "version": False
+    }
 
     # add generic client options to the CLI:
     parser.add_argument("-c", "--config", dest="config",
-                        help="config file", default=None)
+                        help="config file", default=arg_defaults['config'])
+    # parser.add_argument("-p", "--preset", dest="preset",
+    #                    help="select a preset", default=None)
+    parser.add_argument("--list-presets", dest="listpresets",
+                        help="list all available presets",
+                        action="store_true", default=arg_defaults['listpresets'])
     parser.add_argument("-d", "--daemon", dest="daemon",
                         help="go into daemon mode (implies --loop)",
-                        action="store_true", default=False)
+                        action="store_true", default=arg_defaults['daemon'])
     parser.add_argument("--debug", dest="debug",
                         help="increase logging level to DEBUG",
-                        action="store_true", default=False)
+                        action="store_true", default=arg_defaults['debug'])
     parser.add_argument("--detector", "--method", dest="detector",
                         help="method for detecting your IP (default webcheck)",
-                        default='webcheck')
+                        default=arg_defaults['detector'])
     parser.add_argument("--loop", dest="loop",
                         help="loop forever (default is to update once)",
-                        action="store_true", default=False)
+                        action="store_true", default=arg_defaults['loop'])
     parser.add_argument("--sleeptime", dest="sleeptime",
                         help="how long to sleep between checks in seconds",
-                        default=300)
+                        default=arg_defaults['sleeptime'])
     parser.add_argument("--version", dest="version",
                         help="show version and exit",
-                        action="store_true", default=False)
+                        action="store_true", default=arg_defaults['version'])
 
-    return parser
+    return parser, arg_defaults
 
 
 def main():
@@ -55,7 +84,7 @@ def main():
     plugins = DefaultPluginManager()
     plugins.load_plugins()
 
-    parser = create_argparser()
+    parser, arg_defaults = create_argparser()
     # add the updater protocol options to the CLI:
     for kls in updater_classes():
         kls.register_arguments(parser)
@@ -66,11 +95,6 @@ def main():
 
     args = parser.parse_args()
 
-    if args.version:
-        from . import __version__
-        print("dyndnsc %s" % __version__)
-        return 0
-
     if args.debug:
         level = logging.DEBUG
     else:
@@ -78,21 +102,42 @@ def main():
 
     logging.basicConfig(level=level,
                         format='%(asctime)s %(levelname)s %(message)s')
+    # logging.debug("args %r", args)
+
+    if args.version:
+        from . import __version__
+        print("dyndnsc %s" % __version__)
+        return 0
+
     # silence 'requests' logging
     requests_log = logging.getLogger("requests")
     requests_log.setLevel(logging.WARNING)
 
-    # we collect cmd line args, config file into a separate dict:
-    # TODO: park the sleep time parameter with the detector and call it
-    # interval
-    collected_configs = []
-    # collected_configs['sleeptime'] = int(args.sleeptime)
+    logging.debug(parser)
+    cfg = get_configuration(args.config)
+    """
+    # this sucks. We need to find a way to handle both command line arguments
+    # AND config file options gracefully. Maybe something like
+    # https://pypi.python.org/pypi/ConfigArgParse/ ?
+    DYNDNSC = "dyndnsc"
+    if cfg.get(DYNDNSC, "debug", vars=arg_defaults) == "true" and not args.debug:
+        logging.getLogger().handlers = []
+        logging.basicConfig(level=logging.DEBUG,
+                            format='%(asctime)s %(levelname)s %(message)s')
+    if cfg.get(DYNDNSC, "daemon", vars=arg_defaults) == "true" and not args.daemon:
+        args.daemon = True
+    if cfg.get(DYNDNSC, "loop", vars=arg_defaults) == "true" and not args.loop:
+        args.loop = True
+    """
+
+    if args.listpresets:
+        list_presets(cfg)
+        return 0
 
     if args.config:
-        from dyndnsc.conf import getConfiguration, collect_config
-        logging.debug(args.config)
-        cfg = getConfiguration(args.config)
         more_conf = collect_config(cfg)
+        # TODO: park the 'sleeptime' parameter with the detectors
+        #       and call it 'interval'
         for m in more_conf:
             if 'interval' not in more_conf[m]:
                 more_conf[m]['interval'] = int(args.sleeptime)
@@ -100,20 +145,21 @@ def main():
     else:
         from .cli_helper import parse_cmdline_detector_args,\
             parse_cmdline_updater_args
-        thisconfig = {'cmdline':
-                      {
-                          'detector': parse_cmdline_detector_args(args.detector),
-                          'updaters': parse_cmdline_updater_args(args),
-                          'interval': int(args.sleeptime)
-                      }
-                      }
-        collected_configs = thisconfig
+        collected_configs = {'cmdline':
+                             {
+                                 'detector': parse_cmdline_detector_args(args.detector),
+                                 'updaters': parse_cmdline_updater_args(args),
+                                 'interval': int(args.sleeptime)
+                             }
+                             }
 
     plugins.configure(args)
     plugins.initialize()
 
+    logging.debug("collected_configs: %r", collected_configs)
     dyndnsclients = []
     for thisconfig in collected_configs:
+        logging.debug(thisconfig)
         # done with options, bring on the dancing girls
         dyndnsclient = getDynDnsClientForConfig(
             collected_configs[thisconfig], plugins=plugins)

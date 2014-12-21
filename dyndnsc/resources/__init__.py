@@ -5,7 +5,7 @@ For ease of use, we provide this module to access the resources using
 symbolic references, rather than by string conventions.
 """
 
-PROFILES_INI = "profiles.ini"
+PRESETS_INI = "profiles.ini"
 
 
 from pkg_resources import resource_stream as _resstream  # @UnresolvedImport

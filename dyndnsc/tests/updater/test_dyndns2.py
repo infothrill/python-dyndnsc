@@ -17,6 +17,7 @@ def nicupdate():
 
 
 class Dyndns2App(Bottle):
+
     """
     A minimal http server that resembles an actual dyndns service
     """
@@ -48,20 +49,6 @@ class Dyndns2App(Bottle):
         return 'http://%s:%s' % (self.host, str(self.port))
 
 
-class TestDummyUpdater(unittest.TestCase):
-
-    def test_dummy(self):
-        import dyndnsc.updater.dummy
-        NAME = "dummy"
-        theip = "127.0.0.1"
-        self.assertEqual(
-            NAME, dyndnsc.updater.dummy.UpdateProtocolDummy.configuration_key())
-        updater = dyndnsc.updater.dummy.UpdateProtocolDummy(
-            hostname='localhost')
-        self.assertEqual(str, type(updater.updateUrl()))
-        self.assertEqual(theip, updater.update(theip))
-
-
 class TestDyndns2BottleServer(unittest.TestCase):
 
     def setUp(self):
@@ -83,47 +70,19 @@ class TestDyndns2BottleServer(unittest.TestCase):
         self.server = None
         unittest.TestCase.tearDown(self)
 
-    def test_noip(self):
-        import dyndnsc.updater.dyndns2 as noip
-        NAME = "noip"
-        theip = "127.0.0.1"
-        options = {"hostname": "no-ip.example.com",
-                   "userid": "dummy", "password": "1234"}
-        self.assertEqual(NAME, noip.UpdateProtocolNoip.configuration_key())
-        updater = noip.UpdateProtocolNoip(**options)
-        updater.updateurl = self.url
-        self.assertEqual(str, type(updater.updateUrl()))
-        self.assertEqual(self.url, updater.updateUrl())
-        res = updater.update(theip)
-        self.assertEqual(theip, res)
-
-    def test_dyndns(self):
+    def test_dyndns2(self):
         import dyndnsc.updater.dyndns2 as dyndns2
         NAME = "dyndns2"
         theip = "127.0.0.1"
         options = {"hostname": "dyndns.example.com",
-                   "userid": "dummy", "password": "1234"}
+                   "userid": "dummy", "password": "1234",
+                   "url": self.url
+                   }
         self.assertEqual(
             NAME, dyndns2.UpdateProtocolDyndns2.configuration_key())
         updater = dyndns2.UpdateProtocolDyndns2(**options)
-        updater.updateurl = self.url
-        self.assertEqual(str, type(updater.updateUrl()))
-        self.assertEqual(self.url, updater.updateUrl())
-        res = updater.update(theip)
-        self.assertEqual(theip, res)
-
-    def test_nsupdate_info(self):
-        import dyndnsc.updater.dyndns2 as nsupdate_info
-        NAME = "nsupdate"
-        theip = "127.0.0.1"
-        options = {"hostname": "nsupdate_info.example.com",
-                   "userid": "dummy", "password": "1234"}
-        self.assertEqual(
-            NAME, nsupdate_info.UpdateProtocolNsUpdate.configuration_key())
-        updater = nsupdate_info.UpdateProtocolNsUpdate(**options)
-        updater.updateurl = self.url
-        self.assertEqual(str, type(updater.updateUrl()))
-        self.assertEqual(self.url, updater.updateUrl())
+        self.assertEqual(str, type(updater.url()))
+        self.assertEqual(self.url, updater.url())
         res = updater.update(theip)
         self.assertEqual(theip, res)
 

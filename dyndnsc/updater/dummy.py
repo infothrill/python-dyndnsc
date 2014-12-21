@@ -6,6 +6,7 @@ from .base import UpdateProtocol
 class UpdateProtocolDummy(UpdateProtocol):
 
     _updateurl = "http://localhost.nonexistant/nic/update"
+    _dont_register_arguments = True
 
     def __init__(self, hostname, **kwargs):
         self.hostname = hostname

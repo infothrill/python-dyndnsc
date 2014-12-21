@@ -23,14 +23,14 @@ log = logging.getLogger(__name__)
 
 class DynDnsClient(object):
     """This class represents a client to the dynamic dns service."""
-    def __init__(self, sleeptime=300):
+    def __init__(self, detect_interval=300):
         """
         Initializer
 
-        :param sleeptime: amount of time in seconds that can elapse between checks
+        :param detect_interval: amount of time in seconds that can elapse between checks
         """
-        self.ipchangedetection_sleep = sleeptime  # check every n seconds if our IP changed
-        self.forceipchangedetection_sleep = sleeptime * 5  # force check every n seconds if our IP changed
+        self.ipchangedetection_sleep = detect_interval  # check every n seconds if our IP changed
+        self.forceipchangedetection_sleep = detect_interval * 5  # force check every n seconds if our IP changed
         self.lastcheck = None
         self.lastforce = None
         self.updaters = []
@@ -133,8 +133,7 @@ class DynDnsClient(object):
             return time.time() - self.lastcheck >= self.ipchangedetection_sleep
 
     def needs_forced_check(self):
-        """
-        This checks if self.forceipchangedetection_sleep between checks has
+        """This checks if self.forceipchangedetection_sleep between checks has
         elapsed. When this time has elapsed, a sync() should be performed, no
         matter what has_state_changed() says. This is really just a safety thing
         to enforce consistency in case the state gets messed up.
@@ -172,7 +171,7 @@ def getDynDnsClientForConfig(config, plugins=None):
     :param plugins: an object that implements PluginManager
     """
     if 'interval' in config:
-        dyndnsclient = DynDnsClient(sleeptime=config['interval'])
+        dyndnsclient = DynDnsClient(detect_interval=config['interval'])
     else:
         dyndnsclient = DynDnsClient()
 

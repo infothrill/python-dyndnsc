@@ -8,8 +8,8 @@ except ImportError:
 
 from dyndnsc.common.six import StringIO
 
-from dyndnsc.conf import getConfiguration, collect_config
-from dyndnsc.resources import getFilename, PROFILES_INI
+from dyndnsc.conf import get_configuration, collect_config
+from dyndnsc.resources import getFilename, PRESETS_INI
 
 
 class TestConfig(unittest.TestCase):
@@ -20,24 +20,31 @@ class TestConfig(unittest.TestCase):
     def tearDown(self):
         unittest.TestCase.tearDown(self)
 
-    def test_getConfiguration(self):
-        parser = getConfiguration(getFilename(PROFILES_INI))
-        self.assertFalse(parser.getboolean('dyndnsc', 'daemon'))
+    def test_get_configuration(self):
+        parser = get_configuration(getFilename(PRESETS_INI))
+        # TODO: this is not a good test. Improve!
+        self.assertFalse(parser.has_section("dyndnsc"))
 
-    def test_collectConfiguration(self):
+    def test_config_builtin_presets(self):
+        parser = get_configuration(getFilename(PRESETS_INI))
+        # in the built-in presets.ini, we don't want anything but presets:
+        for section in parser.sections():
+            self.assertTrue(
+                section.startswith("preset:"), "section starts with preset:")
+
+    def test_collect_configuration(self):
         """
         minimal example of a working config
         """
         sample_config = """[dyndnsc]
 configs = testconfig
-daemon = false
 
 [testconfig]
-use_profile = testprofile
+use_preset = testpreset
 updater-userid = bob
 updater-password = XYZ
 
-[profile:testprofile]
+[preset:testpreset]
 updater = fubarUpdater
 updater-url = https://update.example.com/nic/update
 updater-moreparam = some_stuff

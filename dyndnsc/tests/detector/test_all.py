@@ -144,7 +144,7 @@ class TestIndividualDetectors(unittest.TestCase):
         # auto-detect an interface:
         interface = give_me_an_interface_ipv4()
         self.assertNotEqual(None, interface)
-        detector = iface.IPDetector_Iface({'iface': interface})
+        detector = iface.IPDetector_Iface(iface=interface)
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))

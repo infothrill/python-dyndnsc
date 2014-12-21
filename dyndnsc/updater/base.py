@@ -59,6 +59,8 @@ class UpdateProtocol(Subject):
         OptionConflictErrors. If you override this method and want the default
         --updater-$name option(s) to be registered, be sure to call super().
         """
+        if hasattr(cls, '_dont_register_arguments'):
+            return
         cfgkey = cls.configuration_key()
         parser.add_argument("--updater-%s" % cfgkey,
                             action="store_true",

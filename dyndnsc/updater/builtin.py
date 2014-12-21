@@ -12,8 +12,6 @@ _builtins = (
     ('dyndnsc.updater.afraid', 'UpdateProtocolAfraid'),
     ('dyndnsc.updater.dummy', 'UpdateProtocolDummy'),
     ('dyndnsc.updater.dyndns2', 'UpdateProtocolDyndns2'),
-    ('dyndnsc.updater.dyndns2', 'UpdateProtocolNoip'),
-    ('dyndnsc.updater.dyndns2', 'UpdateProtocolNsUpdate'),
     ('dyndnsc.updater.dnsimple', 'UpdateProtocolDnsimple'),
 )
 

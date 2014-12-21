@@ -11,14 +11,14 @@ log = getLogger(__name__)
 
 
 class UpdateProtocolDyndns2(UpdateProtocol):
-    """Updater for services compatible with dyndns.com"""
+    """Updater for services compatible with the dyndns2 protocol."""
 
-    def __init__(self, hostname, userid, password,
-                 url="https://members.dyndns.org/nic/update", **kwargs):
+    def __init__(self, hostname, userid, password, url, *args, **kwargs):
         """
         :param hostname: the fully qualified hostname to be managed
         :param userid: the userid for identification
         :param password: the password for authentication
+        :param url: the API URL for updating the DNS entry
         """
         self.hostname = hostname
         self.userid = userid
@@ -37,7 +37,7 @@ class UpdateProtocolDyndns2(UpdateProtocol):
 
     def protocol(self):
         timeout = 60
-        log.debug("Updating '%s' to '%s' at service '%s'", self.hostname, self.theip, self.updateUrl())
+        log.debug("Updating '%s' to '%s' at service '%s'", self.hostname, self.theip, self.url())
         params = {'myip': self.theip, 'hostname': self.hostname}
         try:
             r = requests.get(self.updateUrl(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
@@ -66,36 +66,3 @@ class UpdateProtocolDyndns2(UpdateProtocol):
                 return r.text
         else:
             return 'invalid http status code: %s' % r.status_code
-
-
-class UpdateProtocolNsUpdate(UpdateProtocolDyndns2):
-    """
-    Updater for nsupdate.info dynamic dns service (which is dyndns2 compatible,
-    so this class is only here for the sake of a different url).
-    """
-
-    def __init__(self, hostname, userid, password,
-                 url="https://nsupdate.info/nic/update", **kwargs):
-
-        super(UpdateProtocolNsUpdate, self).__init__(hostname, userid, password,
-                                                     url, **kwargs)
-
-    @staticmethod
-    def configuration_key():
-        return "nsupdate"
-
-
-class UpdateProtocolNoip(UpdateProtocolDyndns2):
-    """Protocol handler for www.noip.com, behaves exactly like dyndns2 but
-    this point to a different default url"""
-
-    def __init__(self, hostname, userid, password,
-                 url="https://dynupdate.no-ip.com/nic/update",
-                 **kwargs):
-
-        super(UpdateProtocolNoip, self).__init__(hostname, userid, password,
-                                                 url, **kwargs)
-
-    @staticmethod
-    def configuration_key():
-        return "noip"
