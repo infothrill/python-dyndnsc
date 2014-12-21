@@ -21,16 +21,8 @@ These are general guidelines for code contributors.
   shall not make other suffer from our personal choice
 * write unittests
 
+Help with issues
+----------------
+Dyndnc's issue tracker is on GitHub, please use it:
 
-Loose wishlist of todos
------------------------
-* linux packages?
-* add support for duckdns http://www.duckdns.org
-* add support for gnudip http://gnudip2.sourceforge.net/
-* add support for linode https://github.com/myano/linode-dyndns
-* usability: provide a mechanism to store credentials "safely". For example using
-   https://pypi.python.org/pypi/keyring. This should be optional (from an API
-   point of view), and it should be easy to setup during a first run
-   (interactive use).
-* technology: https://pypi.python.org/pypi/pyatomiadns this looks like an RFC2136
-  implementation
+https://github.com/infothrill/python-dyndnsc/issues
