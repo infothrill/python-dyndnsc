@@ -19,7 +19,7 @@ class TestResources(unittest.TestCase):
 
     def test_exists(self):
         self.assertTrue(exists(PRESETS_INI))
-        self.assertFalse(exists(getFilename(".fubar-non-existant")))
+        self.assertFalse(exists(getFilename(".fubar-non-existent")))
 
     def test_get_string(self):
         self.assertTrue(type(getString(PRESETS_INI)) in (str, bytes))

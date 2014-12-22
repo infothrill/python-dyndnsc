@@ -20,9 +20,3 @@ These are general guidelines for code contributors.
 * do not prefer specific operating systems, i.e. even if we love Linux, we
   shall not make other suffer from our personal choice
 * write unittests
-
-Help with issues
-----------------
-Dyndnc's issue tracker is on GitHub, please use it:
-
-https://github.com/infothrill/python-dyndnsc/issues

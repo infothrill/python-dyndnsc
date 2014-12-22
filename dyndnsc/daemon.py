@@ -59,7 +59,8 @@ def daemonize(stdout=os.devnull, stderr=None, stdin=os.devnull,
     sys.stderr.write("%s%s" % (startmsg, os.linesep) % pid)
     sys.stderr.flush()
     if pidfile:
-        open(pidfile, 'w+b').write("%s%s" % (pid, os.linesep))
+        with open(pidfile, 'w+') as f:
+            f.write("%s%s" % (pid, os.linesep))
 
     # Redirect standard file descriptors.
     os.dup2(si.fileno(), sys.stdin.fileno())
