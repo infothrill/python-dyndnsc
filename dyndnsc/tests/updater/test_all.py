@@ -43,4 +43,4 @@ class TestUpdaterCommon(unittest.TestCase):
             self.assertEqual(str, type(cls.configuration_key()))
             self.assertTrue(str, type(cls.help()))
         self.assertTrue(len(updater_classes()) > 0)
-        self.assertRaises(KeyError, get_updater_class, 'nonexistant')
+        self.assertRaises(KeyError, get_updater_class, 'nonexistent')

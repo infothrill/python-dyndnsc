@@ -32,7 +32,7 @@ class TestPluginDetectors(unittest.TestCase):
         for cls in dyndnsc.detector.manager.detector_classes():
             self.assertTrue(hasattr(cls, 'names'))
             self.assertTrue(hasattr(cls, 'af'))
-        self.assertRaises(KeyError, dyndnsc.detector.manager.get_detector_class, 'nonexistant')
+        self.assertRaises(KeyError, dyndnsc.detector.manager.get_detector_class, 'nonexistent')
 
 
 class TestIndividualDetectors(unittest.TestCase):
@@ -89,7 +89,7 @@ class TestIndividualDetectors(unittest.TestCase):
         # test address family restriction to ipv4:
         detector = ns.IPDetector_DNS(hostname_default="localhost", family='INET')
         self.assertEqual(AF_INET, detector.af())
-        self.assertTrue(detector.detect() in ("127.0.0.1"))
+        self.assertTrue(detector.detect() in ("127.0.0.1", ))
         # test address family restriction to ipv6:
         detector = ns.IPDetector_DNS(hostname_default="localhost", family='INET6')
         self.assertEqual(AF_INET6, detector.af())
