@@ -47,8 +47,6 @@ def create_argparser():
     # add generic client options to the CLI:
     parser.add_argument("-c", "--config", dest="config",
                         help="config file", default=arg_defaults['config'])
-    # parser.add_argument("-p", "--preset", dest="preset",
-    #                    help="select a preset", default=None)
     parser.add_argument("--list-presets", dest="listpresets",
                         help="list all available presets",
                         action="store_true", default=arg_defaults['listpresets'])
@@ -115,33 +113,13 @@ def main():
 
     logging.debug(parser)
     cfg = get_configuration(args.config)
-    """
-    # this sucks. We need to find a way to handle both command line arguments
-    # AND config file options gracefully. Maybe something like
-    # https://pypi.python.org/pypi/ConfigArgParse/ ?
-    DYNDNSC = "dyndnsc"
-    if cfg.get(DYNDNSC, "debug", vars=arg_defaults) == "true" and not args.debug:
-        logging.getLogger().handlers = []
-        logging.basicConfig(level=logging.DEBUG,
-                            format='%(asctime)s %(levelname)s %(message)s')
-    if cfg.get(DYNDNSC, "daemon", vars=arg_defaults) == "true" and not args.daemon:
-        args.daemon = True
-    if cfg.get(DYNDNSC, "loop", vars=arg_defaults) == "true" and not args.loop:
-        args.loop = True
-    """
 
     if args.listpresets:
         list_presets(cfg)
         return 0
 
     if args.config:
-        more_conf = collect_config(cfg)
-        # TODO: park the 'sleeptime' parameter with the detectors
-        #       and call it 'interval'
-        for m in more_conf:
-            if 'interval' not in more_conf[m]:
-                more_conf[m]['interval'] = int(args.sleeptime)
-        collected_configs = more_conf
+        collected_configs = collect_config(cfg)
     else:
         from .cli_helper import parse_cmdline_detector_args,\
             parse_cmdline_updater_args
@@ -159,7 +137,7 @@ def main():
     logging.debug("collected_configs: %r", collected_configs)
     dyndnsclients = []
     for thisconfig in collected_configs:
-        logging.debug(thisconfig)
+        logging.debug("Initializing client for '%s'", thisconfig)
         # done with options, bring on the dancing girls
         dyndnsclient = getDynDnsClientForConfig(
             collected_configs[thisconfig], plugins=plugins)

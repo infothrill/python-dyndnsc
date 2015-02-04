@@ -29,8 +29,8 @@ class DynDnsClient(object):
 
         :param detect_interval: amount of time in seconds that can elapse between checks
         """
-        self.ipchangedetection_sleep = detect_interval  # check every n seconds if our IP changed
-        self.forceipchangedetection_sleep = detect_interval * 5  # force check every n seconds if our IP changed
+        self.ipchangedetection_sleep = int(detect_interval)  # check every n seconds if our IP changed
+        self.forceipchangedetection_sleep = int(detect_interval) * 5  # force check every n seconds if our IP changed
         self.lastcheck = None
         self.lastforce = None
         self.updaters = []
