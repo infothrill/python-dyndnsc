@@ -93,8 +93,7 @@ Create a config file test.cfg with this content (no spaces at the left!):
 .. code-block:: ini
 
     [dyndnsc]
-    configs = test_ipv4,test_ipv6
-    daemon = false
+    configs = test_ipv4, test_ipv6
 
     [test_ipv4]
     use_preset = nsupdate.info:ipv4
