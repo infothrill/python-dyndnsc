@@ -17,8 +17,8 @@ First, make sure that:
 Let's get started with some simple examples.
 
 
-Examples (using commandline params)
------------------------------------
+Command line usage
+------------------
 
 A basic example that should fit most peoples needs using the dyndns.com service:
 
@@ -73,23 +73,13 @@ specifying them using comma/colon separated arguments:
 
 This is a bit unflexible an might be changed in future versions.
 
-Custom services
----------------
-
-If you are using a dyndns2 compatible service and need to specify the update
-URL explicitly, you can add the argument --updater-dyndns2-url:
-
-.. code-block:: bash
-
-    $ dyndnsc --updater-dyndns2 \
-              --updater-dyndns2-hostname=test.dyndns.com \
-              --updater-dyndns2-userid=bob \
-              --updater-dyndns2-password=fub4r \
-              --updater-dyndns2-url=https://dyndns.example.com/nic/update
+Presets
+-------
+Dyndnsc comes with a 
 
 
-Examples (using config file)
-----------------------------
+Configuration file
+------------------
 
 Create a config file test.cfg with this content (no spaces at the left!):
 
@@ -117,21 +107,18 @@ Now invoke dyndnsc and give this file as configuration:
 
     $ dyndnsc --config test.cfg
 
+Custom services
+---------------
 
-Error handling
---------------
+If you are using a dyndns2 compatible service and need to specify the update
+URL explicitly, you can add the argument --updater-dyndns2-url:
 
-Connection errors and timeout errors on the socket level and http level are
-mostly handled as transient and simply ignored, i.e. updating and/or detecting
-an IP will fail with a log message but the client should remain active and
-retry later.
+.. code-block:: bash
 
-Some errors are not handled gracefully, for example if there is an SSL handshake
-issue when using a https connection, dyndnsc will typically fail.
+    $ dyndnsc --updater-dyndns2 \
+              --updater-dyndns2-hostname=test.dyndns.com \
+              --updater-dyndns2-userid=bob \
+              --updater-dyndns2-password=fub4r \
+              --updater-dyndns2-url=https://dyndns.example.com/nic/update
 
-Thus, depending on your needs, it might be required to put the dyndnsc client
-inside a retry loop to run it in a completely unattended way. Don't
-be fooled by the --daemon option, it is available, but the design of the
-dyndnsc program does not provide longevity guarantees. Feel free to contribute
-some by sending pull requests!
 

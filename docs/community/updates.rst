@@ -14,8 +14,8 @@ The best way to track the development of Dyndnsc is through
 `the GitHub repo <https://github.com/infothrill/python-dyndnsc>`_.
 
 
-Software Updates
-================
+Changelog
+=========
 
 .. include:: ../../CHANGELOG.rst
 
