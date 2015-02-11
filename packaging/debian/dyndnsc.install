@@ -1,0 +1,3 @@
+docs/man/man1/*.1 usr/share/man/man1
+bin/* usr/bin
+example.ini etc/dyndnsc

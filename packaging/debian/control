@@ -1,0 +1,16 @@
+Source: dyndnsc
+Section: admin
+Priority: optional
+Standards-Version: 3.9.3
+Maintainer: Paul Kremer <paul@spurious.biz>
+Build-Depends: cdbs, debhelper (>= 5.0.0), python, python-support, python-setuptools
+Homepage: https://github.com/infothrill/python-dyndnsc
+
+Package: dyndnsc
+Architecture: all
+Depends: python, python-support (>= 0.90), ${misc:Depends}
+Description: dynamic dns update client
+ dyndnsc is both a script to be used directly as well as a re-usable and
+ hopefully extensible python package for doing updates over http to dynamic
+ dns services. This package currently focuses on supporting different http
+ based update protocols.
