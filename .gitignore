@@ -39,3 +39,6 @@ env/
 
 #python fubar
 MANIFEST
+
+# automation
+packaging/.vagrant
