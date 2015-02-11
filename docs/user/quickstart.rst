@@ -75,8 +75,15 @@ This is a bit unflexible an might be changed in future versions.
 
 Presets
 -------
-Dyndnsc comes with a 
+Dyndnsc comes with a list of pre-configured presets. To see all configured
+presets, you can run
 
+.. code-block:: bash
+
+   $ dyndnsc --list-presets
+
+Presets are used to shorten the amount of configuration needed. See the section
+on the configuration file to see how to use presets.
 
 Configuration file
 ------------------
