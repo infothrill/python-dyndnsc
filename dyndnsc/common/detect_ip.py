@@ -21,6 +21,8 @@ Refactored/modified by Thomas Waldmann to just detect the IP.
 """
 
 from __future__ import print_function
+import errno
+import socket
 
 IPV4 = 'ipv4'
 IPV6_ANY = 'ipv6'
@@ -30,9 +32,6 @@ IPV6_TMP = 'ipv6_tmp'
 # reserved IPs for documentation/example purposes
 OUTSIDE_IPV4 = '192.0.2.1'
 OUTSIDE_IPV6 = '2001:db8::1'
-
-import errno
-import socket
 
 # Not everything is available in Python
 if not hasattr(socket, "IPV6_ADDR_PREFERENCES"):

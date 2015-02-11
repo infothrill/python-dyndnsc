@@ -5,13 +5,13 @@ For ease of use, we provide this module to access the resources using
 symbolic references, rather than by string conventions.
 """
 
-PRESETS_INI = "presets.ini"
-
-
 from pkg_resources import resource_stream as _resstream  # @UnresolvedImport
 from pkg_resources import resource_string as _resstring  # @UnresolvedImport
 from pkg_resources import resource_exists as _resexists  # @UnresolvedImport
 from pkg_resources import resource_filename as _resfname   # @UnresolvedImport
+
+
+PRESETS_INI = "presets.ini"
 
 
 def exists(resource_name):

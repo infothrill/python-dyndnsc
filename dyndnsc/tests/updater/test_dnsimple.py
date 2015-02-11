@@ -16,11 +16,10 @@ import sys
 
 sys.modules['dnsimple_dyndns'] = mock.Mock()
 
-from dyndnsc.updater.dnsimple import UpdateProtocolDnsimple
-
 
 class TestDnsimpleUpdater(unittest.TestCase):
-    def testName(self):
+    def test_mocked_dnsimple(self):
+        from dyndnsc.updater.dnsimple import UpdateProtocolDnsimple
         theip = "127.0.0.1"
         self.assertEqual("dnsimple", UpdateProtocolDnsimple.configuration_key())
         upd = UpdateProtocolDnsimple(hostname="dnsimple_record.example.com", key="1234")
