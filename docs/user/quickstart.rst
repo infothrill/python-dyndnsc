@@ -33,32 +33,64 @@ Updating an IPv6 address when using `Miredo <http://www.remlab.net/miredo/>`_:
 
 .. code-block:: bash
 
-    $ dyndnsc --updater-nsupdate \
-              --updater-nsupdate-hostname test.nsupdate.info \
-              --updater-nsupdate-userid   test.nsupdate.info \
-              --updater-nsupdate-password xxxxxxxx \
-              --detector teredo \
+    $ dyndnsc --updater-dyndns2 \
+              --updater-dyndns2-hostname test.nsupdate.info \
+              --updater-dyndns2-userid   test.nsupdate.info \
+              --updater-dyndns2-password xxxxxxxx \
+              --detector teredo
 
 Updating an IPv4 record on nsupdate.info with web based ip autodetection:
 
 .. code-block:: bash
 
-    $ dyndnsc --updater-nsupdate \
-              --updater-nsupdate-hostname test.nsupdate.info \
-              --updater-nsupdate-userid   test.nsupdate.info \
-              --updater-nsupdate-password xxxxxxxx \
-              --detector webcheck4,url:http://ipv4.nsupdate.info/myip,parser:plain \
+    $ dyndnsc --updater-dyndns2 \
+              --updater-dyndns2-hostname test.nsupdate.info \
+              --updater-dyndns2-userid   test.nsupdate.info \
+              --updater-dyndns2-password xxxxxxxx \
+              --updater-dyndns2-url=https://nsupdate.info/nic/update \
+              --detector webcheck4,url:http://ipv4.nsupdate.info/myip,parser:plain
 
 Updating an IPv6 record on nsupdate.info with interface based ip detection:
 
 .. code-block:: bash
 
-    $ dyndnsc --updater-nsupdate \
-              --updater-nsupdate-hostname test.nsupdate.info \
-              --updater-nsupdate-userid test.nsupdate.info \
-              --updater-nsupdate-password xxxxxxxx \
-              --detector socket,family:INET6 \
+    $ dyndnsc --updater-dyndns2 \
+              --updater-dyndns2-hostname test.nsupdate.info \
+              --updater-dyndns2-userid test.nsupdate.info \
+              --updater-dyndns2-password xxxxxxxx \
+              --detector socket,family:INET6
 
+Update protocols
+----------------
+* `dnsimple <http://developer.dnsimple.com/>`_
+   Note: requires dnsimple-dyndns to be installed
+* `dyndns2 <http://dyn.com/support/developers/api/>`_
+* `freedns.afraid.org <http://freedns.afraid.org/>`_
+
+A lot of services on the internet offer some form of compatibility, so check
+this list. Some of these are pre-configured for Dyndnsc as a `preset`, see the
+section on presets.
+
+Each supported update protocol can be parametrized on the dyndnsc command line
+using long options starting with '--updater-' followed by the name of the
+protocol:
+
+.. code-block:: bash
+
+    $ dyndnsc --updater-afraid
+    $ dyndnsc --updater-dnsimple
+    $ dyndnsc --updater-dyndns2
+
+Each of these update protocols supports specific parameters, which might differ
+from each other. Each of these additional parameters can specified on the
+command line by appending them to the long option described above.
+
+Example to specify `userid` for updater `dyndns2`:
+
+.. code-block:: bash
+ 
+    $ dyndnsc --updater-dyndns2-userid test.nsupdate.info
+ 
 
 Passing parameters for IP detection
 -----------------------------------
@@ -82,8 +114,9 @@ presets, you can run
 
    $ dyndnsc --list-presets
 
-Presets are used to shorten the amount of configuration needed. See the section
-on the configuration file to see how to use presets.
+Presets are used to shorten the amount of configuration needed by providing
+preconfigured parameters. See the section on the configuration file to see
+how to use presets.
 
 Configuration file
 ------------------

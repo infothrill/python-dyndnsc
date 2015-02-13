@@ -18,6 +18,13 @@ supported:
 
 Support for Python 2.6 and 3.2 may be dropped at any time.
 
+Is service xyz supported?
+-------------------------
+To find out wether a certain dynamic dns service is supported by Dyndnsc, you
+can either try to identify the protocol involved and see if it is supported by
+Dyndnsc by looking the output of 'dyndnsc --help'. Or maybe the service in
+question is already listed in the presets ('dyndnsc --list-presets').
+
 I get a wrong IPv6 address, why?
 --------------------------------
 
