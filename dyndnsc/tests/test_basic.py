@@ -19,12 +19,12 @@ class TestDynDnsc(unittest.TestCase):
         self.assertRaises(TypeError, dyndnsc.getDynDnsClientForConfig, None)
         self.assertRaises(KeyError, dyndnsc.getDynDnsClientForConfig, {})
         self.assertRaises(ValueError, dyndnsc.getDynDnsClientForConfig,
-                          {'updaters': ()})
+                          {'updater': ()})
 
         # create a dummy config:
         config = {}
-        config['detector'] = ("random", {})
-        config['updaters'] = (("dummy", {'hostname': "example.com"}),)
+        config['detector'] = (("random", {}),)
+        config['updater'] = (("dummy", {'hostname': "example.com"}),)
         dyndnsclient = dyndnsc.getDynDnsClientForConfig(config)
         self.assertEqual(dyndnsclient.detector.af(), dyndnsclient.dns.af())
         self.assertTrue(dyndnsclient.needs_check())

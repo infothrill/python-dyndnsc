@@ -10,9 +10,10 @@ import argparse
 
 from .plugins.manager import DefaultPluginManager
 from .updater.manager import updater_classes
-# from .detector.manager import detector_classes
+from .detector.manager import detector_classes
 from .core import getDynDnsClientForConfig
 from .conf import get_configuration, collect_config
+from .common.dynamiccli import parse_cmdline_args
 
 
 def list_presets(cfg, out=sys.stdout):
@@ -88,8 +89,8 @@ def main():
     for kls in updater_classes():
         kls.register_arguments(parser)
 
-    # for kls in detector_classes():
-    #    kls.register_arguments(parser)
+    for kls in detector_classes():
+        kls.register_arguments(parser)
 
     # add the plugin options to the CLI:
     from os import environ
@@ -125,15 +126,15 @@ def main():
     if args.config:
         collected_configs = collect_config(cfg)
     else:
-        from .cli_helper import parse_cmdline_detector_args,\
-            parse_cmdline_updater_args
+        parsed_args = parse_cmdline_args(args, updater_classes().union(detector_classes()))
+        # logging.debug(parsed_args)
+
         collected_configs = {'cmdline':
                              {
-                                 'detector': parse_cmdline_detector_args(args.detector),
-                                 'updaters': parse_cmdline_updater_args(args),
                                  'interval': int(args.sleeptime)
                              }
                              }
+        collected_configs['cmdline'].update(parsed_args)
 
     plugins.configure(args)
     plugins.initialize()

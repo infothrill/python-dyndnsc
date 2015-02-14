@@ -76,7 +76,7 @@ def collect_config(cfg):
         {
             "client_name": {
                 "detector": ("detector_name", detector_opts),
-                "updaters": [
+                "updater": [
                     ("updater_name", updater_opts),
                     ...
                 ]
@@ -112,7 +112,7 @@ def collect_config(cfg):
                 collected_config[k] = client_cfg_dict[k]
 
         collected_config[_detector_str] = detector_name, detector_options
-        collected_config[_updater_str + "s"] = [(updater_name, updater_options)]
+        collected_config[_updater_str] = [(updater_name, updater_options)]
 
         collected_configs[client_name] = collected_config
     return collected_configs

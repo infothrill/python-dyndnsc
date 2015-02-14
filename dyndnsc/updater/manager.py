@@ -6,9 +6,13 @@ def updater_classes():
     return builtin.plugins
 
 
-def get_updater_class(updater="noip"):
-    updater = updater.lower()
-    for cls in updater_classes():
-        if updater == cls.configuration_key():
+def find_class(name, classes):
+    name = name.lower()
+    for cls in classes:
+        if name == cls.configuration_key():
             return cls
-    raise KeyError("No Updater plugin named '%s' could be found" % updater)
+    raise KeyError("No class named '%s' could be found" % name)
+
+
+def get_updater_class(name="noip"):
+    return find_class(name, updater_classes())

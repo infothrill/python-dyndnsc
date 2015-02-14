@@ -179,16 +179,16 @@ def getDynDnsClientForConfig(config, plugins=None):
         log.debug("Attaching plugins to dyndnsc")
         dyndnsclient.plugins = plugins
     # require at least 1 updater:
-    if len(config['updaters']) < 1:
+    if len(config['updater']) < 1:
         raise ValueError("At least 1 dyndns updater must be specified")
     else:
-        for updater_name, updater_options in config['updaters']:
+        for updater_name, updater_options in config['updater']:
             dyndnsclient.add_updater(get_updater_class(updater_name)(**updater_options))
 
     from .detector import manager
 
     # find class and instantiate the detector:
-    detector_name, detector_opts = config['detector']
+    detector_name, detector_opts = config['detector'][-1]
     try:
         klass = manager.get_detector_class(detector_name)
     except KeyError as exc:
@@ -203,6 +203,6 @@ def getDynDnsClientForConfig(config, plugins=None):
     # add the DNS detector with the same address family option as the user
     # configured detector:
     klass = manager.get_detector_class("dns")
-    dyndnsclient.set_dns_detector(klass(hostname_default=config['updaters'][0][1]['hostname'], family=thedetector.af()))
+    dyndnsclient.set_dns_detector(klass(hostname_default=config['updater'][0][1]['hostname'], family=thedetector.af()))
 
     return dyndnsclient
