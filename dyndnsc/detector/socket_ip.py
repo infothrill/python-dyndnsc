@@ -10,18 +10,16 @@ log = logging.getLogger(__name__)
 
 class IPDetector_Socket(IPDetector):
     """
-    IPDetector to detect IPs used by the system to communicate with outside world.
+    IPDetector to detect IPs used by the system to communicate with outside
+    world.
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, family=None, *args, **kwargs):
         """
-        Constructor
-        @param options: dictionary
+        Initializer.
 
-        available kwargs:
-
-        family: IP address family (default: INET, possible: INET6)
+        :param family: IP address family (default: INET, possible: INET6)
         """
-        super(IPDetector_Socket, self).__init__(*args, **kwargs)
+        super(IPDetector_Socket, self).__init__(*args, family=family, **kwargs)
 
     @staticmethod
     def names():
@@ -33,6 +31,9 @@ class IPDetector_Socket(IPDetector):
         return False
 
     def detect(self):
+        """
+        Detect the IP address.
+        """
         if self.opts_family == AF_INET6:
             kind = IPV6_PUBLIC
         else:  # 'INET':

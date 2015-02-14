@@ -149,7 +149,7 @@ class TestIndividualDetectors(unittest.TestCase):
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
         # empty interface name must not fail construction
-        self.assertRaises(ValueError, iface.IPDetector_Iface, iface=None)
+        self.assertIsInstance(iface.IPDetector_Iface(iface=None), iface.IPDetector_Iface)
         # invalid netmask must fail construction
         self.assertRaises(ValueError, iface.IPDetector_Iface, netmask='fubar')
         # unknown address family  must fail construction

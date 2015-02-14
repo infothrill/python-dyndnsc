@@ -27,24 +27,22 @@ def _default_interface():
 
 class IPDetector_Iface(IPDetector):
     """
-    IPDetector to detect any ip address of a local interface.
+    IPDetector to detect an IP address assigned to a local interface.
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, iface=None, netmask=None, family=None, *args, **kwargs):
         """
-        Constructor
-        @param options: dictionary
+        Initializer.
 
-        available kwargs:
-
-        iface: name of interface
-        family: IP address family (default: INET, possible: INET6)
-        netmask: netmask to be matched if multiple IPs on interface (default:
-                none (match all)", example for teredo: "2001:0000::/32")
+        :param iface: name of interface
+        :param family: IP address family (default: INET, possible: INET6)
+        :param netmask: netmask to be matched if multiple IPs on interface
+                (default: none (match all)", example for teredo:
+                "2001:0000::/32")
         """
-        super(IPDetector_Iface, self).__init__(*args, **kwargs)
+        super(IPDetector_Iface, self).__init__(*args, family=family, **kwargs)
 
-        self.opts_iface = kwargs.get('iface', _default_interface())
-        self.opts_netmask = kwargs.get('netmask')
+        self.opts_iface = iface if iface else _default_interface()
+        self.opts_netmask = netmask
 
         # ensure an interface name was specified:
         if self.opts_iface is None:
@@ -63,7 +61,7 @@ class IPDetector_Iface(IPDetector):
         return ("iface",)
 
     def can_detect_offline(self):
-        """Returns true, as this detector only queries local data"""
+        """Return true, as this detector only queries local data."""
         return True
 
     def _detect(self):

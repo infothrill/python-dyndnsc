@@ -33,7 +33,7 @@ class RandomIPGenerator(object):
         ])
 
     def isReservedIP(self, ip):
-        """Check if the given ip address is in a reserved ipv4 address space
+        """Check if the given ip address is in a reserved ipv4 address space.
 
         :param ip: ip address
         :return: boolean
@@ -85,12 +85,12 @@ class RandomIPGenerator(object):
         raise StopIteration
 
     def __iter__(self):
-        """Iterator for this class. See method next()"""
+        """Iterator for this class. See method next()."""
         return next(self)
 
 
 class IPDetector_Random(IPDetector):
-    """For testing: detect randomly generated IP addresses"""
+    """For testing: detect randomly generated IP addresses."""
     def __init__(self, *args, **kwargs):
         super(IPDetector_Random, self).__init__(*args, **kwargs)
 

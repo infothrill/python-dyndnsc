@@ -58,7 +58,7 @@ def _parser_freedns_afraid(text):
 
 
 def _parser_jsonip(text):
-    """Parses response text like the one returned by http://jsonip.com/"""
+    """Parse response text like the one returned by http://jsonip.com/."""
     import json
     try:
         return str(json.loads(text).get("ip"))
@@ -68,34 +68,32 @@ def _parser_jsonip(text):
 
 
 class IPDetectorWebCheckBase(IPDetector):
-    """
-    Base Class for misc. web service based IP detection classes.
-    """
+
+    """Base Class for misc. web service based IP detection classes."""
 
     urls = None  # override in child class
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, url=None, parser=None, *args, **kwargs):
         """
-        Initializer
+        Initializer.
 
-        available kwargs:
-
-        url: URL to fetch and parse for IP detection
-        parser: parser to use for above URL
+        :param url: URL to fetch and parse for IP detection
+        :param parser: parser to use for above URL
         """
         super(IPDetectorWebCheckBase, self).__init__(*args, **kwargs)
 
-        self.opts_url = kwargs.get('url', None)
-        self.opts_parser = kwargs.get('parser', None)
+        self.opts_url = url
+        self.opts_parser = parser
 
     def can_detect_offline(self):
-        """Returns false, as this detector generates http traffic"""
+        """Return false, as this detector generates http traffic."""
         return False
 
     def detect(self):
         """
-        Will try to contact a remote webservice and parse the returned output
-        to determine the IP address
+        Try to contact a remote webservice and parse the returned output.
+
+        Determine the IP address from the parsed output and return.
         """
         if self.opts_url and self.opts_parser:
             url = self.opts_url
@@ -112,13 +110,16 @@ class IPDetectorWebCheckBase(IPDetector):
 
 
 class IPDetectorWebCheck(IPDetectorWebCheckBase):
+
     """
-    Class to detect an IPv4 address as seen by an online web site that
-    returns parsable output containing the IP address.
+    Class to detect an IPv4 address as seen by an online web site.
+
+    Return parsable output containing the IP address.
 
     Note: this detection mechanism requires ipv4 connectivity, otherwise it
           will simply not detect the IP address.
     """
+
     # the lack of TLS is baffling ;-(
     urls = (
         ("http://checkip.eurodyndns.org/", 'checkip'),
@@ -136,6 +137,7 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
     )
 
     def __init__(self, *args, **kwargs):
+        """Initializer."""
         super(IPDetectorWebCheck, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_INET
@@ -146,9 +148,11 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
 
 
 class IPDetectorWebCheck6(IPDetectorWebCheckBase):
+
     """
-    Class to detect an IPv6 address as seen by an online web site that
-    returns parsable output containing the IP address.
+    Class to detect an IPv6 address as seen by an online web site.
+
+    Return parsable output containing the IP address.
 
     Note: this detection mechanism requires ipv6 connectivity, otherwise it
           will simply not detect the IP address.
@@ -160,6 +164,7 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
     )
 
     def __init__(self, *args, **kwargs):
+        """Initializer."""
         super(IPDetectorWebCheck6, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_INET6
@@ -170,9 +175,13 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
 
 
 class IPDetectorWebCheck46(IPDetectorWebCheckBase):
+
     """
-    Class to variably detect either an IPv4 xor IPv6 address as seen by an
-    online web site that returns parsable output containing the IP address.
+    Class to variably detect either an IPv4 xor IPv6 address.
+
+    (as seen by an online web site).
+
+    Returns parsable output containing the IP address.
 
     Note: this detection mechanism works with both ipv4 as well as ipv6
           connectivity, however it should be noted that most dns resolvers
@@ -196,6 +205,7 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
     )
 
     def __init__(self, *args, **kwargs):
+        """Initializer."""
         super(IPDetectorWebCheck46, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_UNSPEC

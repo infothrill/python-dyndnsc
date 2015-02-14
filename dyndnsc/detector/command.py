@@ -4,26 +4,26 @@ from .base import IPDetector
 
 
 class IPDetector_Command(IPDetector):
-    """IPDetector to detect IP address executing shell command/script"""
-    def __init__(self, *args, **kwargs):
+
+    """IPDetector to detect IP address executing shell command/script."""
+
+    def __init__(self, command="", *args, **kwargs):
         """
-        Constructor
-        @param options: dictionary
+        Initializer.
 
-        available options:
-
-        command: shell command that writes IP address to STDOUT
+        :param command: string shell command that writes IP address to STDOUT
         """
         super(IPDetector_Command, self).__init__(*args, **kwargs)
 
-        self.opts_command = kwargs.get('command', '')
+        self.opts_command = command
 
     @staticmethod
     def names():
         return ("command",)
 
     def can_detect_offline(self):
-        """Returns false, as this detector possibly generates network traffic
+        """Return false, as this detector possibly generates network traffic.
+
         :return: False
         """
         return False

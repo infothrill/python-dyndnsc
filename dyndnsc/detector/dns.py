@@ -10,8 +10,9 @@ log = logging.getLogger(__name__)
 
 def resolve(hostname, family=AF_UNSPEC):
     """
-    Resolves the hostname to one or more IP addresses through the operating
-    system. Resolution is carried out for the given address family. If no
+    Resolve hostname to one or more IP addresses through the operating system.
+
+    Resolution is carried out for the given address family. If no
     address family is specified, only IPv4 and IPv6 addresses are returned. If
     multiple IP addresses are found, all are returned.
 
@@ -41,22 +42,19 @@ def resolve(hostname, family=AF_UNSPEC):
 
 class IPDetector_DNS(IPDetector):
 
-    """Class to resolve a hostname using socket.getaddrinfo()"""
+    """Class to resolve a hostname using socket.getaddrinfo()."""
 
-    def __init__(self, hostname_default=None, *args, **kwargs):
+    def __init__(self, hostname_default=None, hostname=None, family=None, *args, **kwargs):
         """
-        Initializer
+        Initializer.
 
-        @param hostname_default: a default hostname to use (if not given in options)
-
-        available kwargs:
-
-        hostname: host name to query from DNS
-        family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')
+        :param hostname_default: a default hostname to use (if not given in options)
+        :param hostname: host name to query from DNS
+        :param family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')
         """
-        super(IPDetector_DNS, self).__init__(*args, **kwargs)
+        super(IPDetector_DNS, self).__init__(*args, family=family, **kwargs)
 
-        self.opts_hostname = hostname_default or kwargs.get('hostname')
+        self.opts_hostname = hostname_default or hostname
 
         if self.opts_hostname is None:
             raise ValueError(
@@ -67,7 +65,7 @@ class IPDetector_DNS(IPDetector):
         return ("dns",)
 
     def can_detect_offline(self):
-        """Returns false, as this detector generates dns traffic
+        """Return false, as this detector generates dns traffic.
 
         :return: False
         """
@@ -75,7 +73,7 @@ class IPDetector_DNS(IPDetector):
 
     def detect(self):
         """
-        Resolves the hostname to an IP address through the operating system.
+        Resolve the hostname to an IP address through the operating system.
 
         Depending on the 'family' option, either ipv4 or ipv6 resolution is
         carried out.

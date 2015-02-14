@@ -10,6 +10,7 @@ import argparse
 
 from .plugins.manager import DefaultPluginManager
 from .updater.manager import updater_classes
+# from .detector.manager import detector_classes
 from .core import getDynDnsClientForConfig
 from .conf import get_configuration, collect_config
 
@@ -86,6 +87,9 @@ def main():
     # add the updater protocol options to the CLI:
     for kls in updater_classes():
         kls.register_arguments(parser)
+
+    # for kls in detector_classes():
+    #    kls.register_arguments(parser)
 
     # add the plugin options to the CLI:
     from os import environ
