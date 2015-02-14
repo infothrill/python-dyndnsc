@@ -3,7 +3,6 @@
 import unittest
 
 from dyndnsc.common.dynamiccli import parse_cmdline_args, DynamicCliMixin
-from __builtin__ import staticmethod
 
 
 class Dummy(DynamicCliMixin):
