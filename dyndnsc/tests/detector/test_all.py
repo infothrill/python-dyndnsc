@@ -79,7 +79,7 @@ class TestIndividualDetectors(unittest.TestCase):
     def test_dns_detector(self):
         import dyndnsc.detector.dns as ns
         self.assertTrue("dns" in ns.IPDetector_DNS.names())
-        detector = ns.IPDetector_DNS(hostname_default="localhost")
+        detector = ns.IPDetector_DNS(hostname="localhost")
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(AF_UNSPEC, detector.af())
         self.assertEqual(None, detector.get_current_value())
@@ -87,11 +87,11 @@ class TestIndividualDetectors(unittest.TestCase):
         self.assertTrue(detector.detect() in ("::1", "127.0.0.1", "fe80::1%lo0"))
         self.assertTrue(detector.get_current_value() in ("::1", "127.0.0.1", "fe80::1%lo0"))
         # test address family restriction to ipv4:
-        detector = ns.IPDetector_DNS(hostname_default="localhost", family='INET')
+        detector = ns.IPDetector_DNS(hostname="localhost", family='INET')
         self.assertEqual(AF_INET, detector.af())
         self.assertTrue(detector.detect() in ("127.0.0.1", ))
         # test address family restriction to ipv6:
-        detector = ns.IPDetector_DNS(hostname_default="localhost", family='INET6')
+        detector = ns.IPDetector_DNS(hostname="localhost", family='INET6')
         self.assertEqual(AF_INET6, detector.af())
         self.assertTrue(detector.detect() in ("::1", "fe80::1%lo0"))
 

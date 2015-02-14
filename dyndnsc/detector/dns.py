@@ -44,17 +44,16 @@ class IPDetector_DNS(IPDetector):
 
     """Class to resolve a hostname using socket.getaddrinfo()."""
 
-    def __init__(self, hostname_default=None, hostname=None, family=None, *args, **kwargs):
+    def __init__(self, hostname=None, family=None, *args, **kwargs):
         """
         Initializer.
 
-        :param hostname_default: a default hostname to use (if not given in options)
         :param hostname: host name to query from DNS
         :param family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')
         """
         super(IPDetector_DNS, self).__init__(*args, family=family, **kwargs)
 
-        self.opts_hostname = hostname_default or hostname
+        self.opts_hostname = hostname
 
         if self.opts_hostname is None:
             raise ValueError(

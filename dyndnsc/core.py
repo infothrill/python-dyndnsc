@@ -203,6 +203,6 @@ def getDynDnsClientForConfig(config, plugins=None):
     # add the DNS detector with the same address family option as the user
     # configured detector:
     klass = manager.get_detector_class("dns")
-    dyndnsclient.set_dns_detector(klass(hostname_default=config['updater'][0][1]['hostname'], family=thedetector.af()))
+    dyndnsclient.set_dns_detector(klass(hostname=config['updater'][0][1]['hostname'], family=thedetector.af()))
 
     return dyndnsclient
