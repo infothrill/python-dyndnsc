@@ -41,7 +41,6 @@ def create_argparser():
         "listpresets": False,
         "config": None,
         "debug": False,
-        "detector": "webcheck",
         "sleeptime": 300,
         "version": False
     }
@@ -58,9 +57,6 @@ def create_argparser():
     parser.add_argument("--debug", dest="debug",
                         help="increase logging level to DEBUG",
                         action="store_true", default=arg_defaults['debug'])
-    parser.add_argument("--detector", "--method", dest="detector",
-                        help="method for detecting your IP (default webcheck)",
-                        default=arg_defaults['detector'])
     parser.add_argument("--loop", dest="loop",
                         help="loop forever (default is to update once)",
                         action="store_true", default=arg_defaults['loop'])
