@@ -17,16 +17,19 @@ Dyndnsc - dynamic dns update client
    :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=develop
    :alt: Requirements Status
 
-*dyndnsc* is both a script to be used directly as well as a re-usable and
-hopefully extensible python package for doing updates over http to dynamic
-dns services. This package currently focuses on supporting different http based
-update protocols. It is compatible with ipv4 as well as ipv6. It ships with
-support for a bunch of different services, it has basic config file support
-and it is written in python.
+*Dyndnsc* is both a script to be used directly as well as a re-usable and
+hopefully extensible python package for sending updates to dynamic
+dns (ddns, dyndns) services. It is compatible with ipv4 as well as
+ipv6. It ships with support for a bunch of different services and it has an
+extensible configuration format that allows using foreign, but compatible
+services. *Dyndnsc* ships many different IP detection mechanisms, support
+for configuring multiple services in one place and it has a daemon mode for
+running unattended. It has a plugin architecture for supporting notification
+services like Growl or OS X Notification center.  
 
 
-Quickstart
-==========
+Quickstart / Documentation
+==========================
 See the Quickstart section of the http://dyndnsc.readthedocs.org/
 
 
@@ -50,14 +53,9 @@ Requirements
 * Python 2.6, 2.7 or 3.2+
 
 
-Documentation
-=============
-
-Documentation is available at http://dyndnsc.readthedocs.org/.
-  
 Status
 ======
-*dyndnsc* is currently still in alpha stage, which means that any interface can
+*Dyndnsc* is currently still in alpha stage, which means that any interface can
 still change at any time. For this to change, it shall be sufficient to have
 documented use of this package which will necessitate stability (i.e.
 community process).
