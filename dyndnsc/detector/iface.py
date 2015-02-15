@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Module providing IP detection functionality based on netifaces."""
+
 import logging
 
 import netifaces
@@ -11,10 +13,7 @@ log = logging.getLogger(__name__)
 
 
 def _default_interface():
-    """
-    Convenience function to return the default interface name for common
-    operating systems.
-    """
+    """Return the default interface name for common operating systems."""
     import platform
     system = platform.system()
     if system == 'Linux':
@@ -26,9 +25,13 @@ def _default_interface():
 
 
 class IPDetector_Iface(IPDetector):
+
     """
     IPDetector to detect an IP address assigned to a local interface.
+
+    This is roughly equivalent to using `ifconfig` or `ipconfig`.
     """
+
     def __init__(self, iface=None, netmask=None, family=None, *args, **kwargs):
         """
         Initializer.
@@ -65,7 +68,7 @@ class IPDetector_Iface(IPDetector):
         return True
 
     def _detect(self):
-        """uses the netifaces module to detect ifconfig information"""
+        """Use the netifaces module to detect ifconfig information."""
         theip = None
         try:
             if self.opts_family == AF_INET6:
@@ -97,4 +100,5 @@ class IPDetector_Iface(IPDetector):
         return theip
 
     def detect(self):
+        """Detect the IP address and return it."""
         return self._detect()

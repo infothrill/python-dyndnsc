@@ -99,7 +99,7 @@ setup(
     long_description=README + '\n\n' + CHANGELOG,
     url='https://github.com/infothrill/python-dyndnsc',
     install_requires=patch_install_requires(
-        ['requests>=2.0.1', 'netifaces>=0.10.4', 'setuptools']),
+        ['requests>=2.0.1', 'setuptools']),
     entry_points=("""
         [console_scripts]
         dyndnsc=dyndnsc.cli:main
