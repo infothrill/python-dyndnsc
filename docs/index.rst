@@ -16,19 +16,10 @@ instructions for getting the most out of Dyndnsc.
    user/intro
    user/install
    user/quickstart
+   user/faq
+   user/updates
+   user/license
 
-
-Community Guide
----------------
-
-This part of the documentation, which is mostly prose, details the
-Dyndnsc ecosystem and community.
-
-.. toctree::
-   :maxdepth: 1
-
-   community/updates
-   community/faq
 
 API Documentation
 -----------------
@@ -48,9 +39,9 @@ If you want to contribute to the project, this part of the documentation is for
 you.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
 
-   dev/todo
+   dev/contrib
 
 Indices and tables
 ==================

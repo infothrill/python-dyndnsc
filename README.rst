@@ -1,90 +1,61 @@
 Dyndnsc - dynamic dns update client
 ===================================
 
-.. image:: https://travis-ci.org/infothrill/python-dyndnsc.png
+.. image:: https://travis-ci.org/infothrill/python-dyndnsc.svg?branch=develop
     :target: https://travis-ci.org/infothrill/python-dyndnsc
 
-.. image:: https://coveralls.io/repos/infothrill/python-dyndnsc/badge.png
-        :target: https://coveralls.io/r/infothrill/python-dyndnsc
+.. image:: https://pypip.in/d/dyndnsc/badge.png
+    :target: https://pypi.python.org/pypi/dyndnsc
+
+.. image:: https://coveralls.io/repos/infothrill/python-dyndnsc/badge.png?branch=develop
+    :target: https://coveralls.io/r/infothrill/python-dyndnsc?branch=develop 
 
 .. image:: https://badge.fury.io/py/dyndnsc.png
     :target: http://badge.fury.io/py/dyndnsc
 
+.. image:: https://requires.io/github/infothrill/python-dyndnsc/requirements.png?branch=develop
+   :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=develop
+   :alt: Requirements Status
 
-*dyndnsc* is both a script to be used directly as well as a re-usable and
-hopefully extensible python package for doing updates over http to dynamic
-dns services. This package currently focuses on supporting http based update
-protocols.
-
-
-
-Examples
-========
-
-Basic example that should fit most peoples needs:
-
-.. code-block:: bash
-
-    $ dyndnsc  --hostname test.dyndns.com --userid bob --password=fub4r
+*Dyndnsc* is both a script to be used directly as well as a re-usable and
+hopefully extensible python package for sending updates to dynamic
+dns (ddns, dyndns) services. It is compatible with ipv4 as well as
+ipv6. It ships with support for a bunch of different services and it has an
+extensible configuration format that allows using foreign, but compatible
+services. *Dyndnsc* ships many different IP detection mechanisms, support
+for configuring multiple services in one place and it has a daemon mode for
+running unattended. It has a plugin architecture for supporting notification
+services like Growl or OS X Notification center.  
 
 
-Are you using `Miredo <http://www.remlab.net/miredo/>`_ and want to assign
-a hostname dynamically to your ipv6 tunnel?
+Quickstart / Documentation
+==========================
+See the Quickstart section of the http://dyndnsc.readthedocs.org/
 
-.. code-block:: bash
-
-    $ dyndnsc  --hostname test.dyndns.com --userid bob --method=teredo
-
-
-Compatible protocols
-====================
-* `dnsimple <http://developer.dnsimple.com/>`_
-* `dyndns2 <http://dyn.com/support/developers/api/>`_
-* `freedns.afraid.org <http://freedns.afraid.org/>`_
-
-Feel free to send pull requests to add more.
-
-Compatible services
-===================
-This list is incomplete, since there are for example a lot of dyndns2 compatible
-services out there, but we are not keeping a full list here. Also, due to
-current limitations in Dyndnsc (`#4 <https://github.com/infothrill/python-dyndnsc/issues/4>`_)
-it is not yet possible to use an arbitrary service with a compatible protocol
-(yet).
-
-* `dnsimple.com <http://dnsimple.com/>`_
-* `dyn.com <http://dyn.com/>`_
-* `freedns.afraid.org <http://freedns.afraid.org/>`_
-* `no-ip <https://www.no-ip.com/>`_
-* `nsupdate.info <https://nsupdate.info/>`_
 
 Installation
 ============
 
 .. code-block:: bash
 
+    $ # from pypi:
     $ pip install dyndnsc
 
-or, if you want to work using the source tarball:
-
-.. code-block:: bash
-
+    $ # from downloaded source:
     $ python setup.py install
+
+    $ # directly from github:
+    $ pip install https://github.com/infothrill/python-dyndnsc/zipball/develop
   
 
 Requirements
 ============
-* Python 2.6, 2.7, 3.2 or 3.3+
+* Python 2.6, 2.7 or 3.2+
 
 
-Documentation
-=============
-
-Documentation is available at http://dyndnsc.readthedocs.org/.
-  
 Status
 ======
-*dyndnsc* is currently still in alpha stage, which means that any interface can
+*Dyndnsc* is currently still in alpha stage, which means that any interface can
 still change at any time. For this to change, it shall be sufficient to have
 documented use of this package which will necessitate stability (i.e.
 community process).

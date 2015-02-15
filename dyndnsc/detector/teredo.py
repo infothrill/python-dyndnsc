@@ -2,35 +2,31 @@
 
 import logging
 
-from .iface import IPDetector_Iface
+from .iface import IPDetector_Iface, AF_INET6
 
 log = logging.getLogger(__name__)
 
 
 class IPDetector_Teredo(IPDetector_Iface):
+
     """IPDetector to detect a Teredo ipv6 address of a local interface.
+
     Bits 0 to 31 of the ipv6 address are set to the Teredo prefix (normally
     2001:0000::/32).
     This detector only checks the first 16 bits!
     See http://en.wikipedia.org/wiki/Teredo_tunneling for more information on
     Teredo.
 
-    Inherits IPDetector_Iface and sets default options only
+    Inherits IPDetector_Iface and sets default options only.
     """
-    def __init__(self, options=None):
-        """
-        Initializer
-        :param options: dictionary
-        """
-        if options is None:
-            options = {}
-        self.opts = {'iface': 'tun0', 'family': "INET6",
-                     "netmask": "2001:0000::/32"}
-        for k in options.keys():
-            log.debug("%s explicitly got option: %s -> %s",
-                      self.__class__.__name__, k, options[k])
-            self.opts[k] = options[k]
-        super(IPDetector_Teredo, self).__init__(self.opts)
+
+    def __init__(self, iface="tun0", netmask="2001:0000::/32", *args, **kwargs):
+        """Initializer."""
+        super(IPDetector_Teredo, self).__init__(*args, **kwargs)
+
+        self.opts_iface = iface
+        self.opts_netmask = netmask
+        self.opts_family = AF_INET6
 
     @staticmethod
     def names():

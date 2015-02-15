@@ -3,17 +3,17 @@
 import unittest
 from time import sleep
 from multiprocessing import Process
-#import logging
+# import logging
 
 from bottle import Bottle, run, response, request
 
-#logging.basicConfig(level=logging.DEBUG, format='%(asctime)s  %(message)s')
+# logging.basicConfig(level=logging.DEBUG, format='%(asctime)s  %(message)s')
 
 
 class AfraidApp(Bottle):
-    '''
+    """
     A minimal http server that resembles an actual freedns.afraid.org service
-    '''
+    """
     def __init__(self, host='localhost', port=8000):
         super(AfraidApp, self).__init__()
         self.host = host
@@ -76,14 +76,13 @@ class TestAfraidBottleServer(unittest.TestCase):
 
     def test_afraid(self):
         import dyndnsc.updater.afraid as afraid
-        #import dyndnsc.updater.afraid
         NAME = "afraid"
         options = {
-                   "hostname": "dummyhostname.example.com",
-                   "userid": "dummy",
-                   "password": "1234",
-                   "url": self.url
-                   }
+            "hostname": "dummyhostname.example.com",
+            "userid": "dummy",
+            "password": "1234",
+            "url": self.url
+        }
         self.assertEqual(NAME, afraid.UpdateProtocolAfraid.configuration_key())
         updater = afraid.UpdateProtocolAfraid(**options)
         res = updater.update()

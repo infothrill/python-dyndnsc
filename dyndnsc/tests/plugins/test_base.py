@@ -18,7 +18,7 @@ class TestPluginBase(unittest.TestCase):
     def tearDown(self):
         unittest.TestCase.tearDown(self)
 
-    def testPluginBase(self):
+    def test_Plugin_argument_options(self):
         plugin = base.Plugin()
 
         self.assertEqual(type(plugin.help()), str)
@@ -32,12 +32,26 @@ class TestPluginBase(unittest.TestCase):
             'dest': plugin.enableOpt,
             'default': None,
             'help': "Enable plugin %s: %s [%s]" % ('Plugin', plugin.help(),
-                                                   "DYNDNC_WITH_PLUGIN")
+                                                   "DYNDNSC_WITH_PLUGIN")
         }
 
         plugin.options(argparser, {})
         argparser.add_argument.assert_called_once_with(*expected_args,
                                                        **expected_kwargs)
+
+    def test_Plugin_argument_configure(self):
+        plugin = base.Plugin()
+        # by default, plugins are disabled:
+        self.assertEqual(False, plugin.enabled)
+
+        # let's build some fake arguments to enable the plugin, which first
+        # needs to be configurable:
+        plugin.can_configure = True
+        from argparse import Namespace
+        args = Namespace()
+        args.enable_plugin_plugin = True  # the base plugin is called "plugin"
+        plugin.configure(args)
+        self.assertEqual(True, plugin.enabled)
 
     def testIPluginInterface(self):
         self.assertRaises(TypeError, base.IPluginInterface)

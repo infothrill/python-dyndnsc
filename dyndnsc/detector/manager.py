@@ -6,9 +6,13 @@ def detector_classes():
     return builtin.plugins
 
 
-def get_detector_class(detector="webcheck"):
-    detector = detector.lower()
-    for cls in detector_classes():
-        if detector in cls.names():
+def find_class(name, classes):
+    name = name.lower()
+    for cls in classes:
+        if name == cls.configuration_key():
             return cls
-    raise KeyError("No IPDetector plugin named '%s' could be found" % detector)
+    raise KeyError("No class named '%s' could be found" % name)
+
+
+def get_detector_class(name="webcheck"):
+    return find_class(name, detector_classes())

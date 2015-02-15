@@ -3,6 +3,25 @@
 Release history
 ---------------
 
+0.4.0 (February 15th 2015)
+++++++++++++++++++++++++++
+
+- changed (**INCOMPATIBLE**): command line arguments have been drastically adapted
+  to fit different update protocols and detectors
+- added: config file support
+- added: running against multiple update services in one go using config file
+- improved: for python < 3.2, install more dependencies to get SNI support
+- improved: the DNS resolution automatically resolves using the same address
+  family (ipv4/A or ipv6/AAAA or any) as the detector configured
+- improved: it is now possible to specify arbitrary service URLs for the
+  different updater protocols.
+- fixed: naming conventions
+- fixed: http connection robustness (i.e. catch more errors and handle them as
+  being transient)
+- changed: dependency on netifaces was removed, but if installed, the
+  functionality remains in place
+- a bunch of pep8, docstring and documntation updates
+
 0.3.4 (January 3rd 2014)
 ++++++++++++++++++++++++
 - added: initial support for dnsimple.com through

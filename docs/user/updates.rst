@@ -3,19 +3,13 @@
 Community Updates
 =================
 
-If you'd like to stay up to date on the community and development of Dyndnsc,
-there are several options:
 
-
-GitHub
-------
+Tracking development
+--------------------
 
 The best way to track the development of Dyndnsc is through
 `the GitHub repo <https://github.com/infothrill/python-dyndnsc>`_.
 
-
-Software Updates
-================
 
 .. include:: ../../CHANGELOG.rst
 

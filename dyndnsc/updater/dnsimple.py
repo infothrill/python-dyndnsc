@@ -11,12 +11,14 @@ Since dnsimple.com is a paid service, I have not had a chance to test this yet.
 
 import logging
 
+from .base import UpdateProtocol
+
 from dnsimple_dyndns import DNSimple
 
 log = logging.getLogger(__name__)
 
 
-class UpdateProtocolDnsimple(object):
+class UpdateProtocolDnsimple(UpdateProtocol):
     """Protocol handler for https://dnsimple.com/"""
 
     def __init__(self, hostname, key, url=None, **kwargs):

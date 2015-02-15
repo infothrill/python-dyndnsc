@@ -4,27 +4,26 @@ from .base import IPDetector
 
 
 class IPDetector_Command(IPDetector):
-    """IPDetector to detect IP adress executing shell command/script"""
-    def __init__(self, options):
-        """
-        Constructor
-        @param options: dictionary
 
-        available options:
+    """IPDetector to detect IP address executing shell command/script."""
 
-        command: shell command that writes IP address to STDOUT
+    def __init__(self, command="", *args, **kwargs):
         """
-        self.opts = {'command': ''}
-        for k in options.keys():
-            self.opts[k] = options[k]
-        super(IPDetector_Command, self).__init__()
+        Initializer.
+
+        :param command: string shell command that writes IP address to STDOUT
+        """
+        super(IPDetector_Command, self).__init__(*args, **kwargs)
+
+        self.opts_command = command
 
     @staticmethod
     def names():
         return ("command",)
 
     def can_detect_offline(self):
-        """Returns false, as this detector possibly generates network traffic
+        """Return false, as this detector possibly generates network traffic.
+
         :return: False
         """
         return False
@@ -39,7 +38,7 @@ class IPDetector_Command(IPDetector):
         else:
             import commands as subprocess
         try:
-            theip = subprocess.getoutput(self.opts['command'])
+            theip = subprocess.getoutput(self.opts_command)
         except:
             theip = None
         self.set_current_value(theip)

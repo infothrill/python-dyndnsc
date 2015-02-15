@@ -1,20 +1,19 @@
 # -*- coding: utf-8 -*-
 
+"""Module providing IP detection functionality based on netifaces."""
+
 import logging
 
 import netifaces
 
-from .base import IPDetector
+from .base import IPDetector, AF_INET, AF_INET6, AF_UNSPEC
 from ..common.six import ipaddress, ipnetwork
 
 log = logging.getLogger(__name__)
 
 
 def _default_interface():
-    '''
-    Convenience function to return the default interface name for common
-    operating systems.
-    '''
+    """Return the default interface name for common operating systems."""
     import platform
     system = platform.system()
     if system == 'Linux':
@@ -26,71 +25,59 @@ def _default_interface():
 
 
 class IPDetector_Iface(IPDetector):
-    """
-    IPDetector to detect any ip address of a local interface.
-    """
-    def __init__(self, options=None):
-        """
-        Constructor
-        @param options: dictionary
 
-        available options:
+    """
+    IPDetector to detect an IP address assigned to a local interface.
 
-        iface: name of interface
-        family: IP address family (default: INET, possible: INET6)
-        netmask: netmask to be matched if multiple IPs on interface (default:
-                none (match all)", example for teredo: "2001:0000::/32")
+    This is roughly equivalent to using `ifconfig` or `ipconfig`.
+    """
+
+    def __init__(self, iface=None, netmask=None, family=None, *args, **kwargs):
         """
-        if options is None:
-            options = {}
-        # default options:
-        self.opts = {
-                     'iface': _default_interface(),
-                     'family': "INET",
-                     "netmask": None
-                     }
-        for k in options.keys():
-            log.debug("%s explicitly got option: %s -> %s",
-                      self.__class__.__name__, k, options[k])
-            self.opts[k] = options[k]
+        Initializer.
+
+        :param iface: name of interface
+        :param family: IP address family (default: INET, possible: INET6)
+        :param netmask: netmask to be matched if multiple IPs on interface
+                (default: none (match all)", example for teredo:
+                "2001:0000::/32")
+        """
+        super(IPDetector_Iface, self).__init__(*args, family=family, **kwargs)
+
+        self.opts_iface = iface if iface else _default_interface()
+        self.opts_netmask = netmask
 
         # ensure an interface name was specified:
-        if self.opts['iface'] is None:
+        if self.opts_iface is None:
             raise ValueError("No network interface specified!")
-        # ensure address family is understood:
-        if self.opts['family'] not in ('INET', 'INET6'):
-            raise ValueError("Unsupported address family '%s' specified!" %
-                             self.opts['family'])
         # parse/validate given netmask:
-        if self.opts['netmask'] is not None:  # if a netmask was given
+        if self.opts_netmask is not None:  # if a netmask was given
             # This might fail here, but that's OK since we must avoid sending
             # an IP to the outside world that should be hidden (because in a
             # "private" netmask)
-            self.netmask = ipnetwork(self.opts['netmask'])
+            self.netmask = ipnetwork(self.opts_netmask)
         else:
             self.netmask = None
-
-        super(IPDetector_Iface, self).__init__()
 
     @staticmethod
     def names():
         return ("iface",)
 
     def can_detect_offline(self):
-        """Returns true, as this detector only queries local data"""
+        """Return true, as this detector only queries local data."""
         return True
 
     def _detect(self):
-        """uses the netifaces module to detect ifconfig information"""
+        """Use the netifaces module to detect ifconfig information."""
         theip = None
         try:
-            if self.opts['family'] == 'INET6':
-                addrlist = netifaces.ifaddresses(self.opts['iface'])[netifaces.AF_INET6]
+            if self.opts_family == AF_INET6:
+                addrlist = netifaces.ifaddresses(self.opts_iface)[netifaces.AF_INET6]
             else:
-                addrlist = netifaces.ifaddresses(self.opts['iface'])[netifaces.AF_INET]
+                addrlist = netifaces.ifaddresses(self.opts_iface)[netifaces.AF_INET]
         except ValueError as exc:
             log.error("netifaces choked while trying to get network interface"
-                      " information for interface '%s'", self.opts['iface'],
+                      " information for interface '%s'", self.opts_iface,
                       exc_info=exc)
         else:  # now we have a list of addresses as returned by netifaces
             for pair in addrlist:
@@ -98,7 +85,7 @@ class IPDetector_Iface(IPDetector):
                     detip = ipaddress(pair['addr'])
                 except (TypeError, ValueError) as exc:
                     log.debug("Found invalid IP '%s' on interface '%s'!?",
-                              pair['addr'], self.opts['iface'], exc_info=exc)
+                              pair['addr'], self.opts_iface, exc_info=exc)
                     continue
                 if self.netmask is not None:
                     if detip in self.netmask:
@@ -113,4 +100,5 @@ class IPDetector_Iface(IPDetector):
         return theip
 
     def detect(self):
+        """Detect the IP address and return it."""
         return self._detect()

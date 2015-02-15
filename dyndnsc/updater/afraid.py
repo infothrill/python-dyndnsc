@@ -12,19 +12,24 @@ from collections import namedtuple
 
 import requests
 
+from .base import UpdateProtocol
 from ..common.six import ipaddress
+from ..common import constants
 
 log = logging.getLogger(__name__)
 
 # define a namedtuple for the records returned by the service
-AfraidDynDNSRecord = namedtuple('AfraidDynDNSRecord', 'hostname, ip, update_url')
+AfraidDynDNSRecord = namedtuple(
+    'AfraidDynDNSRecord', 'hostname, ip, update_url')
 
 
 class AfraidCredentials(object):
-    '''
+
+    """
     Minimal container for userid, password and sha, which will be lazily
     computed, if not provided at initialization.
-    '''
+    """
+
     def __init__(self, userid, password, sha=None):
         self._userid = userid
         self._password = password
@@ -70,7 +75,8 @@ def records(credentials, url='http://freedns.afraid.org/api/'):
     :param url: the service URL
     """
     params = dict(action='getdyndns', sha=credentials.sha)
-    req = requests.get(url, params=params, timeout=60)
+    req = requests.get(
+        url, params=params, headers=constants.REQUEST_HEADERS_DEFAULT, timeout=60)
     for record_line in (line.strip() for line in req.text.splitlines()
                         if len(line.strip()) > 0):
         yield AfraidDynDNSRecord(*record_line.split('|'))
@@ -85,7 +91,8 @@ def update(url):
     :param url: URL to retrieve for triggering the update
     :return: IP address
     """
-    req = requests.get(url, timeout=60)
+    req = requests.get(
+        url, headers=constants.REQUEST_HEADERS_DEFAULT, timeout=60)
     req.close()
     # Response must contain an IP address, or else we can't parse it.
     # Also, the IP address in the response is the newly assigned IP address.
@@ -98,19 +105,14 @@ def update(url):
         return None
 
 
-class UpdateProtocolAfraid(object):
+class UpdateProtocolAfraid(UpdateProtocol):
+
     """Protocol handler for http://freedns.afraid.org"""
 
-    _url = 'http://freedns.afraid.org/api/'
-
-    def __init__(self, hostname, userid, password, **kwargs):
+    def __init__(self, hostname, userid, password, url="http://freedns.afraid.org/api/", **kwargs):
         self.hostname = hostname
-        self._credentials = AfraidCredentials(
-                                              userid,
-                                              password
-                                              )
-        if 'url' in kwargs:
-            self._url = kwargs['url']
+        self._credentials = AfraidCredentials(userid, password)
+        self._url = url
 
         super(UpdateProtocolAfraid, self).__init__()
 
@@ -124,8 +126,8 @@ class UpdateProtocolAfraid(object):
     def protocol(self):
         # first find the update_url for the provided account + hostname:
         update_url = next((r.update_url for r in
-                            records(self._credentials, self._url)
-                            if r.hostname == self.hostname), None)
+                           records(self._credentials, self._url)
+                           if r.hostname == self.hostname), None)
         if update_url is None:
             log.warning("Could not find hostname '%s' at '%s'",
                         self.hostname, self._url)
