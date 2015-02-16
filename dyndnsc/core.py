@@ -6,6 +6,7 @@ import logging
 
 from .plugins.manager import NullPluginManager
 from .updater.manager import get_updater_class
+from .detector.manager import get_detector_class
 
 
 # Set default logging handler to avoid "No handler found" warnings.
@@ -164,8 +165,7 @@ class DynDnsClient(object):
 
 
 def getDynDnsClientForConfig(config, plugins=None):
-    """Factory detector_name to instantiate and initialize a complete and working
-    dyndns client
+    """Instantiate and return a complete and working dyndns client.
 
     :param config: a dictionary with configuration keys
     :param plugins: an object that implements PluginManager
@@ -178,6 +178,9 @@ def getDynDnsClientForConfig(config, plugins=None):
     if plugins is not None:
         log.debug("Attaching plugins to dyndnsc")
         dyndnsclient.plugins = plugins
+
+    if 'updater' not in config:
+        raise ValueError("No updater specified")
     # require at least 1 updater:
     if len(config['updater']) < 1:
         raise ValueError("At least 1 dyndns updater must be specified")
@@ -185,12 +188,12 @@ def getDynDnsClientForConfig(config, plugins=None):
         for updater_name, updater_options in config['updater']:
             dyndnsclient.add_updater(get_updater_class(updater_name)(**updater_options))
 
-    from .detector import manager
-
     # find class and instantiate the detector:
+    if 'detector' not in config:
+        raise ValueError("No detector specified")
     detector_name, detector_opts = config['detector'][-1]
     try:
-        klass = manager.get_detector_class(detector_name)
+        klass = get_detector_class(detector_name)
     except KeyError as exc:
         log.warning("Invalid change detector configuration: '%s'",
                     detector_name, exc_info=exc)
@@ -202,7 +205,7 @@ def getDynDnsClientForConfig(config, plugins=None):
 
     # add the DNS detector with the same address family option as the user
     # configured detector:
-    klass = manager.get_detector_class("dns")
+    klass = get_detector_class("dns")
     dyndnsclient.set_dns_detector(klass(hostname=config['updater'][0][1]['hostname'], family=thedetector.af()))
 
     return dyndnsclient

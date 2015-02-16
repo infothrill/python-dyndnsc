@@ -16,8 +16,9 @@ class TestDynDnsc(unittest.TestCase):
     def test_dyndnsc_factory(self):
         # the type of these exceptions is not formally required,
         # but we want to have some basic form of argument validity checking
+        # Note: we prefer ValueError for semantically wrong options
         self.assertRaises(TypeError, dyndnsc.getDynDnsClientForConfig, None)
-        self.assertRaises(KeyError, dyndnsc.getDynDnsClientForConfig, {})
+        self.assertRaises(ValueError, dyndnsc.getDynDnsClientForConfig, {})
         self.assertRaises(ValueError, dyndnsc.getDynDnsClientForConfig,
                           {'updater': ()})
 
