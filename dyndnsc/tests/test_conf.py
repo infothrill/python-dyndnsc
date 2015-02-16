@@ -59,7 +59,10 @@ detector-parser = plain
         self.assertEqual(dict, type(config))
         self.assertTrue('testconfig' in config)
         self.assertTrue('detector' in config['testconfig'])
+        self.assertTrue(isinstance(config['testconfig']['detector'], list))
+        self.assertEqual(1, len(config['testconfig']['detector']))
         self.assertTrue('updater' in config['testconfig'])
+        self.assertTrue(isinstance(config['testconfig']['updater'], list))
         self.assertEqual(1, len(config['testconfig']['updater']))
         updater = config['testconfig']['updater'][0]
         self.assertEqual("fubarUpdater", updater[0])

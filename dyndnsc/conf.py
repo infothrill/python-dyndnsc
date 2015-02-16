@@ -111,7 +111,7 @@ def collect_config(cfg):
                 # options passed "as is" to the dyndnsc client
                 collected_config[k] = client_cfg_dict[k]
 
-        collected_config[_detector_str] = detector_name, detector_options
+        collected_config[_detector_str] = [(detector_name, detector_options)]
         collected_config[_updater_str] = [(updater_name, updater_options)]
 
         collected_configs[client_name] = collected_config
