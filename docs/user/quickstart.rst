@@ -64,6 +64,7 @@ Dyndnsc supports several different methods for updating dynamic DNS services:
 
 * `dnsimple <http://developer.dnsimple.com/>`_
    Note: requires python package `dnsimple-dyndns <https://pypi.python.org/pypi/dnsimple-dyndns>`_ to be installed
+* `duckdns <https://www.duckdns.org/>`_
 * `dyndns2 <http://dyn.com/support/developers/api/>`_
 * `freedns.afraid.org <http://freedns.afraid.org/>`_
 
@@ -79,17 +80,18 @@ protocol:
 
     $ dyndnsc --updater-afraid
     $ dyndnsc --updater-dnsimple
+    $ dyndnsc --updater-duckdns
     $ dyndnsc --updater-dyndns2
 
 Each of these update protocols supports specific parameters, which might differ
 from each other. Each of these additional parameters can specified on the
 command line by appending them to the long option described above.
 
-Example to specify `userid` for updater `dyndns2`:
+Example to specify `token` for updater `duckdns`:
 
 .. code-block:: bash
  
-    $ dyndnsc --updater-dyndns2-userid test.nsupdate.info
+    $ dyndnsc --updater-duckdns-token 847c0ffb-39bd-326f-b971-bfb3d4e36d7b
  
 
 Detecting the IP
