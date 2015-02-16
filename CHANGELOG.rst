@@ -5,6 +5,7 @@ Release history
 
 0.4.2 (February XX 2015)
 ++++++++++++++++++++++++
+- added support for https://www.duckdns.org
 - user configuration keys now override presets
 
 0.4.1 (February 16th 2015)
