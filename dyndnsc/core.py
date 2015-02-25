@@ -153,7 +153,7 @@ class DynDnsClient(object):
             if self.has_state_changed():
                 log.debug("state changed, syncing...")
                 self.sync()
-            elif self.needs_forced_check():
+            elif self.needs_sync():
                 log.debug("forcing sync after %s seconds",
                           self.forceipchangedetection_sleep)
                 self.lastforce = time.time()
