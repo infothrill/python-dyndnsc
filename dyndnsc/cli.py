@@ -123,7 +123,7 @@ def main():
         collected_configs = collect_config(cfg)
     else:
         parsed_args = parse_cmdline_args(args, updater_classes().union(detector_classes()))
-        # logging.debug(parsed_args)
+        logging.debug("parsed_args %r", parsed_args)
 
         collected_configs = {'cmdline':
                              {
