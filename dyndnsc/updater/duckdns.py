@@ -54,11 +54,12 @@ class UpdateProtocolDuckdns(UpdateProtocol):
     def protocol(self):
         timeout = 60
         log.debug("Updating '%s' to '%s' at service '%s'", self.hostname, self.theip, self.url())
-        params = {'domains': self.hostname, 'token': self.token}
+        params = {'domains': self.hostname.partition(".")[0], 'token': self.token}
         if self.theip is None:
             params['ip'] = ""
         else:
             params['ip'] = self.theip
+        # log.debug("Update params: %r", params)
         try:
             r = requests.get(self.url(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
                              timeout=timeout)
