@@ -96,7 +96,7 @@ Example to specify `token` for updater `duckdns`:
 
 Detecting the IP
 ----------------
-Dyndnsc ships a couple of "detectors" which are capable of finding an IP
+*Dyndnsc* ships a couple of "detectors" which are capable of finding an IP
 address through different means.
 
 Detectors may need additional parameters to work properly. Additional parameters
@@ -112,9 +112,13 @@ can be specified on the command line similarly to the update protocols.
               --detector-webcheck4-url    http://ipv4.nsupdate.info/myip \
               --detector-webcheck4-parser plain
 
+Some detectors require additional python dependencies:
+
+* *iface*, *teredo* detectors require `netifaces <https://pypi.python.org/pypi/netifaces>`_ to be installed
+
 Presets
 -------
-Dyndnsc comes with a list of pre-configured presets. To see all configured
+*Dyndnsc* comes with a list of pre-configured presets. To see all configured
 presets, you can run
 
 .. code-block:: bash
@@ -175,7 +179,7 @@ URL explicitly, you can add the argument --updater-dyndns2-url:
 
 Plugins
 -------
-Dyndnsc supports plugins which can be notified when a dynamic DNS entry was
+*Dyndnsc* supports plugins which can be notified when a dynamic DNS entry was
 changed. Currently, only two plugins exist:
 
 * Growl

@@ -17,15 +17,13 @@ Dyndnsc - dynamic dns update client
    :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=develop
    :alt: Requirements Status
 
-*Dyndnsc* is both a script to be used directly as well as a re-usable and
-hopefully extensible python package for sending updates to dynamic
-dns (ddns, dyndns) services. It is compatible with ipv4 as well as
-ipv6. It ships with support for a bunch of different services and it has an
-extensible configuration format that allows using foreign, but compatible
-services. *Dyndnsc* ships many different IP detection mechanisms, support
-for configuring multiple services in one place and it has a daemon mode for
-running unattended. It has a plugin architecture for supporting notification
-services like Growl or OS X Notification center.  
+*Dyndnsc* is a command line client for sending updates to dynamic
+dns (ddns, dyndns) services. It supports multiple protocols and services,
+and it is compatible with ipv4 as well as ipv6. The configuration file allows
+using foreign, but compatible services. *Dyndnsc* ships many different IP
+detection mechanisms, support for configuring multiple services in one place
+and it has a daemon mode for running unattended. It has a plugin architecture
+for supporting notification services like Growl or OS X Notification center.  
 
 
 Quickstart / Documentation

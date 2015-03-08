@@ -94,8 +94,8 @@ setup(
     author='Paul Kremer',
     author_email='@'.join(("paul", "spurious.biz")),  # avoid spam,
     license='MIT License',
-    description='dynamic dns (dyndns) update client that tries to be '
-                'extensible, re-usable and efficient on network resources',
+    description='dynamic dns (dyndns) update client with support for multiple '
+                'protocols',
     long_description=README + '\n\n' + CHANGELOG,
     url='https://github.com/infothrill/python-dyndnsc',
     install_requires=patch_install_requires(
