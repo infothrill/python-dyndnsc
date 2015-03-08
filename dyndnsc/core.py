@@ -77,13 +77,14 @@ class DynDnsClient(object):
                 self.status = 2
                 # we don't have a value to set it to, so don't update! Still shouldn't happen though
             else:
-                log.info("Current dns IP '%s' does not match detected IP '%s', updating",
-                         self.dns.get_current_value(), detected_ip)
+                log.info("%s: dns IP '%s' does not match detected IP '%s', updating",
+                         self.updater.hostname, self.dns.get_current_value(), detected_ip)
                 self.status = self.updater.update(detected_ip)
                 self.plugins.after_remote_ip_update(detected_ip, self.status)
         else:
             self.status = 0
-            log.debug("Nothing to do, dns '%s' equals detection '%s'",
+            log.debug("%s: nothing to do, dns '%s' equals detection '%s'",
+                      self.updater.hostname,
                       self.dns.get_current_value(),
                       self.detector.get_current_value())
 
