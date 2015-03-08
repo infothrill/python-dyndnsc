@@ -6,7 +6,11 @@ Frequently Asked Questions
 Python 3 Support?
 -----------------
 
-Yes! Here's a list of Python platforms that are officially
+Yes! In fact, we recommend running on Python3, because a lot of dynamic dns
+services provide https interfaces, which are best supported in newer python
+versions from a security and performance point of view.
+
+Here's a list of Python platforms that are officially
 supported:
 
 * Python 2.6

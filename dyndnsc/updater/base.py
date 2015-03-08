@@ -9,15 +9,15 @@ log = logging.getLogger(__name__)
 
 
 class UpdateProtocol(Subject, DynamicCliMixin):
-    """
-    base class for all update protocols that use the dyndns2 update protocol
-    """
+
+    """Base class for all update protocols that use a simple http GET protocol."""
 
     _updateurl = None
     theip = None
     hostname = None  # this holds the desired dns hostname
 
     def __init__(self):
+        """Initializer."""
         self.updateurl = self._updateurl
         super(UpdateProtocol, self).__init__()
 
@@ -33,11 +33,17 @@ class UpdateProtocol(Subject, DynamicCliMixin):
     @staticmethod
     def configuration_key():
         """
-        This method must be implemented by all updater subclasses. Returns a
-        human readable string identifying the protocol.
+        Return a human readable string identifying the protocol.
+
+        Must be implemented by all updater subclasses.
         """
         return "none_base_class"
 
     @staticmethod
     def configuration_key_prefix():
+        """
+        Return a human readable string classifying this class as an updater.
+
+        Must be not be implemented or overwritten in updater subclasses.
+        """
         return "updater"

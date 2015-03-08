@@ -60,7 +60,8 @@ def _iraw_client_configs(cfg):
         if cfg.has_option(client_name, _use_preset):
             prf = dict(
                 cfg.items(_preset_prefix + cfg.get(client_name, _use_preset)))
-            client_cfg_dict.update(prf)
+            prf.update(client_cfg_dict)
+            client_cfg_dict = prf
         else:
             # raw config with NO preset in use, so no updating of dict
             pass

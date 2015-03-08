@@ -11,6 +11,7 @@ from warnings import warn
 _builtins = (
     ('dyndnsc.updater.afraid', 'UpdateProtocolAfraid'),
     ('dyndnsc.updater.dummy', 'UpdateProtocolDummy'),
+    ('dyndnsc.updater.duckdns', 'UpdateProtocolDuckdns'),
     ('dyndnsc.updater.dyndns2', 'UpdateProtocolDyndns2'),
     ('dyndnsc.updater.dnsimple', 'UpdateProtocolDnsimple'),
 )

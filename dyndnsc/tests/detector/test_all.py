@@ -188,3 +188,12 @@ Your IP address is : 127.0.0.1</body>
         self.assertEqual(AF_UNSPEC, detector.af())
         self.assertEqual(None, detector.get_current_value())
         self.assertTrue(type(detector.detect()) in (type(None), str))
+
+    def test_null(self):
+        import dyndnsc.detector.null as null
+        self.assertTrue("null" in null.IPDetector_Null.names())
+        detector = null.IPDetector_Null()
+        self.assertTrue(detector.can_detect_offline())
+        self.assertEqual(AF_UNSPEC, detector.af())
+        self.assertEqual(None, detector.get_current_value())
+        self.assertTrue(type(detector.detect()) in (type(None), str))

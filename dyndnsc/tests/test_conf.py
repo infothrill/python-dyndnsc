@@ -43,6 +43,8 @@ configs = testconfig
 use_preset = testpreset
 updater-userid = bob
 updater-password = XYZ
+# test overwriting a preset value:
+detector-url = http://myip.example.com/
 
 [preset:testpreset]
 updater = fubarUpdater
@@ -61,6 +63,9 @@ detector-parser = plain
         self.assertTrue('detector' in config['testconfig'])
         self.assertTrue(isinstance(config['testconfig']['detector'], list))
         self.assertEqual(1, len(config['testconfig']['detector']))
+        detector, detector_opts = config['testconfig']['detector'][-1]
+        self.assertEqual(detector, "webcheck4")  # from the preset
+        self.assertEqual(detector_opts['url'], "http://myip.example.com/")  # from the user conf
         self.assertTrue('updater' in config['testconfig'])
         self.assertTrue(isinstance(config['testconfig']['updater'], list))
         self.assertEqual(1, len(config['testconfig']['updater']))
