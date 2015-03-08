@@ -8,21 +8,23 @@ from bottle import Bottle, run, response, request
 
 
 def nicupdate():
+    # print(dict(request.query))
     arg_hostname = request.query.domains
     arg_token = request.query.token
     arg_myip = request.query.ip
     assert len(arg_hostname) > 0
+    # duckdns doesn't want fqdns:
+    assert "." not in arg_hostname, "hostname must not contain dots"
     assert len(arg_token) > 0
-    assert len(arg_myip) > 0
+    # duckdns allows empty IP:
+    assert len(arg_myip) >= 0
     response.content_type = 'text/plain; charset=utf-8'
-    return str("good %s" % arg_myip)
+    return str("OK %s" % arg_myip)
 
 
 class DuckdnsApp(Bottle):
 
-    """
-    A minimal http server that resembles an actual duckdns service
-    """
+    """Minimal http server that resembles an actual duckdns service."""
 
     def __init__(self, host='localhost', port=8000):
         super(DuckdnsApp, self).__init__()
@@ -51,12 +53,10 @@ class DuckdnsApp(Bottle):
         return 'http://%s:%s' % (self.host, str(self.port))
 
 
-class TestDuckdns2BottleServer(unittest.TestCase):
+class TestDuckdnsBottleServer(unittest.TestCase):
 
     def setUp(self):
-        """
-        Start local server
-        """
+        """Start local server."""
         import random
         portnumber = random.randint(8000, 8900)
         self.server = DuckdnsApp('127.0.0.1', portnumber)
@@ -65,28 +65,30 @@ class TestDuckdns2BottleServer(unittest.TestCase):
         unittest.TestCase.setUp(self)
 
     def tearDown(self):
-        """
-        Stop local server.
-        """
+        """Stop local server."""
         self.server.stop()
         self.server = None
         unittest.TestCase.tearDown(self)
 
-    def test_dyndns2(self):
+    def test_duckdns(self):
         import dyndnsc.updater.duckdns as duckdns
         NAME = "duckdns"
+        self.assertEqual(
+            NAME, duckdns.UpdateProtocolDuckdns.configuration_key())
+
         theip = "127.0.0.1"
         options = {"hostname": "duckdns.example.com",
                    "token": "dummy",
                    "url": self.url
                    }
-        self.assertEqual(
-            NAME, duckdns.UpdateProtocolDuckdns.configuration_key())
         updater = duckdns.UpdateProtocolDuckdns(**options)
         self.assertEqual(str, type(updater.url()))
         self.assertEqual(self.url, updater.url())
-        res = updater.update(theip)
-        self.assertEqual(theip, res)
+        # normal IP test:
+        self.assertEqual(theip, updater.update(theip))
+
+        # empty/no IP test:
+        self.assertEqual(None, updater.update(None))
 
 
 if __name__ == '__main__':

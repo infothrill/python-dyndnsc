@@ -70,19 +70,10 @@ class UpdateProtocolDuckdns(UpdateProtocol):
         else:
             r.close()
         log.debug("status %i, %s", r.status_code, r.text)
+        # TODO: duckdns response codes seem undocumented...
         if r.status_code == 200:
-            if r.text.startswith("good "):
+            if r.text.startswith("OK"):
                 return self.theip
-            elif r.text.startswith('nochg'):
-                return self.theip
-            elif r.text == 'nohost':
-                return 'nohost'
-            elif r.text == 'abuse':
-                return 'abuse'
-            elif r.text == '911':
-                return '911'
-            elif r.text == 'notfqdn':
-                return 'notfqdn'
             else:
                 return r.text
         else:
