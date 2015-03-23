@@ -216,8 +216,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'dyndnsc', u'dyndnsc Documentation',
-     [u'Paul Kremer'], 1)
+    ('man/dyndnsc', 'dyndnsc', u'dyndnsc cli documentation', [u'Paul Kremer'], 1),
+    #('index', 'dyndnsc', u'dyndnsc Documentation', [u'Paul Kremer'], 1)
 ]
 
 # If true, show URL addresses after external links.
