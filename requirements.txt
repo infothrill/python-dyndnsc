@@ -5,4 +5,4 @@
 # See https://bitbucket.org/al45tair/netifaces/issue/13/0104-install-is-broken-on-python-3x
 netifaces==0.10.5
 dnsimple-dyndns==0.1
-coverage
+coverage==4.4.1
