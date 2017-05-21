@@ -70,13 +70,13 @@ class IfaceDetectorTest(unittest.TestCase):
         self.assertTrue("teredo" in teredo.IPDetector_Teredo.names())
         # auto-detect an interface:
         interface = give_me_an_interface_ipv6()
-        self.assertNotEqual(None, interface)
-        detector = teredo.IPDetector_Teredo(iface=interface)
-        self.assertTrue(detector.can_detect_offline())
-        self.assertEqual(AF_INET6, detector.af())
-        self.assertEqual(None, detector.get_current_value())
-        self.assertTrue(type(detector.detect()) in (type(None), str))
-        # self.assertNotEqual(None, detector.netmask)
+        if interface is not None:  # we have ip6 support
+            detector = teredo.IPDetector_Teredo(iface=interface)
+            self.assertTrue(detector.can_detect_offline())
+            self.assertEqual(AF_INET6, detector.af())
+            self.assertEqual(None, detector.get_current_value())
+            self.assertTrue(type(detector.detect()) in (type(None), str))
+            # self.assertNotEqual(None, detector.netmask)
 
         detector = teredo.IPDetector_Teredo(iface='foo0')
         self.assertEqual(None, detector.detect())
