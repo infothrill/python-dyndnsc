@@ -2,4 +2,4 @@
 # package from pypi. Some functions are only enabled if certain packages
 # are installed, so we install them here.
 dnsimple-dyndns
-coverage
+coverage==4.4.1
