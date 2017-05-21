@@ -78,8 +78,8 @@ class TestIndividualDetectors(unittest.TestCase):
         # test address family restriction to ipv6:
         detector = ns.IPDetector_DNS(hostname="localhost", family='INET6')
         self.assertEqual(AF_INET6, detector.af())
-        print(detector.detect())
-        self.assertTrue(detector.detect() in ("::1", "fe80::1%lo0"))
+        val = detector.detect()
+        self.assertTrue(val in ("::1", "fe80::1%lo0"), "%r not known" % val)
 
     def test_command_detector(self):
         import dyndnsc.detector.command
