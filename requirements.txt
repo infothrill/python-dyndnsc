@@ -1,5 +1,5 @@
 # The dependencies listed here are not formally required to install the
 # package from pypi. Some functions are only enabled if certain packages
 # are installed, so we install them here.
-dnsimple-dyndns
+dnsimple-dyndns==0.1
 coverage
