@@ -76,10 +76,18 @@ class TestIndividualDetectors(unittest.TestCase):
         self.assertEqual(AF_INET, detector.af())
         self.assertTrue(detector.detect() in ("127.0.0.1", ))
         # test address family restriction to ipv6:
-        detector = ns.IPDetector_DNS(hostname="localhost", family='INET6')
-        self.assertEqual(AF_INET6, detector.af())
-        val = detector.detect()
-        self.assertTrue(val in ("::1", "fe80::1%lo0"), "%r not known" % val)
+        have_ipv6 = True
+        import socket
+        s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
+        try:
+            s.connect(('ipv6.google.com', 0))
+        except:
+            have_ipv6 = False
+        if have_ipv6:
+            detector = ns.IPDetector_DNS(hostname="localhost", family='INET6')
+            self.assertEqual(AF_INET6, detector.af())
+            val = detector.detect()
+            self.assertTrue(val in ("::1", "fe80::1%lo0"), "%r not known" % val)
 
     def test_command_detector(self):
         import dyndnsc.detector.command
