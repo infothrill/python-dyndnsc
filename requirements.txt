@@ -1,8 +1,5 @@
 # The dependencies listed here are not formally required to install the
 # package from pypi. Some functions are only enabled if certain packages
 # are installed, so we install them here.
-# netifaces is listed here because of issues when installing from setup.py
-# See https://bitbucket.org/al45tair/netifaces/issue/13/0104-install-is-broken-on-python-3x
-netifaces
 dnsimple-dyndns
 coverage
