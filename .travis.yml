@@ -8,14 +8,10 @@ python:
   - "3.5"
   - "3.6"
   - "pypy"
-install:
-  - "pip install tox-travis"
-  - "make init"
-  - "make install"
-script:
-  - "make coverage"
-after_success:
-  - "make coveralls"
+install: pip install tox-travis
+script: tox
+#after_success:
+#  - "make coveralls"
 matrix:
   allow_failures:
     - python: pypy
