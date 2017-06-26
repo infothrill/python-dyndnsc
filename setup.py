@@ -26,7 +26,7 @@ with open(os.path.join(BASEDIR, 'CHANGELOG.rst'), 'r') as f:
 
 
 CLASSIFIERS = (
-    'Development Status :: 3 - Alpha',
+    'Development Status :: 4 - Beta',
     'Intended Audience :: Developers',
     'License :: DFSG approved',
     'License :: OSI Approved',
@@ -43,7 +43,9 @@ CLASSIFIERS = (
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3.2',
     'Programming Language :: Python :: 3.3',
-    'Programming Language :: Python :: 3.4'
+    'Programming Language :: Python :: 3.4',
+    'Programming Language :: Python :: 3.5',
+    'Programming Language :: Python :: 3.6'
 )
 
 

@@ -2,10 +2,10 @@
 
 Release history
 ---------------
-0.4.3 (TODO)
+0.4.3 (June 26th 2017)
 ++++++++++++++++++++++
 - fixed: nsupdate URLs
-- fixed: many minor cosmetic issues
+- fixed: several minor cosmetic issues, mostly testing related
 
 0.4.2 (March 8th 2015)
 ++++++++++++++++++++++
