@@ -2,6 +2,10 @@
 
 Release history
 ---------------
+0.4.3 (TODO)
+++++++++++++++++++++++
+- fixed: nsupdate URLs
+- fixed: many minor cosmetic issues
 
 0.4.2 (March 8th 2015)
 ++++++++++++++++++++++
