@@ -1,9 +1,19 @@
 # -*- coding: utf-8 -*-
 
+import sys
 import unittest
 import logging
 
 from dyndnsc.detector.base import AF_INET6
+
+# more py23 madness
+PY2 = sys.version_info[0] == 2
+PY3 = sys.version_info[0] == 3
+
+if PY3:
+    string_type = str
+else:
+    string_type = basestring
 
 
 def is_netifaces_available():
@@ -52,7 +62,7 @@ class IfaceDetectorTest(unittest.TestCase):
         detector = iface.IPDetector_Iface(iface=interface)
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
-        self.assertTrue(type(detector.detect()) in (type(None), str))
+        self.assertTrue(isinstance(detector.detect(), (type(None), string_type)))
         # empty interface name must not fail construction
         # broken in python2.6
         # self.assertIsInstance(iface.IPDetector_Iface(iface=None), iface.IPDetector_Iface)
@@ -75,7 +85,7 @@ class IfaceDetectorTest(unittest.TestCase):
             self.assertTrue(detector.can_detect_offline())
             self.assertEqual(AF_INET6, detector.af())
             self.assertEqual(None, detector.get_current_value())
-            self.assertTrue(type(detector.detect()) in (type(None), str))
+            self.assertTrue(isinstance(detector.detect(), (type(None), string_type)))
             # self.assertNotEqual(None, detector.netmask)
 
         detector = teredo.IPDetector_Teredo(iface='foo0')
