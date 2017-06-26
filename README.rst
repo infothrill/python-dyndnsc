@@ -4,14 +4,11 @@ Dyndnsc - dynamic dns update client
 .. image:: https://travis-ci.org/infothrill/python-dyndnsc.svg?branch=develop
     :target: https://travis-ci.org/infothrill/python-dyndnsc
 
-.. image:: https://pypip.in/d/dyndnsc/badge.png
-    :target: https://pypi.python.org/pypi/dyndnsc
-
 .. image:: https://coveralls.io/repos/infothrill/python-dyndnsc/badge.png?branch=develop
     :target: https://coveralls.io/r/infothrill/python-dyndnsc?branch=develop 
 
-.. image:: https://badge.fury.io/py/dyndnsc.png
-    :target: http://badge.fury.io/py/dyndnsc
+.. image:: https://img.shields.io/pypi/v/dyndnsc.svg
+    :target: https://pypi.python.org/pypi/dyndnsc/
 
 .. image:: https://requires.io/github/infothrill/python-dyndnsc/requirements.png?branch=develop
    :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=develop
