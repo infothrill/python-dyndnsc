@@ -1,0 +1,6 @@
+- repo: git@github.com:pre-commit/pre-commit-hooks
+  sha: v0.9.1 
+  hooks:
+    - id: check-case-conflict
+    - id: fix-encoding-pragma
+    - id: check-docstring-first

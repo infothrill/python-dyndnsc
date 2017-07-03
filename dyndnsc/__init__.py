@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from . import updater
 from .core import getDynDnsClientForConfig, DynDnsClient
 
