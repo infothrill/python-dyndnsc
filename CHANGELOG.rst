@@ -2,6 +2,11 @@
 
 Release history
 ---------------
+0.4.4 (unreleased)
+++++++++++++++++++++++
+- fixed: fixed wheel dependency on python 2.6 and 3.3
+- fixed: pep8 related changes
+
 0.4.3 (June 26th 2017)
 ++++++++++++++++++++++
 - fixed: nsupdate URLs
