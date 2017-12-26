@@ -51,7 +51,7 @@ CLASSIFIERS = (
 
 def patch_setup_requires(requires):
     """python version compatibility"""
-    if sys.version_info < (2, 7) or (3.1) < sys.version_info < (3, 4):
+    if sys.version_info < (2, 7) or (3, 1) < sys.version_info < (3, 4):
         #  https://github.com/pypa/wheel/blob/7ca7b3552e55030b5d78cd90d53f1d99c9139f16/CHANGES.txt#L15
         return requires + ["wheel==0.29.0"]
     else:
