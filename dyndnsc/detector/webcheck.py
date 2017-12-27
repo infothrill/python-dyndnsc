@@ -123,17 +123,17 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
     # the lack of TLS is baffling ;-(
     urls = (
         ("http://checkip.eurodyndns.org/", 'checkip'),
-        ("http://dynamic.zoneedit.com/checkip.html", 'plain'),
-        ("http://ipcheck.rehbein.net/", 'checkip'),
         ("http://ip.dnsexit.com/", 'plain'),
-        ("http://freedns.afraid.org:8080/dynamic/check.php", 'freedns_afraid'),
-        ("http://ipv4.icanhazip.com/", 'plain'),
-        # ("http://ip.arix.com/", 'plain'), # stopped working
-        ("http://ipv4.nsupdate.info/myip", 'plain'),
-        ("http://jsonip.com/", 'jsonip'),
         ("http://checkip.dns.he.net/", 'checkip_dns_he_net'),
         ("http://ip1.dynupdate.no-ip.com/", "plain"),
         ("http://ip2.dynupdate.no-ip.com/", "plain"),
+        ("https://dynamic.zoneedit.com/checkip.html", 'plain'),
+        ("https://freedns.afraid.org/dynamic/check.php", 'freedns_afraid'),
+        ("https://ifconfig.co", "plain"),
+        ("https://ipinfo.io/ip", "plain"),
+        ("https://ipv4.icanhazip.com/", 'plain'),
+        ("https://ipv4.nsupdate.info/myip", 'plain'),
+        ("https://jsonip.com/", 'jsonip'),
     )
 
     def __init__(self, *args, **kwargs):
@@ -159,8 +159,9 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
     """
 
     urls = (
-        ("http://ipv6.icanhazip.com/", 'plain'),
-        ("http://ipv6.nsupdate.info/myip", 'plain'),
+        ("https://ipv6.icanhazip.com/", 'plain'),
+        ("https://ipv6.nsupdate.info/myip", 'plain'),
+        ("https://v6.ident.me", 'plain'),
     )
 
     def __init__(self, *args, **kwargs):
@@ -200,8 +201,9 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
     """
 
     urls = (
-        ("http://icanhazip.com/", 'plain'),
-        ("http://nsupdate.info/myip", 'plain'),
+        ("https://icanhazip.com/", 'plain'),
+        ("https://www.nsupdate.info/myip", 'plain'),
+        ("https://ident.me", 'plain'),
     )
 
     def __init__(self, *args, **kwargs):
