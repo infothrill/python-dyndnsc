@@ -14,7 +14,7 @@ Installing Dyndnsc is simple with `pip <http://www.pip-installer.org/>`_::
 
     $ pip install dyndnsc
 
-Or, if you prefer a more encapsulated way, use `pipsi <https://github.com/mitsuhiko/pipsi/>_`::
+Or, if you prefer a more encapsulated way, use `pipsi <https://github.com/mitsuhiko/pipsi/>`_::
 
     $ pipsi install dyndnsc
 
