@@ -4,15 +4,16 @@ Dyndnsc - dynamic dns update client
 .. image:: https://travis-ci.org/infothrill/python-dyndnsc.svg?branch=develop
     :target: https://travis-ci.org/infothrill/python-dyndnsc
 
-.. image:: https://coveralls.io/repos/infothrill/python-dyndnsc/badge.png?branch=develop
+.. image:: https://img.shields.io/coveralls/infothrill/python-dyndnsc/develop.svg
     :target: https://coveralls.io/r/infothrill/python-dyndnsc?branch=develop 
+    :alt: Code coverage
 
 .. image:: https://img.shields.io/pypi/v/dyndnsc.svg
     :target: https://pypi.python.org/pypi/dyndnsc/
 
-.. image:: https://requires.io/github/infothrill/python-dyndnsc/requirements.png?branch=develop
-   :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=develop
-   :alt: Requirements Status
+.. image:: https://img.shields.io/requires/github/infothrill/python-dyndnsc.svg
+    :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=develop
+    :alt: Requirements Status
 
 *Dyndnsc* is a command line client for sending updates to dynamic
 dns (ddns, dyndns) services. It supports multiple protocols and services,
@@ -45,7 +46,7 @@ Installation
 
 Requirements
 ============
-* Python 2.6, 2.7 or 3.2+
+* Python 2.6, 2.7 or 3.3+
 
 
 Status
