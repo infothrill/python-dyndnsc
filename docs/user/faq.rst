@@ -15,12 +15,13 @@ supported:
 
 * Python 2.6
 * Python 2.7
-* Python 3.2
 * Python 3.3
 * Python 3.4
-* PyPy 1.9
+* Python 3.5
+* Python 3.6
+* PyPy
 
-Support for Python 2.6 and 3.2 may be dropped at any time.
+Support for Python 2.6 may be dropped at any time.
 
 Is service xyz supported?
 -------------------------
