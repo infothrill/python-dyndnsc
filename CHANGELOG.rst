@@ -2,6 +2,11 @@
 
 Release history
 ---------------
+0.4.x (unreleased)
+++++++++++++++++++
+- improved: updated list of external urls for IP discovery
+- improved: install documentation
+
 0.4.4 (December 27th 2017)
 ++++++++++++++++++++++++++
 - fixed: fixed wheel dependency on python 2.6 and 3.3
