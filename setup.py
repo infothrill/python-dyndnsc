@@ -41,12 +41,20 @@ CLASSIFIERS = (
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.6',
     'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3.2',
     'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6'
 )
+
+
+def patch_setup_requires(requires):
+    """python version compatibility"""
+    if sys.version_info < (2, 7) or (3, 1) < sys.version_info < (3, 4):
+        #  https://github.com/pypa/wheel/blob/7ca7b3552e55030b5d78cd90d53f1d99c9139f16/CHANGES.txt#L15
+        return requires + ["wheel==0.29.0"]
+    else:
+        return requires
 
 
 def patch_test_requires(requires):
@@ -75,6 +83,7 @@ def patch_install_requires(requires):
         to_add.append("importlib")
     return requires + to_add
 
+
 if sys.version_info < (2, 7, 4):
     # work around python issue http://bugs.python.org/issue15881
     # affects only python2 when using multiprocessing and if nose is installed
@@ -100,6 +109,7 @@ setup(
                 'protocols',
     long_description=README + '\n\n' + CHANGELOG,
     url='https://github.com/infothrill/python-dyndnsc',
+    setup_requires=patch_setup_requires([]),
     install_requires=patch_install_requires(
         ['requests>=2.0.1', 'setuptools', 'netifaces>=0.10.5']),
     entry_points=("""
@@ -111,5 +121,5 @@ setup(
     tests_require=patch_test_requires(['bottle==0.12.7', 'pep8>=1.3']),
     package_data={'dyndnsc/resources': ['dyndnsc/resources/*.ini']},
     include_package_data=True,
-    zip_safe = False
+    zip_safe=False
 )
