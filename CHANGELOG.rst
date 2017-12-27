@@ -2,8 +2,8 @@
 
 Release history
 ---------------
-0.4.4 (unreleased)
-++++++++++++++++++++++
+0.4.4 (December 27th 2017)
+++++++++++++++++++++++++++
 - fixed: fixed wheel dependency on python 2.6 and 3.3
 - fixed: pep8 related changes, doc fixes
 

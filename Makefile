@@ -41,11 +41,10 @@ deb:
 
 
 clean:
-	@echo "Cleaning up distutils stuff"
-	rm -rf build
-	rm -rf dist
-	rm -rf deb_dist
-	rm -rf *.egg
-	rm -rf *.egg-info
+	@echo "Cleaning up distutils and tox stuff"
+	rm -rf build dist deb_dist
+	rm -rf *.egg .eggs *.egg-info
+	rm -rf .tox
 	@echo "Cleaning up byte compiled python stuff"
-	find . -type f -regex ".*\.py[co]$$" -delete
+	find . -regex "\(.*__pycache__.*\|*.py[co]\)" -delete
+
