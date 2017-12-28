@@ -5,7 +5,7 @@ Dyndnsc - dynamic dns update client
     :target: https://travis-ci.org/infothrill/python-dyndnsc
 
 .. image:: https://img.shields.io/coveralls/infothrill/python-dyndnsc/develop.svg
-    :target: https://coveralls.io/r/infothrill/python-dyndnsc?branch=develop 
+    :target: https://coveralls.io/r/infothrill/python-dyndnsc?branch=develop
     :alt: Code coverage
 
 .. image:: https://img.shields.io/pypi/v/dyndnsc.svg
@@ -21,7 +21,7 @@ and it is compatible with ipv4 as well as ipv6. The configuration file allows
 using foreign, but compatible services. *Dyndnsc* ships many different IP
 detection mechanisms, support for configuring multiple services in one place
 and it has a daemon mode for running unattended. It has a plugin architecture
-for supporting notification services like Growl or OS X Notification center.  
+for supporting notification services like Growl or OS X Notification center.
 
 
 Quickstart / Documentation
@@ -42,7 +42,7 @@ Installation
 
     $ # directly from github:
     $ pip install https://github.com/infothrill/python-dyndnsc/zipball/develop
-  
+
 
 Requirements
 ============

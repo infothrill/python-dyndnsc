@@ -90,9 +90,9 @@ command line by appending them to the long option described above.
 Example to specify `token` for updater `duckdns`:
 
 .. code-block:: bash
- 
+
     $ dyndnsc --updater-duckdns-token 847c0ffb-39bd-326f-b971-bfb3d4e36d7b
- 
+
 
 Detecting the IP
 ----------------
@@ -187,5 +187,5 @@ changed. Currently, only two plugins exist:
 
 The list of plugins that are deemed compatible and available in your
 environment will be listed in the command line help. Each plugin command line
-option starts with '--with-'.  
+option starts with '--with-'.
 

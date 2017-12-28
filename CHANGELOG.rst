@@ -67,7 +67,7 @@ Release history
 
 0.3.2 (November 16th 2013)
 ++++++++++++++++++++++++++
-- added: command line option --debug to explicitly increase loglevel 
+- added: command line option --debug to explicitly increase loglevel
 - fixed potential race issues in detector base class
 - fixed: several typos, test structure, naming conventions, default loglevel
 - changed: dynamic importing of detector code
@@ -106,7 +106,7 @@ Release history
 +++++++++++++++++++++
 - updated IANA reserved IP address space
 - Added new IP Detector: running an external command
-- Minimal syntax changes based on the 2to3 tool, but remaining compatible 
+- Minimal syntax changes based on the 2to3 tool, but remaining compatible
   with python 2.x
 
 0.1.2 (July 2009)
