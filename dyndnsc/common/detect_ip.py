@@ -16,7 +16,8 @@
 """
 Detect IP v4 or v6 addresses the system uses to talk to outside world.
 
-Original code from https://github.com/vincentbernat/puppet-workstation/blob/master/modules/system/templates/network/ddns-updater.erb
+Original code from
+https://github.com/vincentbernat/puppet-workstation/blob/master/modules/system/templates/network/ddns-updater.erb
 
 Refactored/modified by Thomas Waldmann to just detect the IP.
 """

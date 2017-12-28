@@ -7,7 +7,7 @@ import pep8
 
 import dyndnsc
 
-MAX_LINE_LENGTH = 132
+MAX_LINE_LENGTH = 120
 
 # sequence of "Ennn" strings to ignore:
 IGNORE_CODES = ()

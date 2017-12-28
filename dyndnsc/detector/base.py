@@ -29,7 +29,8 @@ class IPDetector(Subject, DynamicCliMixin):
 
         self.opts_family = kwargs.get('family')
         # ensure address family is understood:
-        af_ok = {None: AF_UNSPEC, 'INET': AF_INET, 'INET6': AF_INET6, AF_UNSPEC: AF_UNSPEC, AF_INET: AF_INET, AF_INET6: AF_INET6}
+        af_ok = {None: AF_UNSPEC, 'INET': AF_INET, 'INET6': AF_INET6,
+                 AF_UNSPEC: AF_UNSPEC, AF_INET: AF_INET, AF_INET6: AF_INET6}
         if self.opts_family not in af_ok:
             raise ValueError("IPDetector(): Unsupported address family '%s' specified, please use one of %r" %
                              (self.opts_family, af_ok.keys()))
