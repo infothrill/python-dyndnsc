@@ -1,18 +1,24 @@
 Dyndnsc - dynamic dns update client
 ===================================
 
-.. image:: https://travis-ci.org/infothrill/python-dyndnsc.svg?branch=develop
+.. image:: https://img.shields.io/pypi/v/dyndnsc.svg
+    :target: https://pypi.python.org/pypi/dyndnsc
+
+.. image:: https://img.shields.io/pypi/l/dyndnsc.svg
+    :target: https://pypi.python.org/pypi/dyndnsc
+
+.. image:: https://img.shields.io/pypi/pyversions/dyndnsc.svg
+    :target: https://pypi.python.org/pypi/dyndnsc
+
+.. image:: https://travis-ci.org/infothrill/python-dyndnsc.svg?branch=master
     :target: https://travis-ci.org/infothrill/python-dyndnsc
 
-.. image:: https://img.shields.io/coveralls/infothrill/python-dyndnsc/develop.svg
-    :target: https://coveralls.io/r/infothrill/python-dyndnsc?branch=develop
+.. image:: https://img.shields.io/coveralls/infothrill/python-dyndnsc/master.svg
+    :target: https://coveralls.io/r/infothrill/python-dyndnsc?branch=master
     :alt: Code coverage
 
-.. image:: https://img.shields.io/pypi/v/dyndnsc.svg
-    :target: https://pypi.python.org/pypi/dyndnsc/
-
 .. image:: https://img.shields.io/requires/github/infothrill/python-dyndnsc.svg
-    :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=develop
+    :target: https://requires.io/github/infothrill/python-dyndnsc/requirements/?branch=master
     :alt: Requirements Status
 
 *Dyndnsc* is a command line client for sending updates to dynamic
