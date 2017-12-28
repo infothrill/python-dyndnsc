@@ -43,6 +43,7 @@ class DynDnsClient(object):
         else:
             self.updater = updater
         if detector is None:
+            log.warning("No IP detector specified, falling back to null detector.")
             self.detector = IPDetector_Null()
         elif not isinstance(detector, IPDetector):
             raise ValueError("detector '%r' is not an instance of '%r'" % (detector, IPDetector))
@@ -70,17 +71,15 @@ class DynDnsClient(object):
         because updating the dynamic ip in itself is costly. Therefore, this
         method should usually only be called on startup or when the state changes.
         """
-        if self.dns.detect() != self.detector.detect():
-            detected_ip = self.detector.get_current_value()
-            if detected_ip is None:
-                log.debug("DNS out of sync, but detector returned None")
-                self.status = 2
-                # we don't have a value to set it to, so don't update! Still shouldn't happen though
-            else:
-                log.info("%s: dns IP '%s' does not match detected IP '%s', updating",
-                         self.updater.hostname, self.dns.get_current_value(), detected_ip)
-                self.status = self.updater.update(detected_ip)
-                self.plugins.after_remote_ip_update(detected_ip, self.status)
+        detected_ip = self.detector.detect()
+        if detected_ip is None:
+            log.debug("Couldn't detect the current IP using detector %r", self.detector.names()[-1])
+            # we don't have a value to set it to, so don't update! Still shouldn't happen though
+        elif self.dns.detect() != detected_ip:
+            log.info("%s: dns IP '%s' does not match detected IP '%s', updating",
+                     self.updater.hostname, self.dns.get_current_value(), detected_ip)
+            self.status = self.updater.update(detected_ip)
+            self.plugins.after_remote_ip_update(detected_ip, self.status)
         else:
             self.status = 0
             log.debug("%s: nothing to do, dns '%s' equals detection '%s'",
