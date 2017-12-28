@@ -153,15 +153,12 @@ def main():
         daemonize()  # fork into background
         args.loop = True
 
-    while True:
+    if args.loop:
+        # Do small sleeps in the main loop, needs_check() is cheap and does
+        # the rest.
+        time.sleep(15)
         for dyndnsclient in dyndnsclients:
             dyndnsclient.check()
-        if args.loop:
-            # only sleep with fine granularity here,
-            # needs_check() is cheap and does the rest.
-            time.sleep(10)
-        else:
-            break
 
     return 0
 
