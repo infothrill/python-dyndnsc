@@ -120,16 +120,17 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
           will simply not detect the IP address.
     """
 
-    # the lack of TLS is baffling ;-(
+    # TODO: consider throwing out all URLs with no TLS support
     urls = (
         ("http://checkip.eurodyndns.org/", 'checkip'),
         ("http://ip.dnsexit.com/", 'plain'),
         ("http://checkip.dns.he.net/", 'checkip_dns_he_net'),
         ("http://ip1.dynupdate.no-ip.com/", "plain"),
         ("http://ip2.dynupdate.no-ip.com/", "plain"),
+        ("https://api.ipify.org/", "plain"),
         ("https://dynamic.zoneedit.com/checkip.html", 'plain'),
         ("https://freedns.afraid.org/dynamic/check.php", 'freedns_afraid'),
-        ("https://ifconfig.co", "plain"),
+        ("https://ifconfig.co/ip", "plain"),
         ("https://ipinfo.io/ip", "plain"),
         ("https://ipv4.icanhazip.com/", 'plain'),
         ("https://ipv4.nsupdate.info/myip", 'plain'),
