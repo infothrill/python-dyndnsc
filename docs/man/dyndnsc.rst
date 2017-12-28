@@ -22,4 +22,3 @@ See also
 --------
 
 :manpage:`dyndnsc(1)`
-

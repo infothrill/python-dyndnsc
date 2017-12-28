@@ -12,4 +12,3 @@ The best way to track the development of Dyndnsc is through
 
 
 .. include:: ../../CHANGELOG.rst
-

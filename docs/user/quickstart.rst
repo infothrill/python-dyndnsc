@@ -188,4 +188,3 @@ changed. Currently, only two plugins exist:
 The list of plugins that are deemed compatible and available in your
 environment will be listed in the command line help. Each plugin command line
 option starts with '--with-'.
-

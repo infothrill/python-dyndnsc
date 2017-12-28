@@ -47,4 +47,3 @@ clean:
 	rm -rf .tox
 	@echo "Cleaning up byte compiled python stuff"
 	find . -regex "\(.*__pycache__.*\|*.py[co]\)" -delete
-

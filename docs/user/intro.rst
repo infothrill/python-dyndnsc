@@ -12,4 +12,3 @@ both an easy to use command line tool as well as providing an OK API for
 developers who want to add dyndns capabilities to their software. Also,
 providing support for many different ways of detecting and updating IP/DNS
 records is important.
-
