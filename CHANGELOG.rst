@@ -2,8 +2,9 @@
 
 Release history
 ---------------
-0.4.x (unreleased)
+0.5.0 (unreleased)
 ++++++++++++++++++
+- removed support for python 2.6
 - improved: updated list of external urls for IP discovery
 - improved: install documentation
 - added: new command line option -v to control verbosity
