@@ -14,7 +14,6 @@ Here's a list of Python platforms that are officially
 supported:
 
 * Python 2.7
-* Python 3.3
 * Python 3.4
 * Python 3.5
 * Python 3.6
