@@ -55,7 +55,7 @@ def create_argparser():
                         help="go into daemon mode (implies --loop)",
                         action="store_true", default=arg_defaults['daemon'])
     parser.add_argument("--debug", dest="debug",
-                        help="increase logging level to DEBUG",
+                        help="increase logging level to DEBUG (DEPRECATED, please use -vvv)",
                         action="store_true", default=arg_defaults['debug'])
     parser.add_argument("--loop", dest="loop",
                         help="loop forever (default is to update once)",
@@ -66,6 +66,9 @@ def create_argparser():
     parser.add_argument("--version", dest="version",
                         help="show version and exit",
                         action="store_true", default=arg_defaults['version'])
+    parser.add_argument("-v", "--verbose", dest="verbose_count",
+                        action="count", default=0,
+                        help="increases log verbosity for each occurrence")
 
     return parser, arg_defaults
 
@@ -95,12 +98,11 @@ def main():
     args = parser.parse_args()
 
     if args.debug:
-        level = logging.DEBUG
-    else:
-        level = logging.INFO
+        args.verbose_count = 5  # some high number
 
-    logging.basicConfig(level=level,
-                        format='%(asctime)s %(levelname)s %(message)s')
+    log_level = max(int(logging.WARNING/10) - args.verbose_count, 0) * 10
+    # print(log_level)
+    logging.basicConfig(level=log_level, format='%(levelname)s %(message)s')
     # logging.debug("args %r", args)
 
     if args.version:
