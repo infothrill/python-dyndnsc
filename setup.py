@@ -39,7 +39,6 @@ CLASSIFIERS = (
     'Operating System :: POSIX :: Linux',
     'Operating System :: POSIX :: BSD :: FreeBSD',
     'Programming Language :: Python',
-    'Programming Language :: Python :: 2.6',
     'Programming Language :: Python :: 2.7',
     'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',
@@ -50,7 +49,7 @@ CLASSIFIERS = (
 
 def patch_setup_requires(requires):
     """python version compatibility"""
-    if sys.version_info < (2, 7) or (3, 1) < sys.version_info < (3, 4):
+    if (3, 2) < sys.version_info < (3, 4):
         #  https://github.com/pypa/wheel/blob/7ca7b3552e55030b5d78cd90d53f1d99c9139f16/CHANGES.txt#L15
         return requires + ["wheel==0.29.0"]
     else:
@@ -79,8 +78,6 @@ def patch_install_requires(requires):
         to_add.append("pyOpenSSL")
         to_add.append("ndg-httpsclient")
         to_add.append("pyasn1")
-    if sys.version_info < (2, 7):  # continue support for python 2.6
-        to_add.append("importlib")
     return requires + to_add
 
 
