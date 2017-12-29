@@ -6,6 +6,7 @@ Release history
 ++++++++++++++++++
 - improved: updated list of external urls for IP discovery
 - improved: install documentation
+- added: new command line option -v to control verbosity
 
 0.4.4 (December 27th 2017)
 ++++++++++++++++++++++++++
