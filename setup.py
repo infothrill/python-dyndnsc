@@ -95,6 +95,7 @@ setup(
                 'protocols',
     long_description=README + '\n\n' + CHANGELOG,
     url='https://github.com/infothrill/python-dyndnsc',
+    setup_requires=['pytest-runner'],
     install_requires=patch_install_requires(
         ['requests>=2.0.1', 'setuptools', 'netifaces>=0.10.5']),
     entry_points=("""
@@ -103,7 +104,11 @@ setup(
     """),
     classifiers=CLASSIFIERS,
     test_suite='dyndnsc.tests',
-    tests_require=patch_test_requires(['bottle==0.12.7', 'pep8>=1.3']),
+    tests_require=patch_test_requires([
+        'bottle==0.12.7',
+        'pep8>=1.3',
+        'pytest>=3.2.5'
+    ]),
     package_data={'dyndnsc/resources': ['dyndnsc/resources/*.ini']},
     include_package_data=True,
     zip_safe=False
