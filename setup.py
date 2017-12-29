@@ -40,36 +40,25 @@ CLASSIFIERS = (
     'Operating System :: POSIX :: BSD :: FreeBSD',
     'Programming Language :: Python',
     'Programming Language :: Python :: 2.7',
-    'Programming Language :: Python :: 3.3',
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6'
 )
 
 
-def patch_setup_requires(requires):
-    """python version compatibility"""
-    if (3, 2) < sys.version_info < (3, 4):
-        #  https://github.com/pypa/wheel/blob/7ca7b3552e55030b5d78cd90d53f1d99c9139f16/CHANGES.txt#L15
-        return requires + ["wheel==0.29.0"]
-    else:
-        return requires
-
-
 def patch_test_requires(requires):
     """python version compatibility"""
-    if sys.version_info < (3, 3):
-        return requires + ["mock"]
-    else:
-        return requires
+    to_add = []
+    if sys.version_info < (3, 0):
+        to_add.append("mock")  # needed for py27
+    return requires + to_add
 
 
 def patch_install_requires(requires):
     """python version compatibility"""
     to_add = []
-    if sys.version_info < (3, 3):
+    if sys.version_info < (3, 0):
         to_add.append("IPy>=0.56")
-    if sys.version_info < (3, 2):
         to_add.append("argparse")
         # This is equivalent to requests[security] which exists since
         # requests 2.4.1 It is required in older Pythons that do not
@@ -106,7 +95,6 @@ setup(
                 'protocols',
     long_description=README + '\n\n' + CHANGELOG,
     url='https://github.com/infothrill/python-dyndnsc',
-    setup_requires=patch_setup_requires([]),
     install_requires=patch_install_requires(
         ['requests>=2.0.1', 'setuptools', 'netifaces>=0.10.5']),
     entry_points=("""
