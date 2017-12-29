@@ -4,6 +4,7 @@ Release history
 ---------------
 0.5.0 (unreleased)
 ++++++++++++++++++
+- switched to pytest https://pytest.org for test running
 - removed support for python 2.6 and python 3.3
 - improved: updated list of external urls for IP discovery
 - improved: install documentation
