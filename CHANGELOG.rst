@@ -5,9 +5,11 @@ Release history
 0.5.0 (unreleased)
 ++++++++++++++++++
 - switched to pytest https://pytest.org for test running
-- removed support for python 2.6 and python 3.3
+- changed (**INCOMPATIBLE**): dropped support for python 2.6 and python 3.3
 - improved: updated list of external urls for IP discovery
 - improved: install documentation
+- improved: add many missing docstrings and fixed many code smells
+- improved: run flake8, check-manifest and safety in automated builds
 - added: new command line option -v to control verbosity
 
 0.4.4 (December 27th 2017)

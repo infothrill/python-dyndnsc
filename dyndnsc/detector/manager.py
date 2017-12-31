@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
+"""Management of detectors."""
+
+from ..common.load import find_class
+
 
 def detector_classes():
-    from . import builtin
-    return builtin.plugins
-
-
-def find_class(name, classes):
-    name = name.lower()
-    for cls in classes:
-        if name == cls.configuration_key():
-            return cls
-    raise KeyError("No class named '%s' could be found" % name)
+    """Return all built-in detector classes."""
+    from .builtin import PLUGINS
+    return PLUGINS
 
 
 def get_detector_class(name="webcheck"):
+    """Return detector class identified by configuration key ``name``."""
     return find_class(name, detector_classes())

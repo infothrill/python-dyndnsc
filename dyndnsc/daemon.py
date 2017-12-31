@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
 
-"""
-module containing logic to run the dyndnsc cli program as a UNIX daemon
-"""
+"""Module containing logic to run the dyndnsc cli program as a UNIX daemon."""
 
 import sys
 import os
 
 
 def daemonize(stdout=os.devnull, stderr=None, stdin=os.devnull,
-              pidfile=None, startmsg='started with pid %s'):
+              pidfile=None, startmsg="started with pid %s"):
     """
-        This forks the current process into a daemon.
-        The stdin, stdout, and stderr arguments are file names that
-        will be opened and be used to replace the standard file descriptors
-        in sys.stdin, sys.stdout, and sys.stderr.
-        These arguments are optional and default to /dev/null.
-        Note that stderr is opened unbuffered, so
-        if it shares a file with stdout then interleaved output
-        may not appear in the order that you expect.
+    Fork the current process into a daemon.
+
+    The stdin, stdout, and stderr arguments are file names that
+    will be opened and be used to replace the standard file descriptors
+    in sys.stdin, sys.stdout, and sys.stderr.
+    These arguments are optional and default to /dev/null.
+    Note that stderr is opened unbuffered, so
+    if it shares a file with stdout then interleaved output
+    may not appear in the order that you expect.
     """
     # Do first fork.
     try:
@@ -38,7 +37,7 @@ def daemonize(stdout=os.devnull, stderr=None, stdin=os.devnull,
     # fork the second time.
     # Otherwise, the duping of sys.stdout won't work,
     # and we will not be able to capture stdout
-    sys.stdout.write('')
+    sys.stdout.write("")
 
     # Do second fork.
     try:
@@ -52,14 +51,14 @@ def daemonize(stdout=os.devnull, stderr=None, stdin=os.devnull,
     # Open file descriptors and print start message
     if not stderr:
         stderr = stdout
-    si = open(stdin, 'rb')
-    so = open(stdout, 'w+b')
-    se = open(stderr, 'w+b', 0)
+    si = open(stdin, "rb")
+    so = open(stdout, "w+b")
+    se = open(stderr, "w+b", 0)
     pid = str(os.getpid())
     sys.stderr.write("%s%s" % (startmsg, os.linesep) % pid)
     sys.stderr.flush()
     if pidfile:
-        with open(pidfile, 'w+') as f:
+        with open(pidfile, "w+") as f:
             f.write("%s%s" % (pid, os.linesep))
 
     # Redirect standard file descriptors.

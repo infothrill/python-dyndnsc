@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
+"""Module providing base class and functionality for all update protocols."""
+
 import logging
 
 from ..common.subject import Subject
 from ..common.dynamiccli import DynamicCliMixin
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 class UpdateProtocol(Subject, DynamicCliMixin):
-
     """Base class for all update protocols that use a simple http GET protocol."""
 
     _updateurl = None
@@ -21,14 +22,17 @@ class UpdateProtocol(Subject, DynamicCliMixin):
         self.updateurl = self._updateurl
         super(UpdateProtocol, self).__init__()
 
-    def updateUrl(self):
+    def update_url(self):
+        """Return the API endpoint URL for this update protocol."""
         return self.updateurl
 
     def service_url(self):
-        return self.updateUrl()
+        """Return the API endpoint URL for this update protocol."""
+        return self.update_url()
 
     def url(self):
-        return self.updateUrl()
+        """Return the API endpoint URL for this update protocol."""
+        return self.update_url()
 
     @staticmethod
     def configuration_key():

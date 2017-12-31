@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
+"""Module containing logic for teredo based detectors."""
+
 import logging
 
 from .iface import IPDetector_Iface, AF_INET6
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 class IPDetector_Teredo(IPDetector_Iface):
-
     """IPDetector to detect a Teredo ipv6 address of a local interface.
 
     Bits 0 to 31 of the ipv6 address are set to the Teredo prefix (normally
@@ -30,4 +31,5 @@ class IPDetector_Teredo(IPDetector_Iface):
 
     @staticmethod
     def names():
+        """Return a list of string names identifying this class/service."""
         return ("teredo",)

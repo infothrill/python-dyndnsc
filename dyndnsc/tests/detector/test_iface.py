@@ -1,31 +1,16 @@
 # -*- coding: utf-8 -*-
 
-import sys
+"""Tests for the iface detector."""
+
+
 import unittest
-import logging
 
 from dyndnsc.detector.base import AF_INET6
-
-# more py23 madness
-PY2 = sys.version_info[0] == 2
-PY3 = sys.version_info[0] == 3
-
-if PY3:
-    string_type = str
-else:
-    string_type = basestring
-
-
-def is_netifaces_available():
-    try:
-        import netifaces
-    except ImportError:
-        return False
-    else:
-        return True
+from dyndnsc.common.six import string_types
 
 
 def give_me_an_interface_ipv6():
+    """Return a local ipv6 interface or None."""
     import netifaces
     for interface in netifaces.interfaces():
         if netifaces.AF_INET6 in netifaces.ifaddresses(interface):
@@ -34,6 +19,7 @@ def give_me_an_interface_ipv6():
 
 
 def give_me_an_interface_ipv4():
+    """Return a local ipv4 interface or None."""
     import netifaces
     for interface in netifaces.interfaces():
         if netifaces.AF_INET in netifaces.ifaddresses(interface):
@@ -42,19 +28,11 @@ def give_me_an_interface_ipv4():
 
 
 class IfaceDetectorTest(unittest.TestCase):
-
-    def setUp(self):
-        logging.basicConfig(level=logging.INFO)
-        unittest.TestCase.setUp(self)
-
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+    """Test cases for iface detector."""
 
     def test_iface_detector(self):
-        # py3: can user unittest.skipIf(condition, reason)
-        if not is_netifaces_available():
-            return
-        import dyndnsc.detector.iface as iface
+        """Run iface tests."""
+        from dyndnsc.detector import iface
         self.assertTrue("iface" in iface.IPDetector_Iface.names())
         # auto-detect an interface:
         interface = give_me_an_interface_ipv4()
@@ -62,19 +40,17 @@ class IfaceDetectorTest(unittest.TestCase):
         detector = iface.IPDetector_Iface(iface=interface)
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())
-        self.assertTrue(isinstance(detector.detect(), (type(None), string_type)))
+        self.assertTrue(isinstance(detector.detect(), string_types + (type(None),)))
         # empty interface name must not fail construction
         self.assertIsInstance(iface.IPDetector_Iface(iface=None), iface.IPDetector_Iface)
         # invalid netmask must fail construction
-        self.assertRaises(ValueError, iface.IPDetector_Iface, netmask='fubar')
+        self.assertRaises(ValueError, iface.IPDetector_Iface, netmask="fubar")
         # unknown address family  must fail construction
-        self.assertRaises(ValueError, iface.IPDetector_Iface, family='bla')
+        self.assertRaises(ValueError, iface.IPDetector_Iface, family="bla")
 
     def test_teredo_detector(self):
-        # py3: can user unittest.skipIf(condition, reason)
-        if not is_netifaces_available():
-            return
-        import dyndnsc.detector.teredo as teredo
+        """Run teredo tests."""
+        from dyndnsc.detector import teredo
         self.assertTrue("teredo" in teredo.IPDetector_Teredo.names())
         # auto-detect an interface:
         interface = give_me_an_interface_ipv6()
@@ -83,8 +59,8 @@ class IfaceDetectorTest(unittest.TestCase):
             self.assertTrue(detector.can_detect_offline())
             self.assertEqual(AF_INET6, detector.af())
             self.assertEqual(None, detector.get_current_value())
-            self.assertTrue(isinstance(detector.detect(), (type(None), string_type)))
+            self.assertTrue(isinstance(detector.detect(), string_types + (type(None),)))
             # self.assertNotEqual(None, detector.netmask)
 
-        detector = teredo.IPDetector_Teredo(iface='foo0')
+        detector = teredo.IPDetector_Teredo(iface="foo0")
         self.assertEqual(None, detector.detect())

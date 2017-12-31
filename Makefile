@@ -1,35 +1,9 @@
-.PHONY: init test coverage install publish docs-init docs clean
+.PHONY: publish clean
 
-PYTHON=python
-
-init:
-	pip install -r requirements.txt
-
-test:
-	$(PYTHON) setup.py test
-
-coverage:
-	coverage run --source=dyndnsc setup.py test
-
-coveralls:
-	pip install coveralls
-	coveralls
-
-install:
-	$(PYTHON) setup.py install
+PYTHON=python3
 
 publish:
-	$(PYTHON) setup.py register
-	$(PYTHON) setup.py sdist upload
-	$(PYTHON) setup.py bdist_wheel upload
-
-
-docs-init:
-	pip install -r docs/requirements.txt
-
-docs:
-	cd docs && make html
-	@echo "\033[95m\n\nBuild successful! View the docs homepage at docs/_build/html/index.html.\n\033[0m"
+	echo "Use 'python setup.py sdist bdist_wheel; twine'"
 
 deb:
 	# this requires `apt-get install debhelper python3-all`

@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
 
+"""Management of updaters."""
+
+from ..common.load import find_class
+
 
 def updater_classes():
-    from . import builtin
-    return builtin.plugins
-
-
-def find_class(name, classes):
-    name = name.lower()
-    for cls in classes:
-        if name == cls.configuration_key():
-            return cls
-    raise KeyError("No class named '%s' could be found" % name)
+    """Return all built-in updater classes."""
+    from .builtin import PLUGINS
+    return PLUGINS
 
 
 def get_updater_class(name="noip"):
+    """Return updater class identified by configuration key ``name``."""
     return find_class(name, updater_classes())

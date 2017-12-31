@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 
+"""Module for plugin manager."""
+
 import logging
 from warnings import warn
 
 from .base import IPluginInterface
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 class PluginProxy(object):
-
     """Proxy for plugin calls.
 
     To verify presence of methods, this proxy is bound to an interface class
@@ -19,6 +20,7 @@ class PluginProxy(object):
     interface = IPluginInterface
 
     def __init__(self, call, plugins):
+        """Initialize the given plugins."""
         try:
             self.method = getattr(self.interface, call)
         except AttributeError:
@@ -29,6 +31,7 @@ class PluginProxy(object):
             self.add_plugin(plugin, call)
 
     def __call__(self, *arg, **kw):
+        """Implement callable interface by calling every plugin sequentally."""
         return self.listcall(*arg, **kw)
 
     def add_plugin(self, plugin, call):
@@ -45,14 +48,14 @@ class PluginProxy(object):
 
         Return the first result that is not None.
         """
-        for dummy, meth in self.plugins:
+        for _, meth in self.plugins:
             result = meth(*arg, **kw)
             if result is not None:
                 return result
+        return None
 
 
 class NullPluginManager(object):
-
     """Plugin manager that has no plugins.
 
     Used as a NOP when no plugins are used
@@ -61,29 +64,34 @@ class NullPluginManager(object):
     interface = IPluginInterface
 
     def __iter__(self):
-        return ()
+        """Return an empty iterator."""
+        return iter(())
 
     def __getattr__(self, call):
+        """Return a dummy function that does nothing regardless of specified args."""
         return self._nop
 
     def _nop(self, *args, **kwds):
         pass
 
     def add_plugin(self, plug):
+        """Fake add plugin to list of plugins."""
         raise NotImplementedError()
 
     def add_plugins(self, plugins):
+        """Fake add plugins to list of plugins."""
         raise NotImplementedError()
 
     def configure(self, options):
+        """Fake configure plugins."""
         pass
 
     def load_plugins(self):
+        """Fake load plugins."""
         pass
 
 
 class PluginManager(object):
-
     """Base class PluginManager is not intended to be used directly.
 
     The basic functionality of a plugin manager is to proxy all unknown
@@ -95,6 +103,7 @@ class PluginManager(object):
     proxyClass = PluginProxy
 
     def __init__(self, plugins=(), proxyClass=None):
+        """Initialize."""
         self._plugins = []
         self._proxies = {}
         if plugins:
@@ -103,6 +112,7 @@ class PluginManager(object):
             self.proxyClass = proxyClass
 
     def __getattr__(self, call):
+        """Return proxy method for all plugins for call."""
         try:
             return self._proxies[call]
         except KeyError:
@@ -111,16 +121,19 @@ class PluginManager(object):
         return proxy
 
     def __iter__(self):
+        """Return an iterator over all registered plugins."""
         return iter(self.plugins)
 
     def add_plugin(self, plugin):
+        """Add the given plugin."""
         # allow plugins loaded via entry points to override builtin plugins
-        new_name = getattr(plugin, 'name', object())
+        new_name = getattr(plugin, "name", object())
         self._plugins[:] = [p for p in self._plugins
-                            if getattr(p, 'name', None) != new_name]
+                            if getattr(p, "name", None) != new_name]
         self._plugins.append(plugin)
 
     def add_plugins(self, plugins=()):
+        """Add the given plugins."""
         for plugin in plugins:
             self.add_plugin(plugin)
 
@@ -129,13 +142,14 @@ class PluginManager(object):
 
         After configuration, disabled plugins are removed from the plugins list.
         """
-        cfg = PluginProxy('configure', self._plugins)
+        cfg = PluginProxy("configure", self._plugins)
         cfg(args)
-        log.debug("Available plugins: %s", self._plugins)
+        LOG.debug("Available plugins: %s", self._plugins)
         self.plugins = [plugin for plugin in self._plugins if plugin.enabled]
-        log.debug("Enabled plugins: %s", self.plugins)
+        LOG.debug("Enabled plugins: %s", self.plugins)
 
     def load_plugins(self):
+        """Abstract method."""
         pass
 
     def _get_plugins(self):
@@ -150,13 +164,12 @@ class PluginManager(object):
 
 
 class EntryPointPluginManager(PluginManager):
-
     """Plugin manager.
 
-    Load plugins from the setuptools entry_point `dyndnsc.plugins`s.
+    Load plugins from the setuptools entry_point ``dyndnsc.plugins``.
     """
 
-    entry_points = ('dyndnsc.plugins-experimental',)
+    entry_points = ("dyndnsc.plugins-experimental",)
 
     def load_plugins(self):
         """Load plugins from entry point(s)."""
@@ -180,7 +193,6 @@ class EntryPointPluginManager(PluginManager):
 
 
 class BuiltinPluginManager(PluginManager):
-
     """Plugin manager.
 
     Load plugins from the list in `dyndnsc.plugins.builtin`.
@@ -188,18 +200,23 @@ class BuiltinPluginManager(PluginManager):
 
     def load_plugins(self):
         """Load plugins from `dyndnsc.plugins.builtin`."""
-        from dyndnsc.plugins import builtin
-        for plugin in builtin.plugins:
+        from dyndnsc.plugins.builtin import PLUGINS
+        for plugin in PLUGINS:
             self.add_plugin(plugin())
         super(BuiltinPluginManager, self).load_plugins()
 
+
 try:
-    import pkg_resources
+    import pkg_resources  # noqa: @UnusedImport pylint: disable=unused-import
 
     class DefaultPluginManager(EntryPointPluginManager, BuiltinPluginManager):
+        """The plugin manager serving both built-in and external plugins."""
+
         pass
 
 except ImportError:
 
     class DefaultPluginManager(BuiltinPluginManager):
+        """The plugin manager serving only built-in plugins."""
+
         pass

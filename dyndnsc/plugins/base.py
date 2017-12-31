@@ -6,13 +6,12 @@ import textwrap
 import logging
 
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 ENV_PREFIX = "DYNDNSC_WITH_"
 
 
 class Plugin(object):
-
     """Base class for plugins.
 
     It is recommended but not *necessary* to
@@ -40,10 +39,11 @@ class Plugin(object):
     name = None
 
     def __init__(self):
+        """Initialize."""
         if self.name is None:
             self.name = self.__class__.__name__.lower()
         if self.enableOpt is None:
-            self.enableOpt = "enable_plugin_%s" % self.name.replace('-', '_')
+            self.enableOpt = "enable_plugin_%s" % self.name.replace("-", "_")
 
     def options(self, parser, env):
         """Register commandline options with the given parser.
@@ -56,7 +56,7 @@ class Plugin(object):
         :param env:
         """
         env_opt = ENV_PREFIX + self.name.upper()
-        env_opt = env_opt.replace('-', '_')
+        env_opt = env_opt.replace("-", "_")
         parser.add_argument("--with-%s" % self.name,
                             action="store_true",
                             dest=self.enableOpt,
@@ -88,7 +88,6 @@ class Plugin(object):
 
 
 class IPluginInterface(object):
-
     """IPluginInterface describes the plugin API.
 
     Do not subclass or use this class directly.
@@ -100,19 +99,19 @@ class IPluginInterface(object):
                         "is for documentation and API verification only")
 
     def options(self, parser, env):
-        """Used to to register command line options with the argparse parser.
+        """Register command line options with the argparse parser.
 
         DO NOT return a value from this method unless you want to stop
         all other plugins from setting their options.
 
         :param parser: options parser instance
-        :type parser: :class:`argparse.ArgumentParser`
+        :type parser: `argparse.ArgumentParser`
         :param env: environment, default is os.environ
         """
         pass
 
     def configure(self, options):
-        """Called after any user input has been parsed, with the options.
+        """Call after any user input has been parsed, with the options.
 
         DO NOT return a value from this method unless you want to
         stop all other plugins from being configured.
@@ -120,11 +119,11 @@ class IPluginInterface(object):
         pass
 
     def initialize(self):
-        """Called before any core activities are run.
+        """Call before any core activities are run.
 
         Use this to perform any plugin specific setup.
         """
         pass
 
     def after_remote_ip_update(self, ip, status):
-        pass
+        """Call after a remote IP update was performed."""

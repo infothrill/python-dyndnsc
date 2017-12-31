@@ -2,13 +2,15 @@
 
 """This module deals with dynamic CLI options."""
 
-import textwrap
 import logging
+import textwrap
+
+from .six import getargspec
 
 
 def parse_cmdline_args(args, classes):
     """
-    Parses out all updater related arguments from the entire args.
+    Parse all updater and detector related arguments from args.
 
     Returns a list of ("name", { "k": "v"})
 
@@ -20,12 +22,12 @@ def parse_cmdline_args(args, classes):
     for kls in classes:
         prefix = kls.configuration_key_prefix()
         name = kls.configuration_key()
-        if getattr(args, '%s_%s' % (prefix, name), False):
+        if getattr(args, "%s_%s" % (prefix, name), False):
             logging.debug(
                 "Gathering initargs for '%s.%s'", prefix, name)
             initargs = {}
             for arg_name in kls.init_argnames():
-                val = getattr(args, '%s_%s_%s' %
+                val = getattr(args, "%s_%s_%s" %
                               (prefix, name, arg_name))
                 if val is not None:
                     initargs[arg_name] = val
@@ -37,6 +39,7 @@ def parse_cmdline_args(args, classes):
 
 class DynamicCliMixin(object):
     """Base class providing functionality to register and handle CLI args."""
+
     @classmethod
     def init_argnames(cls):
         """
@@ -44,13 +47,11 @@ class DynamicCliMixin(object):
 
         :param cls: a class with an __init__ method
         """
-        import inspect
-        return inspect.getargspec(cls.__init__).args[1:]
+        return getargspec(cls.__init__).args[1:]
 
     @classmethod
     def _init_argdefaults(cls):
-        import inspect
-        defaults = inspect.getargspec(cls.__init__).defaults
+        defaults = getargspec(cls.__init__).defaults
         if defaults is None:
             defaults = ()
         return defaults
@@ -63,7 +64,7 @@ class DynamicCliMixin(object):
         OptionConflictErrors. If you override this method and want the default
         --$name option(s) to be registered, be sure to call super().
         """
-        if hasattr(cls, '_dont_register_arguments'):
+        if hasattr(cls, "_dont_register_arguments"):
             return
         prefix = cls.configuration_key_prefix()
         cfgkey = cls.configuration_key()
@@ -87,8 +88,11 @@ class DynamicCliMixin(object):
 
     @classmethod
     def help(cls):
-        """Return help for this. This will be output as the help section of
-        the --$name option that enables this plugin.
+        """
+        Return help for this.
+
+        This will be output as the help section of the --$name option that
+        enables this plugin.
         """
         if cls.__doc__:
             # remove doc section indentation
@@ -97,8 +101,18 @@ class DynamicCliMixin(object):
 
     @staticmethod
     def configuration_key_prefix():
+        """
+        Return string prefix for configuration key.
+
+        Abstract method, must be implemented in subclass.
+        """
         raise NotImplementedError("Please implement in subclass")
 
     @staticmethod
     def configuration_key():
+        """
+        Return configuration key, identifying the class/service with a unique string.
+
+        Abstract method, must be implemented in subclass.
+        """
         raise NotImplementedError("Please implement in subclass")

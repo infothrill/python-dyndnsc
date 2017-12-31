@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+"""Tests for base plugin stuff."""
+
 import unittest
 
 try:
-    import unittest.mock as mock
+    from unittest import mock
 except ImportError:
     import mock
 
@@ -11,14 +13,10 @@ from dyndnsc.plugins import base
 
 
 class TestPluginBase(unittest.TestCase):
+    """Test cases for plugin base code."""
 
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
-
-    def test_Plugin_argument_options(self):
+    def test_plugin_argument_options(self):
+        """Run test for argument options."""
         plugin = base.Plugin()
 
         self.assertEqual(type(plugin.help()), str)
@@ -28,10 +26,10 @@ class TestPluginBase(unittest.TestCase):
         argparser.add_argument = mock.MagicMock(name="add_argument")
         expected_args = ["--with-%s" % plugin.name]
         expected_kwargs = {
-            'action': "store_true",
-            'dest': plugin.enableOpt,
-            'default': None,
-            'help': "Enable plugin %s: %s [%s]" % ('Plugin', plugin.help(),
+            "action": "store_true",
+            "dest": plugin.enableOpt,
+            "default": None,
+            "help": "Enable plugin %s: %s [%s]" % ("Plugin", plugin.help(),
                                                    "DYNDNSC_WITH_PLUGIN")
         }
 
@@ -39,7 +37,8 @@ class TestPluginBase(unittest.TestCase):
         argparser.add_argument.assert_called_once_with(*expected_args,
                                                        **expected_kwargs)
 
-    def test_Plugin_argument_configure(self):
+    def test_plugin_argument_configure(self):
+        """Run test for plugin arg configuration."""
         plugin = base.Plugin()
         # by default, plugins are disabled:
         self.assertEqual(False, plugin.enabled)
@@ -54,4 +53,5 @@ class TestPluginBase(unittest.TestCase):
         self.assertEqual(True, plugin.enabled)
 
     def testIPluginInterface(self):
+        """Run test."""
         self.assertRaises(TypeError, base.IPluginInterface)

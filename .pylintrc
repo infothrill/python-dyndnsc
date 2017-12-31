@@ -1,5 +1,11 @@
-#[MESSAGES CONTROL]
+[MESSAGES CONTROL]
 #disable=missing-docstring
 
 [FORMAT]
 max-line-length=120
+
+[MASTER]
+# ignore=tests
+msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
+extension-pkg-whitelist=netifaces
+max-branches=12

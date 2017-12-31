@@ -47,25 +47,25 @@ def create_argparser():
 
     # add generic client options to the CLI:
     parser.add_argument("-c", "--config", dest="config",
-                        help="config file", default=arg_defaults['config'])
+                        help="config file", default=arg_defaults["config"])
     parser.add_argument("--list-presets", dest="listpresets",
                         help="list all available presets",
-                        action="store_true", default=arg_defaults['listpresets'])
+                        action="store_true", default=arg_defaults["listpresets"])
     parser.add_argument("-d", "--daemon", dest="daemon",
                         help="go into daemon mode (implies --loop)",
-                        action="store_true", default=arg_defaults['daemon'])
+                        action="store_true", default=arg_defaults["daemon"])
     parser.add_argument("--debug", dest="debug",
                         help="increase logging level to DEBUG (DEPRECATED, please use -vvv)",
-                        action="store_true", default=arg_defaults['debug'])
+                        action="store_true", default=arg_defaults["debug"])
     parser.add_argument("--loop", dest="loop",
                         help="loop forever (default is to update once)",
-                        action="store_true", default=arg_defaults['loop'])
+                        action="store_true", default=arg_defaults["loop"])
     parser.add_argument("--sleeptime", dest="sleeptime",
                         help="how long to sleep between checks in seconds",
-                        default=arg_defaults['sleeptime'])
+                        default=arg_defaults["sleeptime"])
     parser.add_argument("--version", dest="version",
                         help="show version and exit",
-                        action="store_true", default=arg_defaults['version'])
+                        action="store_true", default=arg_defaults["version"])
     parser.add_argument("-v", "--verbose", dest="verbose_count",
                         action="count", default=0,
                         help="increases log verbosity for each occurrence")
@@ -75,7 +75,7 @@ def create_argparser():
 
 def main():
     """
-    The main CLI program.
+    Run the main CLI program.
 
     Initializes the stack, parses command line arguments, and fires requested
     logic.
@@ -83,7 +83,7 @@ def main():
     plugins = DefaultPluginManager()
     plugins.load_plugins()
 
-    parser, arg_defaults = create_argparser()
+    parser, _ = create_argparser()
     # add the updater protocol options to the CLI:
     for kls in updater_classes():
         kls.register_arguments(parser)
@@ -100,9 +100,9 @@ def main():
     if args.debug:
         args.verbose_count = 5  # some high number
 
-    log_level = max(int(logging.WARNING/10) - args.verbose_count, 0) * 10
+    log_level = max(int(logging.WARNING / 10) - args.verbose_count, 0) * 10
     # print(log_level)
-    logging.basicConfig(level=log_level, format='%(levelname)s %(message)s')
+    logging.basicConfig(level=log_level, format="%(levelname)s %(message)s")
     # logging.debug("args %r", args)
 
     if args.version:
@@ -127,12 +127,12 @@ def main():
         parsed_args = parse_cmdline_args(args, updater_classes().union(detector_classes()))
         logging.debug("parsed_args %r", parsed_args)
 
-        collected_configs = {'cmdline':
-                             {
-                                 'interval': int(args.sleeptime)
-                             }
-                             }
-        collected_configs['cmdline'].update(parsed_args)
+        collected_configs = {
+            "cmdline": {
+                "interval": int(args.sleeptime)
+            }
+        }
+        collected_configs["cmdline"].update(parsed_args)
 
     plugins.configure(args)
     plugins.initialize()
@@ -156,14 +156,15 @@ def main():
         args.loop = True
 
     if args.loop:
-        # Do small sleeps in the main loop, needs_check() is cheap and does
-        # the rest.
-        time.sleep(15)
-        for dyndnsclient in dyndnsclients:
-            dyndnsclient.check()
+        while True:
+            # Do small sleeps in the main loop, needs_check() is cheap and does
+            # the rest.
+            time.sleep(15)
+            for dyndnsclient in dyndnsclients:
+                dyndnsclient.check()
 
     return 0
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

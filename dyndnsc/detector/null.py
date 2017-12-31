@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
+"""Module containing logic for null detector."""
+
 import logging
 
 from .base import IPDetector
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 class IPDetector_Null(IPDetector):
-
     """Dummy IP detector."""
 
     def __init__(self, family=None, *args, **kwargs):
@@ -21,6 +22,7 @@ class IPDetector_Null(IPDetector):
 
     @staticmethod
     def names():
+        """Return a list of string names identifying this class/service."""
         return ("null",)
 
     def can_detect_offline(self):

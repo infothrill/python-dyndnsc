@@ -10,9 +10,9 @@ except ImportError:
     import ConfigParser as configparser
 
 
-from .resources import getFilename, PRESETS_INI
+from .resources import get_filename, PRESETS_INI
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 DEFAULT_USER_INI = ".dyndnsc.ini"
 
@@ -32,26 +32,28 @@ def get_configuration(config_file=None):
         if not os.path.isfile(config_file):
             config_file = None
     else:
-        assert os.path.isfile(config_file), "%s is not a file" % config_file
+        if not os.path.isfile(config_file):
+            raise ValueError("%s is not a file" % config_file)
 
-    configs = [getFilename(PRESETS_INI)]
+    configs = [get_filename(PRESETS_INI)]
     if config_file:
         configs.append(config_file)
-    log.debug("Attempting to read configuration from %r", configs)
+    LOG.debug("Attempting to read configuration from %r", configs)
     read_configs = parser.read(configs)
-    log.debug("Successfully read configuration from %r", read_configs)
-    log.debug("config file sections: %r", parser.sections())
+    LOG.debug("Successfully read configuration from %r", read_configs)
+    LOG.debug("config file sections: %r", parser.sections())
     return parser
 
 
 def _iraw_client_configs(cfg):
-    '''
+    """
     Generate (client_name, client_cfg_dict) tuples from the configuration.
+
     Conflates the presets and removes traces of the preset configuration
     so that the returned dict can be used directly on a dyndnsc factory.
 
     :param cfg: ConfigParser
-    '''
+    """
     client_names = cfg.get("dyndnsc", "configs").split(",")
     _preset_prefix = "preset:"
     _use_preset = "use_preset"
@@ -72,8 +74,13 @@ def _iraw_client_configs(cfg):
 
 
 def collect_config(cfg):
-    """Collect all individual dyndnsc client configurations from a parsed
-    configuration object. Resolves presets and returns a dictionary containing
+    """
+    Construct configuration dictionary from configparser.
+
+    Resolves presets and returns a dictionary containing:
+
+    .. code-block:: bash
+
         {
             "client_name": {
                 "detector": ("detector_name", detector_opts),
@@ -90,7 +97,7 @@ def collect_config(cfg):
     collected_configs = {}
     _updater_str = "updater"
     _detector_str = "detector"
-    _DASH = "-"
+    _dash = "-"
     for client_name, client_cfg_dict in _iraw_client_configs(cfg):
         detector_name = None
         detector_options = {}
@@ -98,16 +105,16 @@ def collect_config(cfg):
         updater_options = {}
         collected_config = {}
         for k in client_cfg_dict:
-            if k.startswith(_detector_str + _DASH):
+            if k.startswith(_detector_str + _dash):
                 detector_options[
-                    k.replace(_detector_str + _DASH, "")] = client_cfg_dict[k]
+                    k.replace(_detector_str + _dash, "")] = client_cfg_dict[k]
             elif k == _updater_str:
                 updater_name = client_cfg_dict.get(k)
             elif k == _detector_str:
                 detector_name = client_cfg_dict.get(k)
-            elif k.startswith(_updater_str + _DASH):
+            elif k.startswith(_updater_str + _dash):
                 updater_options[
-                    k.replace(_updater_str + _DASH, "")] = client_cfg_dict[k]
+                    k.replace(_updater_str + _dash, "")] = client_cfg_dict[k]
             else:
                 # options passed "as is" to the dyndnsc client
                 collected_config[k] = client_cfg_dict[k]

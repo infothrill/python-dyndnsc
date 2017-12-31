@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
+
+"""Tests for Growl."""
+
 import unittest
 
 
 class TestGrowlPlugin(unittest.TestCase):
-
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+    """Test cases for Growl."""
 
     def test_growl(self):
+        """Run tests."""
         try:
             from dyndnsc.plugins.notify import growl
         except ImportError:
