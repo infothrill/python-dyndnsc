@@ -26,14 +26,14 @@ from __future__ import print_function
 import errno
 import socket
 
-IPV4 = 'ipv4'
-IPV6_ANY = 'ipv6'
-IPV6_PUBLIC = 'ipv6_public'
-IPV6_TMP = 'ipv6_tmp'
+IPV4 = "ipv4"
+IPV6_ANY = "ipv6"
+IPV6_PUBLIC = "ipv6_public"
+IPV6_TMP = "ipv6_tmp"
 
 # reserved IPs for documentation/example purposes
-OUTSIDE_IPV4 = '192.0.2.1'
-OUTSIDE_IPV6 = '2001:db8::1'
+OUTSIDE_IPV4 = "192.0.2.1"
+OUTSIDE_IPV6 = "2001:db8::1"
 
 # Not everything is available in Python
 if not hasattr(socket, "IPV6_ADDR_PREFERENCES"):
@@ -45,7 +45,6 @@ if not hasattr(socket, "IPV6_PREFER_SRC_PUBLIC"):
 
 
 class GetIpException(Exception):
-
     """Generic base class for all exceptions raised here."""
 
 
@@ -62,7 +61,8 @@ def detect_ip(kind):
     This function either returns an IP address (str) or
     raises a GetIpException.
     """
-    assert kind in [IPV4, IPV6_PUBLIC, IPV6_TMP, IPV6_ANY]
+    if kind not in (IPV4, IPV6_PUBLIC, IPV6_TMP, IPV6_ANY):
+        raise ValueError("invalid kind specified")
 
     # We create an UDP socket and connect it to a public host.
     # We query the OS to know what our address is.
@@ -83,7 +83,7 @@ def detect_ip(kind):
                 if e.errno == errno.ENOPROTOOPT:
                     raise GetIpException("Kernel doesn't support IPv6 address preference")
                 else:
-                    raise GetIpException("Unable to set IPv6 address preference: %s", e)
+                    raise GetIpException("Unable to set IPv6 address preference: %s" % e)
 
         try:
             outside_ip = OUTSIDE_IPV4 if kind == IPV4 else OUTSIDE_IPV6
@@ -97,7 +97,7 @@ def detect_ip(kind):
     return ip
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     print("IP v4:", detect_ip(IPV4))
     print("IP v6 public:", detect_ip(IPV6_PUBLIC))
     print("IP v6 tmp:", detect_ip(IPV6_TMP))

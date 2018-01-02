@@ -1,65 +1,67 @@
 # -*- coding: utf-8 -*-
 
+"""Tests for duckdns."""
+
 import unittest
 from time import sleep
 from multiprocessing import Process
+from random import randint
 
 from bottle import Bottle, run, response, request
 
 
 def nicupdate():
+    """Return fake update response. Implemented as a bottle callback."""
     # print(dict(request.query))
     arg_hostname = request.query.domains
     arg_token = request.query.token
     arg_myip = request.query.ip
-    assert len(arg_hostname) > 0
+    assert len(arg_hostname) > 0  # noqa: @assert_used
     # duckdns doesn't want fqdns:
-    assert "." not in arg_hostname, "hostname must not contain dots"
-    assert len(arg_token) > 0
+    assert "." not in arg_hostname, "hostname must not contain dots"  # noqa: @assert_used
+    assert len(arg_token) > 0  # noqa: @assert_used
     # duckdns allows empty IP:
-    assert len(arg_myip) >= 0
-    response.content_type = 'text/plain; charset=utf-8'
+    assert len(arg_myip) >= 0  # noqa: @assert_used
+    response.content_type = "text/plain; charset=utf-8"
     return str("OK %s" % arg_myip)
 
 
 class DuckdnsApp(Bottle):
-
     """Minimal http server that resembles an actual duckdns service."""
 
-    def __init__(self, host='localhost', port=8000):
+    def __init__(self, host="localhost", port=8000):
+        """Initialize."""
         super(DuckdnsApp, self).__init__()
         self.host = host
         self.port = port
         self.process = None
-        self.route(path='/update', callback=nicupdate)
+        self.route(path="/update", callback=nicupdate)
 
-    def run(self):
+    def _bottle_run(self):
         run(self, host=self.host, port=self.port, debug=False, quiet=True)
 
     def start(self):
-        self.process = Process(target=self.run)
+        """Start the server subprocess."""
+        self.process = Process(target=self._bottle_run)
         self.process.start()
         # even though I have a super fast quad core cpu, this is not working
         # consistently if we don't sleep here!
         sleep(3.5)
 
     def stop(self):
+        """Stop the server subprocess."""
         self.process.terminate()
         self.process = None
         # sleep(1)
 
-    @property
-    def url(self):
-        return 'http://%s:%s' % (self.host, str(self.port))
-
 
 class TestDuckdnsBottleServer(unittest.TestCase):
+    """Test cases for Duckdns."""
 
     def setUp(self):
         """Start local server."""
-        import random
-        portnumber = random.randint(8000, 8900)
-        self.server = DuckdnsApp('127.0.0.1', portnumber)
+        portnumber = randint(8000, 8900)  # nosec
+        self.server = DuckdnsApp("127.0.0.1", portnumber)
         self.url = "http://127.0.0.1:%i/update" % portnumber
         self.server.start()
         unittest.TestCase.setUp(self)
@@ -71,16 +73,18 @@ class TestDuckdnsBottleServer(unittest.TestCase):
         unittest.TestCase.tearDown(self)
 
     def test_duckdns(self):
-        import dyndnsc.updater.duckdns as duckdns
+        """Run tests for duckdns."""
+        from dyndnsc.updater import duckdns
         NAME = "duckdns"
         self.assertEqual(
             NAME, duckdns.UpdateProtocolDuckdns.configuration_key())
 
         theip = "127.0.0.1"
-        options = {"hostname": "duckdns.example.com",
-                   "token": "dummy",
-                   "url": self.url
-                   }
+        options = {
+            "hostname": "duckdns.example.com",
+            "token": "dummy",
+            "url": self.url
+        }
         updater = duckdns.UpdateProtocolDuckdns(**options)
         self.assertEqual(str, type(updater.url()))
         self.assertEqual(self.url, updater.url())
@@ -91,5 +95,5 @@ class TestDuckdnsBottleServer(unittest.TestCase):
         self.assertEqual(None, updater.update(None))
 
 
-if __name__ == '__main__':
-    DuckdnsApp('localhost', 8000).run()
+if __name__ == "__main__":
+    DuckdnsApp("localhost", 8000).run()

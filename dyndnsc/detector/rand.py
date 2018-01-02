@@ -1,17 +1,34 @@
 # -*- coding: utf-8 -*-
 
+"""Module containing logic for random IP based detectors."""
+
 import logging
-import random
+from random import randint
 
 from .base import IPDetector, AF_INET
 from ..common.six import ipaddress, ipnetwork
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
+
+
+def random_ip():
+    """Return a randomly generated IPv4 address.
+
+    :return: ip address
+    """
+    return ipaddress(
+        "%i.%i.%i.%i" % (
+            randint(1, 254), randint(1, 254), randint(1, 254), randint(1, 254)  # nosec
+        )
+    )
 
 
 class RandomIPGenerator(object):
-    def __init__(self, maxRandomTries=None):
-        self.maxRandomTries = maxRandomTries
+    """The random IP generator."""
+
+    def __init__(self, num=None):
+        """Initialize."""
+        self._max = num
 
         # Reserved list from http://www.iana.org/assignments/ipv4-address-space
         # (dated  2010-02-22)
@@ -32,7 +49,7 @@ class RandomIPGenerator(object):
             "240.0.0.0/8"
         ])
 
-    def isReservedIP(self, ip):
+    def is_reserved_ip(self, ip):
         """Check if the given ip address is in a reserved ipv4 address space.
 
         :param ip: ip address
@@ -44,54 +61,29 @@ class RandomIPGenerator(object):
                 return True
         return False
 
-    def randomIP(self):
-        """Return a randomly generated IPv4 address that is not in a reserved
-        ipv4 address space
+    def random_public_ip(self):
+        """Return a randomly generated, public IPv4 address.
 
         :return: ip address
         """
-        randomip = ipaddress("%i.%i.%i.%i" % (random.randint(1, 254),
-                                              random.randint(1, 254),
-                                              random.randint(1, 254),
-                                              random.randint(1, 254)))
-        while self.isReservedIP(randomip):
-            randomip = ipaddress("%i.%i.%i.%i" % (random.randint(1, 254),
-                                                  random.randint(1, 254),
-                                                  random.randint(1, 254),
-                                                  random.randint(1, 254)))
+        randomip = random_ip()
+        while self.is_reserved_ip(randomip):
+            randomip = random_ip()
         return randomip
 
-    def next(self):
-        return self.__next__()
-
-    def __next__(self):
-        """Generator that returns randomly generated IPv4 addresses that are
-        not in a reserved ipv4 address space until we hit self.maxRandomTries
-
-        :return: ip address
-        """
-        if self.maxRandomTries is None or self.maxRandomTries > 0:
-            generate = True
-        else:
-            generate = False
-        c = 0
-        while generate:
-            if self.maxRandomTries is not None:
-                c += 1
-            yield self.randomIP()
-            if self.maxRandomTries is not None and c < self.maxRandomTries:
-                generate = False
-
-        raise StopIteration
-
     def __iter__(self):
-        """Iterator for this class. See method next()."""
-        return next(self)
+        """Iterate over this instance.."""
+        count = 0
+        while self._max is None or count < self._max:
+            yield self.random_public_ip()
+            count += 1
 
 
 class IPDetector_Random(IPDetector):
-    """For testing: detect randomly generated IP addresses."""
+    """Detect randomly generated IP addresses."""
+
     def __init__(self, *args, **kwargs):
+        """Initialize."""
         super(IPDetector_Random, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_INET
@@ -99,14 +91,20 @@ class IPDetector_Random(IPDetector):
 
     @staticmethod
     def names():
+        """Return a list of string names identifying this class/service."""
         return ("random",)
 
     def can_detect_offline(self):
-        """:return: True"""
+        """
+        Detect the IP address.
+
+        :return: True
+        """
         return True
 
     def detect(self):
+        """Detect IP and return it."""
         for theip in self.rips:
-            log.debug('detected %s', str(theip))
+            LOG.debug("detected %s", str(theip))
             self.set_current_value(str(theip))
             return str(theip)

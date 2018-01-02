@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+"""Module containing logic for dns based detectors."""
+
 import socket
 import logging
 
 from .base import IPDetector, AF_INET, AF_INET6, AF_UNSPEC
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def resolve(hostname, family=AF_UNSPEC):
@@ -29,19 +31,16 @@ def resolve(hostname, family=AF_UNSPEC):
         # EAI_NODATA and EAI_NONAME are expected if this name is not (yet)
         # present in DNS
         if exc.errno not in (socket.EAI_NODATA, socket.EAI_NONAME):
-            log.debug("socket.getaddrinfo() raised an exception", exc_info=exc)
+            LOG.debug("socket.getaddrinfo() raised an exception", exc_info=exc)
     else:
         if family == AF_UNSPEC:
-            ips = tuple(set(
-                        [item[4][0] for item in addrinfo if item[0] in af_ok]
-                        ))
+            ips = tuple({item[4][0] for item in addrinfo if item[0] in af_ok})
         else:
-            ips = tuple(set([item[4][0] for item in addrinfo]))
+            ips = tuple({item[4][0] for item in addrinfo})
     return ips
 
 
 class IPDetector_DNS(IPDetector):
-
     """Class to resolve a hostname using socket.getaddrinfo()."""
 
     def __init__(self, hostname=None, family=None, *args, **kwargs):
@@ -61,6 +60,7 @@ class IPDetector_DNS(IPDetector):
 
     @staticmethod
     def names():
+        """Return a list of string names identifying this class/service."""
         return ("dns",)
 
     def can_detect_offline(self):

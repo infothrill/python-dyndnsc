@@ -6,26 +6,24 @@ import logging
 
 import netifaces
 
-from .base import IPDetector, AF_INET, AF_INET6, AF_UNSPEC
+from .base import IPDetector, AF_INET6
 from ..common.six import ipaddress, ipnetwork
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def _default_interface():
     """Return the default interface name for common operating systems."""
     import platform
     system = platform.system()
-    if system == 'Linux':
-        return 'eth0'
-    elif system == 'Darwin':
-        return 'en0'
-    else:
-        return None
+    if system == "Linux":
+        return "eth0"
+    elif system == "Darwin":
+        return "en0"
+    return None
 
 
 class IPDetector_Iface(IPDetector):
-
     """
     IPDetector to detect an IP address assigned to a local interface.
 
@@ -61,6 +59,7 @@ class IPDetector_Iface(IPDetector):
 
     @staticmethod
     def names():
+        """Return a list of string names identifying this class/service."""
         return ("iface",)
 
     def can_detect_offline(self):
@@ -76,24 +75,24 @@ class IPDetector_Iface(IPDetector):
             else:
                 addrlist = netifaces.ifaddresses(self.opts_iface)[netifaces.AF_INET]
         except ValueError as exc:
-            log.error("netifaces choked while trying to get network interface"
+            LOG.error("netifaces choked while trying to get network interface"
                       " information for interface '%s'", self.opts_iface,
                       exc_info=exc)
         else:  # now we have a list of addresses as returned by netifaces
             for pair in addrlist:
                 try:
-                    detip = ipaddress(pair['addr'])
+                    detip = ipaddress(pair["addr"])
                 except (TypeError, ValueError) as exc:
-                    log.debug("Found invalid IP '%s' on interface '%s'!?",
-                              pair['addr'], self.opts_iface, exc_info=exc)
+                    LOG.debug("Found invalid IP '%s' on interface '%s'!?",
+                              pair["addr"], self.opts_iface, exc_info=exc)
                     continue
                 if self.netmask is not None:
                     if detip in self.netmask:
-                        theip = pair['addr']
+                        theip = pair["addr"]
                     else:
                         continue
                 else:
-                    theip = pair['addr']
+                    theip = pair["addr"]
                 break  # we use the first IP found
         # theip can still be None at this point!
         self.set_current_value(theip)

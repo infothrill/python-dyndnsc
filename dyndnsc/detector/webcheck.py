@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
+"""Module containing logic for webcheck based detectors."""
+
 import logging
+from random import choice
 import re
 
 import requests
@@ -9,21 +12,21 @@ from .base import IPDetector, AF_INET, AF_INET6, AF_UNSPEC
 from ..common.six import ipaddress
 from ..common import constants
 
-log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def _get_ip_from_url(url, parser, timeout=10):
-    log.debug("Querying IP address from '%s'", url)
+    LOG.debug("Querying IP address from '%s'", url)
     try:
-        r = requests.get(url, headers=constants.REQUEST_HEADERS_DEFAULT, timeout=timeout)
+        req = requests.get(url, headers=constants.REQUEST_HEADERS_DEFAULT, timeout=timeout)
     except requests.exceptions.RequestException as exc:
-        log.debug("webcheck failed for url '%s'", url, exc_info=exc)
+        LOG.debug("webcheck failed for url '%s'", url, exc_info=exc)
         return None
     else:
-        if r.status_code == 200:
-            return parser(r.text)
+        if req.status_code == 200:
+            return parser(req.text)
         else:
-            log.debug("Wrong http status code for '%s': %i", url, r.status_code)
+            LOG.debug("Wrong http status code for '%s': %i", url, req.status_code)
     return None
 
 
@@ -31,17 +34,17 @@ def _parser_plain(text):
     try:
         return str(ipaddress(text.strip()))
     except ValueError as exc:
-        log.warning("Error parsing IP address '%s'", text, exc_info=exc)
+        LOG.warning("Error parsing IP address '%s':", text, exc_info=exc)
         return None
 
 
 def _parser_line_regex(text, pattern="Current IP Address: (.*?)(<.*){0,1}$"):
     regex = re.compile(pattern)
     for line in text.splitlines():
-        matchObj = regex.search(line)
-        if matchObj is not None:
-            return str(ipaddress(matchObj.group(1)))
-    log.debug("Output '%s' could not be parsed", text)
+        match_obj = regex.search(line)
+        if match_obj is not None:
+            return str(ipaddress(match_obj.group(1)))
+    LOG.debug("Output '%s' could not be parsed", text)
     return None
 
 
@@ -63,12 +66,11 @@ def _parser_jsonip(text):
     try:
         return str(json.loads(text).get("ip"))
     except ValueError as exc:
-        log.debug("Text '%s' could not be parsed", exc_info=exc)
+        LOG.debug("Text '%s' could not be parsed", exc_info=exc)
         return None
 
 
 class IPDetectorWebCheckBase(IPDetector):
-
     """Base Class for misc. web service based IP detection classes."""
 
     urls = None  # override in child class
@@ -89,6 +91,15 @@ class IPDetectorWebCheckBase(IPDetector):
         """Return false, as this detector generates http traffic."""
         return False
 
+    @staticmethod
+    def names():
+        """
+        Return a list of string names identifying this class/service.
+
+        Abstract method, must be implemented in subclass.
+        """
+        raise NotImplementedError("Please implement in subclass")
+
     def detect(self):
         """
         Try to contact a remote webservice and parse the returned output.
@@ -99,18 +110,16 @@ class IPDetectorWebCheckBase(IPDetector):
             url = self.opts_url
             parser = self.opts_parser
         else:
-            from random import choice
-            url, parser = choice(self.urls)
-        parser = globals().get('_parser_' + parser)
+            url, parser = choice(self.urls)  # nosec
+        parser = globals().get("_parser_" + parser)
         theip = _get_ip_from_url(url, parser)
         if theip is None:
-            log.info("Could not detect IP using webcheck! Offline?")
+            LOG.info("Could not detect IP using webcheck! Offline?")
         self.set_current_value(theip)
         return theip
 
 
 class IPDetectorWebCheck(IPDetectorWebCheckBase):
-
     """
     Class to detect an IPv4 address as seen by an online web site.
 
@@ -122,19 +131,19 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
 
     # TODO: consider throwing out all URLs with no TLS support
     urls = (
-        ("http://checkip.eurodyndns.org/", 'checkip'),
-        ("http://ip.dnsexit.com/", 'plain'),
-        ("http://checkip.dns.he.net/", 'checkip_dns_he_net'),
+        ("http://checkip.eurodyndns.org/", "checkip"),
+        ("http://ip.dnsexit.com/", "plain"),
+        ("http://checkip.dns.he.net/", "checkip_dns_he_net"),
         ("http://ip1.dynupdate.no-ip.com/", "plain"),
         ("http://ip2.dynupdate.no-ip.com/", "plain"),
         ("https://api.ipify.org/", "plain"),
-        ("https://dynamic.zoneedit.com/checkip.html", 'plain'),
-        ("https://freedns.afraid.org/dynamic/check.php", 'freedns_afraid'),
+        ("https://dynamic.zoneedit.com/checkip.html", "plain"),
+        ("https://freedns.afraid.org/dynamic/check.php", "freedns_afraid"),
         ("https://ifconfig.co/ip", "plain"),
         ("https://ipinfo.io/ip", "plain"),
-        ("https://ipv4.icanhazip.com/", 'plain'),
-        ("https://ipv4.nsupdate.info/myip", 'plain'),
-        ("https://jsonip.com/", 'jsonip'),
+        ("https://ipv4.icanhazip.com/", "plain"),
+        ("https://ipv4.nsupdate.info/myip", "plain"),
+        ("https://jsonip.com/", "jsonip"),
     )
 
     def __init__(self, *args, **kwargs):
@@ -145,11 +154,11 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
 
     @staticmethod
     def names():
+        """Return a list of string names identifying this class/service."""
         return ("webcheck", "webcheck4")
 
 
 class IPDetectorWebCheck6(IPDetectorWebCheckBase):
-
     """
     Class to detect an IPv6 address as seen by an online web site.
 
@@ -160,9 +169,9 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
     """
 
     urls = (
-        ("https://ipv6.icanhazip.com/", 'plain'),
-        ("https://ipv6.nsupdate.info/myip", 'plain'),
-        ("https://v6.ident.me", 'plain'),
+        ("https://ipv6.icanhazip.com/", "plain"),
+        ("https://ipv6.nsupdate.info/myip", "plain"),
+        ("https://v6.ident.me", "plain"),
     )
 
     def __init__(self, *args, **kwargs):
@@ -173,11 +182,11 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
 
     @staticmethod
     def names():
+        """Return a list of string names identifying this class/service."""
         return ("webcheck6", )
 
 
 class IPDetectorWebCheck46(IPDetectorWebCheckBase):
-
     """
     Class to variably detect either an IPv4 xor IPv6 address.
 
@@ -202,9 +211,9 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
     """
 
     urls = (
-        ("https://icanhazip.com/", 'plain'),
-        ("https://www.nsupdate.info/myip", 'plain'),
-        ("https://ident.me", 'plain'),
+        ("https://icanhazip.com/", "plain"),
+        ("https://www.nsupdate.info/myip", "plain"),
+        ("https://ident.me", "plain"),
     )
 
     def __init__(self, *args, **kwargs):
@@ -215,4 +224,5 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
 
     @staticmethod
     def names():
+        """Return a list of string names identifying this class/service."""
         return ("webcheck46", "webcheck64")

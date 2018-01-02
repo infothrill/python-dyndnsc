@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
+
+"""Tests for OS X notification."""
+
 import unittest
 
 
 class TestOSXNotify(unittest.TestCase):
-
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+    """Test cases for OS X notification."""
 
     def test_osxnotify(self):
+        """Run tests."""
         try:
             from dyndnsc.plugins.notify import osxnotify
         except ImportError:

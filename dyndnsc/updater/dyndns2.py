@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 
+"""Module providing functionality to interact with dyndns2 compatible services."""
+
 from logging import getLogger
+
+import requests
 
 from .base import UpdateProtocol
 from ..common import constants
 
-import requests
-
-log = getLogger(__name__)
+LOG = getLogger(__name__)
 
 
 class UpdateProtocolDyndns2(UpdateProtocol):
@@ -15,6 +17,8 @@ class UpdateProtocolDyndns2(UpdateProtocol):
 
     def __init__(self, hostname, userid, password, url, *args, **kwargs):
         """
+        Initialize.
+
         :param hostname: the fully qualified hostname to be managed
         :param userid: the userid for identification
         :param password: the password for authentication
@@ -29,40 +33,27 @@ class UpdateProtocolDyndns2(UpdateProtocol):
 
     @staticmethod
     def configuration_key():
+        """Return 'dyndns2', identifying the protocol."""
         return "dyndns2"
 
     def update(self, ip):
-        self.theip = ip
-        return self.protocol()
-
-    def protocol(self):
+        """Update the IP on the remote service."""
         timeout = 60
-        log.debug("Updating '%s' to '%s' at service '%s'", self.hostname, self.theip, self.url())
-        params = {'myip': self.theip, 'hostname': self.hostname}
+        LOG.debug("Updating '%s' to '%s' at service '%s'", self.hostname, ip, self.url())
+        params = {"myip": ip, "hostname": self.hostname}
         try:
-            r = requests.get(self.updateUrl(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
-                             auth=(self.userid, self.password), timeout=timeout)
+            req = requests.get(self.update_url(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
+                               auth=(self.userid, self.password), timeout=timeout)
         except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
-            log.warning("an error occurred while updating IP at '%s'",
-                        self.updateUrl(), exc_info=exc)
+            LOG.warning("an error occurred while updating IP at '%s'",
+                        self.update_url(), exc_info=exc)
             return False
         else:
-            r.close()
-        log.debug("status %i, %s", r.status_code, r.text)
-        if r.status_code == 200:
-            if r.text.startswith("good "):
-                return self.theip
-            elif r.text.startswith('nochg'):
-                return self.theip
-            elif r.text == 'nohost':
-                return 'nohost'
-            elif r.text == 'abuse':
-                return 'abuse'
-            elif r.text == '911':
-                return '911'
-            elif r.text == 'notfqdn':
-                return 'notfqdn'
-            else:
-                return r.text
-        else:
-            return 'invalid http status code: %s' % r.status_code
+            req.close()
+        LOG.debug("status %i, %s", req.status_code, req.text)
+        if req.status_code == 200:
+            # responses can also be "nohost", "abuse", "911", "notfqdn"
+            if req.text.startswith("good ") or req.text.startswith("nochg"):
+                return ip
+            return req.text
+        return "invalid http status code: %s" % req.status_code

@@ -1,0 +1,15 @@
+flake8>=3.5.0
+pydocstyle>=2.1.1
+flake8-bandit>=1.0.1
+flake8-bugbear>=17.12.0
+flake8-comprehensions>=1.4.1
+flake8_docstrings>=1.1.0
+flake8-invalid-escape-sequences>=1.1
+flake8-tidy-imports>=1.1.0
+flake8-rst-docstrings>=0.0.8
+Pygments>=2.2.0
+flake8-quotes>=0.13.0
+flake8-print>=3.0.1
+flake8-mutable>=1.2.0
+check-manifest>=0.36
+safety>=1.6.1

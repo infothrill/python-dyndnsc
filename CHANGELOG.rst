@@ -4,11 +4,16 @@ Release history
 ---------------
 0.5.0 (unreleased)
 ++++++++++++++++++
-- switched to pytest https://pytest.org for test running
-- removed support for python 2.6 and python 3.3
-- improved: updated list of external urls for IP discovery
-- improved: install documentation
+- improved: replaced built-in daemon code with `daemonocle <https://pypi.python.org/pypi/daemonocle>`_
+- switched to `pytest <https://pytest.org>`_ for running tests
+- changed (**INCOMPATIBLE**): dropped support for python 2.6 and python 3.3
 - added: new command line option -v to control verbosity
+- improved: updated list of external urls for IP discovery
+- improved: install documentation updated
+- improved: add many missing docstrings and fixed many code smells
+- improved: run `flake8 <http://flake8.pycqa.org/>`_ code quality checks in CI
+- improved: run `check-manifest <https://pypi.python.org/pypi/check-manifest>`_ in CI
+- improved: run `safety <https://pypi.python.org/pypi/safety>`_ in CI
 
 0.4.4 (December 27th 2017)
 ++++++++++++++++++++++++++

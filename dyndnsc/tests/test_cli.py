@@ -1,31 +1,32 @@
 # -*- coding: utf-8 -*-
 
+"""Tests for the cli."""
+
 import unittest
 import argparse
 import os
+# py23
 try:
     import configparser
 except ImportError:
     import ConfigParser as configparser
 
+from dyndnsc.common.six import PY3
 from dyndnsc.common.six import StringIO
 from dyndnsc import cli
 
 
 class TestCli(unittest.TestCase):
-
-    def setUp(self):
-        unittest.TestCase.setUp(self)
-
-    def tearDown(self):
-        unittest.TestCase.tearDown(self)
+    """Test cases for Cli."""
 
     def test_create_argparser(self):
+        """Run tests for create_argparser()."""
         parser, arg_defaults = cli.create_argparser()
         self.assertTrue(isinstance(parser, argparse.ArgumentParser))
         self.assertTrue(isinstance(arg_defaults, dict))
 
     def test_list_presets(self):
+        """Run tests for list_presets()."""
         sample_config = """[preset:testpreset]
 updater = fubarUpdater
 updater-url = https://update.example.com/nic/update
@@ -34,10 +35,13 @@ detector = webcheck4
 detector-family = INET
 detector-url = http://ip.example.com/
 detector-parser = plain"""
-        p = configparser.ConfigParser()
-        p.readfp(StringIO(sample_config))
+        parser = configparser.ConfigParser()
+        if PY3:
+            parser.read_file(StringIO(sample_config))
+        else:
+            parser.readfp(StringIO(sample_config))  # pylint: disable=deprecated-method
         output = StringIO()
-        cli.list_presets(p, out=output)
+        cli.list_presets(parser, out=output)
         buf = output.getvalue()
 
         self.assertEqual(len(sample_config.splitlines()), len(buf.splitlines()))
