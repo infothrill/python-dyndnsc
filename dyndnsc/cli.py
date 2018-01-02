@@ -7,6 +7,7 @@ import os
 import logging
 import time
 import argparse
+from functools import partial
 
 from .plugins.manager import DefaultPluginManager
 from .updater.manager import updater_classes
@@ -71,6 +72,20 @@ def create_argparser():
                         help="increases log verbosity for each occurrence")
 
     return parser, arg_defaults
+
+
+def run_forever(dyndnsclients):
+    """
+    Run an endless loop accross the give dynamic dns clients.
+
+    :param dyndnsclients: list of DynDnsClients
+    """
+    while True:
+        # Do small sleeps in the main loop, needs_check() is cheap and does
+        # the rest.
+        time.sleep(15)
+        for dyndnsclient in dyndnsclients:
+            dyndnsclient.check()
 
 
 def main():
@@ -150,18 +165,16 @@ def main():
         dyndnsclient.sync()
         dyndnsclients.append(dyndnsclient)
 
+    run_forever_callable = partial(run_forever, dyndnsclients)
+
     if args.daemon:
-        from .daemon import daemonize
-        daemonize()  # fork into background
+        import daemonocle
+        daemon = daemonocle.Daemon(worker=run_forever_callable)
+        daemon.do_action("start")
         args.loop = True
 
     if args.loop:
-        while True:
-            # Do small sleeps in the main loop, needs_check() is cheap and does
-            # the rest.
-            time.sleep(15)
-            for dyndnsclient in dyndnsclients:
-                dyndnsclient.check()
+        run_forever_callable()
 
     return 0
 
