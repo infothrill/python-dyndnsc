@@ -35,7 +35,7 @@ class TestUpdaterCommon(unittest.TestCase):
         # configuration_key:
         def config_key():
             return "none"
-        cls.configuration_key = config_key
+        cls.configuration_key = staticmethod(config_key)
 
         # ensure the argparser method 'add_argument' is called:
         argparser = mock.Mock()
