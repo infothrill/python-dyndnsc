@@ -11,5 +11,6 @@ Pygments>=2.2.0
 flake8-quotes>=0.13.0
 flake8-print>=3.0.1
 flake8-mutable>=1.2.0
+flake8-string-format>=0.2.3
 check-manifest>=0.36
 safety>=1.6.1
