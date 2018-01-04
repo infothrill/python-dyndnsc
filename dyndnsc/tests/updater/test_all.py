@@ -28,8 +28,14 @@ class TestUpdaterCommon(unittest.TestCase):
         self.assertTrue(hasattr(cls, "register_arguments"))
         self.assertTrue(hasattr(cls, "url"))
         self.assertTrue(hasattr(cls, "help"))
-        self.assertEqual(type(cls.configuration_key()), type(""))
+        self.assertRaises(NotImplementedError, cls.configuration_key)
         self.assertEqual(type(cls.help()), type(""))
+
+        # For the purpose of this test, we fake an implementation of
+        # configuration_key:
+        def config_key():
+            return "none"
+        cls.configuration_key = config_key
 
         # ensure the argparser method 'add_argument' is called:
         argparser = mock.Mock()

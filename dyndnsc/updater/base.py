@@ -41,13 +41,13 @@ class UpdateProtocol(Subject, DynamicCliMixin):
 
         Must be implemented by all updater subclasses.
         """
-        return "none_base_class"
+        raise NotImplementedError()
 
     @staticmethod
     def configuration_key_prefix():
         """
         Return a human readable string classifying this class as an updater.
 
-        Must be not be implemented or overwritten in updater subclasses.
+        Must not be be implemented or overwritten in updater subclasses.
         """
         return "updater"
