@@ -41,15 +41,8 @@ class UpdateProtocolDyndns2(UpdateProtocol):
         timeout = 60
         LOG.debug("Updating '%s' to '%s' at service '%s'", self.hostname, ip, self.url())
         params = {"myip": ip, "hostname": self.hostname}
-        try:
-            req = requests.get(self.update_url(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
-                               auth=(self.userid, self.password), timeout=timeout)
-        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
-            LOG.warning("an error occurred while updating IP at '%s'",
-                        self.update_url(), exc_info=exc)
-            return False
-        else:
-            req.close()
+        req = requests.get(self.update_url(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
+                           auth=(self.userid, self.password), timeout=timeout)
         LOG.debug("status %i, %s", req.status_code, req.text)
         if req.status_code == 200:
             # responses can also be "nohost", "abuse", "911", "notfqdn"

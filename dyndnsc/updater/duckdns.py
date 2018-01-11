@@ -56,15 +56,8 @@ class UpdateProtocolDuckdns(UpdateProtocol):
         else:
             params["ip"] = ip
         # LOG.debug("Update params: %r", params)
-        try:
-            req = requests.get(self.url(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
-                               timeout=timeout)
-        except (requests.exceptions.Timeout, requests.exceptions.ConnectionError) as exc:
-            LOG.warning("an error occurred while updating IP at '%s'",
-                        self.url(), exc_info=exc)
-            return False
-        else:
-            req.close()
+        req = requests.get(self.url(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
+                           timeout=timeout)
         LOG.debug("status %i, %s", req.status_code, req.text)
         # TODO: duckdns response codes seem undocumented...
         if req.status_code == 200:

@@ -3,7 +3,7 @@
 PYTHON=python3
 
 publish:
-	echo "Use 'python setup.py sdist bdist_wheel; twine'"
+	@echo "Use 'python setup.py sdist bdist_wheel; twine'"
 
 deb:
 	# this requires `apt-get install debhelper python3-all`

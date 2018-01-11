@@ -8,6 +8,7 @@ Release history
 - switched to `pytest <https://pytest.org>`_ for running tests
 - changed (**INCOMPATIBLE**): dropped support for python 2.6 and python 3.3
 - added: new command line option -v to control verbosity
+- improved: infinite loop and daemon stability, diagnostics #57
 - improved: updated list of external urls for IP discovery
 - improved: install documentation updated
 - improved: add many missing docstrings and fixed many code smells

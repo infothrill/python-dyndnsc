@@ -17,6 +17,9 @@ from .conf import get_configuration, collect_config
 from .common.dynamiccli import parse_cmdline_args
 
 
+LOG = logging.getLogger(__name__)
+
+
 def list_presets(cfg, out=sys.stdout):
     """Write a human readable list of available presets to out.
 
@@ -81,11 +84,17 @@ def run_forever(dyndnsclients):
     :param dyndnsclients: list of DynDnsClients
     """
     while True:
-        # Do small sleeps in the main loop, needs_check() is cheap and does
-        # the rest.
-        time.sleep(15)
-        for dyndnsclient in dyndnsclients:
-            dyndnsclient.check()
+        try:
+            # Do small sleeps in the main loop, needs_check() is cheap and does
+            # the rest.
+            time.sleep(15)
+            for dyndnsclient in dyndnsclients:
+                dyndnsclient.check()
+        except (KeyboardInterrupt,):
+            break
+        except (Exception,) as exc:
+            LOG.critical("An exception occurred in the dyndns loop", exc_info=exc)
+    return 0
 
 
 def main():
