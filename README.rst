@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Finfothrill%2Fpython-dyndnsc.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Finfothrill%2Fpython-dyndnsc?ref=badge_shield)
+
 Dyndnsc - dynamic dns update client
 ===================================
 
@@ -61,3 +63,7 @@ Status
 still change at any time. For this to change, it shall be sufficient to have
 documented use of this package which will necessitate stability (i.e.
 community process).
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Finfothrill%2Fpython-dyndnsc.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Finfothrill%2Fpython-dyndnsc?ref=badge_large)
