@@ -11,6 +11,7 @@ from ..common.load import load_class as _load_plugin
 _BUILTINS = (
     ("dyndnsc.detector.command", "IPDetector_Command"),
     ("dyndnsc.detector.dns", "IPDetector_DNS"),
+    ("dyndnsc.detector.dnswanip", "IPDetector_DnsWanIp"),
     ("dyndnsc.detector.iface", "IPDetector_Iface"),
     ("dyndnsc.detector.socket_ip", "IPDetector_Socket"),
     ("dyndnsc.detector.rand", "IPDetector_Random"),

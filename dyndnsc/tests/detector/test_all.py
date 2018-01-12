@@ -7,6 +7,13 @@ import unittest
 
 from dyndnsc.detector.base import AF_INET, AF_INET6, AF_UNSPEC
 
+HAVE_IPV6 = True
+try:
+    import socket
+    socket.socket(socket.AF_INET6, socket.SOCK_DGRAM).connect(("ipv6.google.com", 0))
+except (OSError, socket.error, socket.gaierror):
+    HAVE_IPV6 = False
+
 
 class TestPluginDetectors(unittest.TestCase):
     """Test cases for detector discovery and management."""
@@ -80,14 +87,7 @@ class TestIndividualDetectors(unittest.TestCase):
         self.assertEqual(AF_INET, detector.af())
         self.assertTrue(detector.detect() in ("127.0.0.1", ))
         # test address family restriction to ipv6:
-        have_ipv6 = True
-        import socket
-        s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
-        try:
-            s.connect(("ipv6.google.com", 0))
-        except Exception:
-            have_ipv6 = False
-        if have_ipv6:
+        if HAVE_IPV6:
             detector = ns.IPDetector_DNS(hostname="localhost", family="INET6")
             self.assertEqual(AF_INET6, detector.af())
             val = detector.detect()

@@ -90,7 +90,7 @@ setup(
     url="https://github.com/infothrill/python-dyndnsc",
     setup_requires=["pytest-runner"],
     install_requires=patch_install_requires(
-        ["requests>=2.0.1", "setuptools", "netifaces>=0.10.5", "daemonocle>=1.0.1"]),
+        ["requests>=2.0.1", "setuptools", "netifaces>=0.10.5", "daemonocle>=1.0.1", "dnspython>=1.15.0"]),
     entry_points=("""
         [console_scripts]
         dyndnsc=dyndnsc.cli:main
