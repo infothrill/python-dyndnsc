@@ -40,13 +40,13 @@ Installation
 
 .. code-block:: bash
 
-    $ # from pypi:
+    # from pypi:
     $ pip install dyndnsc
 
-    $ # from downloaded source:
+    # from downloaded source:
     $ python setup.py install
 
-    $ # directly from github:
+    # directly from github:
     $ pip install https://github.com/infothrill/python-dyndnsc/zipball/develop
 
 

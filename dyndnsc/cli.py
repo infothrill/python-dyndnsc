@@ -46,7 +46,8 @@ def create_argparser():
         "config": None,
         "debug": False,
         "sleeptime": 300,
-        "version": False
+        "version": False,
+        "verbose_count": 0
     }
 
     # add generic client options to the CLI:
@@ -71,7 +72,7 @@ def create_argparser():
                         help="show version and exit",
                         action="store_true", default=arg_defaults["version"])
     parser.add_argument("-v", "--verbose", dest="verbose_count",
-                        action="count", default=0,
+                        action="count", default=arg_defaults["verbose_count"],
                         help="increases log verbosity for each occurrence")
 
     return parser, arg_defaults
