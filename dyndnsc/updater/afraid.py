@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Functionality for interacting with a service compatible with http://freedns.afraid.org/."""
+"""Functionality for interacting with a service compatible with https://freedns.afraid.org/."""
 
 import logging
 import hashlib
@@ -74,7 +74,7 @@ def compute_auth_key(userid, password):
     return hashlib.sha1("|".join((userid, password))).hexdigest()
 
 
-def records(credentials, url="http://freedns.afraid.org/api/"):
+def records(credentials, url="https://freedns.afraid.org/api/"):
     """
     Yield the dynamic DNS records associated with this account.
 
@@ -115,7 +115,7 @@ def update(url):
 class UpdateProtocolAfraid(UpdateProtocol):
     """Protocol handler for http://freedns.afraid.org ."""
 
-    def __init__(self, hostname, userid, password, url="http://freedns.afraid.org/api/", **kwargs):
+    def __init__(self, hostname, userid, password, url="https://freedns.afraid.org/api/", **kwargs):
         """
         Initialize.
 
