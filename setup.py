@@ -26,16 +26,19 @@ with open(os.path.join(BASEDIR, "CHANGELOG.rst"), "r") as f:
 CLASSIFIERS = (
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
     "License :: DFSG approved",
     "License :: OSI Approved",
     "License :: OSI Approved :: MIT License",
+    "Topic :: Internet",
     "Topic :: Internet :: Name Service (DNS)",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Systems Administration",
     "Environment :: Console",
     "Natural Language :: English",
     "Operating System :: MacOS :: MacOS X",
     "Operating System :: POSIX :: Linux",
-    "Operating System :: POSIX :: BSD :: FreeBSD",
+    "Operating System :: POSIX :: BSD",
     "Programming Language :: Python",
     "Programming Language :: Python :: 2.7",
     "Programming Language :: Python :: 3.4",
@@ -88,18 +91,25 @@ setup(
     long_description=README + "\n\n" + CHANGELOG,
     keywords="dynamic dns dyndns",
     url="https://github.com/infothrill/python-dyndnsc",
+    # https://packaging.python.org/tutorials/distributing-packages/#python-requires
+    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     setup_requires=["pytest-runner"],
-    install_requires=patch_install_requires(
-        ["requests>=2.0.1", "setuptools", "netifaces>=0.10.5", "daemonocle>=1.0.1", "dnspython>=1.15.0"]),
-    entry_points=("""
-        [console_scripts]
-        dyndnsc=dyndnsc.cli:main
-    """),
+    install_requires=patch_install_requires([
+        "daemonocle>=1.0.1",
+        "dnspython>=1.15.0",
+        "netifaces>=0.10.5",
+        "requests>=2.0.1",
+        "setuptools",
+    ]),
+    entry_points={
+        "console_scripts": [
+            "dyndnsc=dyndnsc.cli:main",
+        ],
+    },
     classifiers=CLASSIFIERS,
     test_suite="dyndnsc.tests",
     tests_require=patch_test_requires([
         "bottle==0.12.7",
-        "pep8>=1.3",
         "pytest>=3.2.5"
     ]),
     package_data={"dyndnsc/resources": ["dyndnsc/resources/*.ini"]},
