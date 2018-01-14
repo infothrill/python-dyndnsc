@@ -9,8 +9,6 @@ Inspired by https://github.com/maranas/pyNotificationCenter
 import Foundation  # @UnresolvedImport pylint: disable=import-error
 import objc  # @UnresolvedImport pylint: disable=import-error
 
-from ..base import Plugin
-
 NSUSERNOTIFICATION = objc.lookUpClass("NSUserNotification")
 NSUSERNOTIFICATIONCENTER = objc.lookUpClass("NSUserNotificationCenter")
 
@@ -57,11 +55,8 @@ class OSXNotification(object):
         nsnotify(self.default_title, subtitle=None, info_text=message)
 
 
-class OSXNotifyPlugin(Plugin):
+class OSXNotify(object):
     """Send desktop notifications with OS X notification center."""
-
-    name = "osxnotify"
-    can_configure = True
 
     def initialize(self):
         """Initialize."""

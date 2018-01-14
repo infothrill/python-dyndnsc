@@ -7,6 +7,7 @@ from warnings import warn
 
 from .base import IPluginInterface
 
+ENV_PREFIX = "DYNDNSC_WITH_"
 LOG = logging.getLogger(__name__)
 
 
@@ -48,11 +49,12 @@ class PluginProxy(object):
 
         Return the first result that is not None.
         """
+        final_result = None
         for _, meth in self.plugins:
             result = meth(*arg, **kw)
-            if result is not None:
-                return result
-        return None
+            if final_result is None and result is not None:
+                final_result = result
+        return final_result
 
 
 class NullPluginManager(object):
@@ -127,10 +129,15 @@ class PluginManager(object):
     def add_plugin(self, plugin):
         """Add the given plugin."""
         # allow plugins loaded via entry points to override builtin plugins
-        new_name = getattr(plugin, "name", object())
+        new_name = self.plugin_name(plugin)
         self._plugins[:] = [p for p in self._plugins
-                            if getattr(p, "name", None) != new_name]
+                            if self.plugin_name(p) != new_name]
         self._plugins.append(plugin)
+
+    @staticmethod
+    def plugin_name(plugin):
+        """Discover the plugin name and return it."""
+        return plugin.__class__.__name__.lower()
 
     def add_plugins(self, plugins=()):
         """Add the given plugins."""
@@ -142,11 +149,42 @@ class PluginManager(object):
 
         After configuration, disabled plugins are removed from the plugins list.
         """
-        cfg = PluginProxy("configure", self._plugins)
-        cfg(args)
+        for plug in self._plugins:
+            plug_name = self.plugin_name(plug)
+            plug.enabled = getattr(args, "plugin_%s" % plug_name, False)
+            if plug.enabled and getattr(plug, "configure", None):
+                if callable(getattr(plug, "configure", None)):
+                    plug.configure(args)
         LOG.debug("Available plugins: %s", self._plugins)
-        self.plugins = [plugin for plugin in self._plugins if plugin.enabled]
+        self.plugins = [plugin for plugin in self._plugins if getattr(plugin, "enabled", False)]
         LOG.debug("Enabled plugins: %s", self.plugins)
+
+    def options(self, parser, env):
+        """Register commandline options with the given parser.
+
+        Implement this method for normal options behavior with protection from
+        OptionConflictErrors. If you override this method and want the default
+        --with-$name option to be registered, be sure to call super().
+
+        :param parser: argparse parser object
+        :param env:
+        """
+        def get_help(plug):
+            """Extract the help docstring from the given plugin."""
+            import textwrap
+            if plug.__class__.__doc__:
+                # doc sections are often indented; compress the spaces
+                return textwrap.dedent(plug.__class__.__doc__)
+            return "(no help available)"
+        for plug in self._plugins:
+            env_opt = ENV_PREFIX + self.plugin_name(plug).upper()
+            env_opt = env_opt.replace("-", "_")
+            parser.add_argument("--with-%s" % self.plugin_name(plug),
+                                action="store_true",
+                                dest="plugin_%s" % self.plugin_name(plug),
+                                default=env.get(env_opt),
+                                help="Enable plugin %s: %s [%s]" %
+                                (plug.__class__.__name__, get_help(plug), env_opt))
 
     def load_plugins(self):
         """Abstract method."""
@@ -169,7 +207,7 @@ class EntryPointPluginManager(PluginManager):
     Load plugins from the setuptools entry_point ``dyndnsc.plugins``.
     """
 
-    entry_points = ("dyndnsc.plugins-experimental",)
+    entry_points = ("dyndnsc.notifier_beta",)
 
     def load_plugins(self):
         """Load plugins from entry point(s)."""

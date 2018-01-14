@@ -10,7 +10,12 @@ except ImportError:
     import mock
 
 from dyndnsc.plugins import manager
-from dyndnsc.plugins.base import Plugin
+
+
+class Dummy(object):
+    """Empty Dummy class used to test plugin system."""
+
+    pass
 
 
 class TestPluginProxy(unittest.TestCase):
@@ -26,7 +31,7 @@ class TestPluginProxy(unittest.TestCase):
     def test_proxy_mock_plugin(self):
         """Test the plugin proxy."""
         # mock a plugin and assert it will be called by the proxy:
-        plugin1 = Plugin()
+        plugin1 = Dummy()
         plugin1.initialize = mock.MagicMock()
         proxy = manager.PluginProxy("initialize", [plugin1])
         proxy()
@@ -47,8 +52,7 @@ class TestPluginManager(unittest.TestCase):
 
     def test_plugin_manager(self):
         """Test plugin manager."""
-        plugin1 = Plugin()
-        plugin1.can_configure = True
+        plugin1 = Dummy()
         plugins = [plugin1]
         mgr = manager.PluginManager(plugins, manager.PluginProxy)
         self.assertTrue(hasattr(mgr, "load_plugins"))  # does nothing but must exist
@@ -66,7 +70,7 @@ class TestPluginManager(unittest.TestCase):
         mgr.plugins = plugins
 
         parser = mock.Mock()
-        parser.DYNDNSC_WITH_PLUGIN = 1
+        parser.DYNDNSC_WITH_DUMMY = 1
         mgr.configure(parser)
         self.assertEqual(mgr.plugins, plugins)  # plugin remains!
 

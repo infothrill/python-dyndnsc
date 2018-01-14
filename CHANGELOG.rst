@@ -4,6 +4,7 @@ Release history
 ---------------
 0.5.0 (unreleased)
 ++++++++++++++++++
+- improved: plugins don't need to inherit from a base class anymore
 - added: WAN IP detection through DNS (detector 'dnswanip')
 - improved: replaced built-in daemon code with `daemonocle <https://pypi.python.org/pypi/daemonocle>`_
 - switched to `pytest <https://pytest.org>`_ for running tests

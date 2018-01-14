@@ -4,10 +4,8 @@
 
 import gntp.notifier  # @UnresolvedImport pylint: disable=import-error
 
-from ..base import Plugin
 
-
-class Growl(object):
+class GrowlNotifier(object):
     """The Growl notifier."""
 
     default_title = "Dynamic DNS"
@@ -30,15 +28,12 @@ class Growl(object):
         return True
 
 
-class GrowlPlugin(Plugin):
+class Growl(object):
     """Send desktop notifications with Growl."""
-
-    name = "growl"
-    can_configure = True
 
     def initialize(self):
         """Initialize."""
-        self.growl = Growl()
+        self.growl = GrowlNotifier()
 
     def after_remote_ip_update(self, ip, status):
         """
