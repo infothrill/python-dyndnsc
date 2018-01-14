@@ -6,12 +6,12 @@ See also https://www.cyberciti.biz/faq/how-to-find-my-public-ip-address-from-com
 """
 from __future__ import absolute_import
 
-import socket
 import logging
 
 import dns.resolver
 
 from .base import IPDetector, AF_INET, AF_INET6
+from .dns import resolve
 
 LOG = logging.getLogger(__name__)
 
@@ -40,9 +40,11 @@ def find_ip(family=AF_INET, flavour="opendns"):
             },
         }
 
+
     flavour = flavours["opendns"]
     resolver = dns.resolver.Resolver()
-    resolver.nameservers = [socket.gethostbyname(h) for h in flavour[family]["@"]]
+    # specify the custom nameservers to be used (as IPs):
+    resolver.nameservers = [next(iter(resolve(h, family=family))) for h in flavour[family]["@"]]
 
     answers = resolver.query(qname=flavour[family]["qname"], rdtype=flavour[family]["rdtype"])
     for rdata in answers:
