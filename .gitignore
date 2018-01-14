@@ -35,6 +35,7 @@ coverage.xml
 .project
 .settings/
 .pydevproject
+.envrc
 
 # virtualenv
 env/
