@@ -40,7 +40,6 @@ def find_ip(family=AF_INET, flavour="opendns"):
             },
         }
 
-
     flavour = flavours["opendns"]
     resolver = dns.resolver.Resolver()
     # specify the custom nameservers to be used (as IPs):
