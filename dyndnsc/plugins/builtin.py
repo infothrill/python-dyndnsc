@@ -11,7 +11,6 @@ from ..common.load import load_class as _load_plugin
 
 _BUILTINS = (
     ("dyndnsc.plugins.notify.growl", "Growl"),
-    ("dyndnsc.plugins.notify.osxnotify", "OSXNotify"),
 )
 
 PLUGINS = {plug for plug in (_load_plugin(m, c) for m, c in _BUILTINS) if plug is not None}

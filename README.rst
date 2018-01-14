@@ -26,8 +26,9 @@ dns (ddns, dyndns) services. It supports multiple protocols and services,
 and it is compatible with ipv4 as well as ipv6. The configuration file allows
 using foreign, but compatible services. *Dyndnsc* ships many different IP
 detection mechanisms, support for configuring multiple services in one place
-and it has a daemon mode for running unattended. It has a plugin architecture
-for supporting notification services like Growl or OS X Notification center.
+and it has a daemon mode for running unattended. It has a plugin system
+that supports external notification services like Growl or OS X
+Notification center.
 
 
 Quickstart / Documentation
