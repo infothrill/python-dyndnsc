@@ -32,7 +32,7 @@ for supporting notification services like Growl or OS X Notification center.
 
 Quickstart / Documentation
 ==========================
-See the Quickstart section of the http://dyndnsc.readthedocs.org/
+See the Quickstart section of the https://dyndnsc.readthedocs.io/
 
 
 Installation
