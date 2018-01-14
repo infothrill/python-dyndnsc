@@ -81,10 +81,6 @@ class IPDetector_DNS(IPDetector):
 
         :return: ip address
         """
-        ips = resolve(self.opts_hostname, self.opts_family)
-        if len(ips) > 0:
-            theip = ips[0]
-        else:
-            theip = None
+        theip = next(iter(resolve(self.opts_hostname, self.opts_family)), None)
         self.set_current_value(theip)
         return theip
