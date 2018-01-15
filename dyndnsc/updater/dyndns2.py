@@ -25,8 +25,8 @@ class UpdateProtocolDyndns2(UpdateProtocol):
         :param url: the API URL for updating the DNS entry
         """
         self.hostname = hostname
-        self.userid = userid
-        self.password = password
+        self.__userid = userid
+        self.__password = password
         self._updateurl = url
 
         super(UpdateProtocolDyndns2, self).__init__()
@@ -42,7 +42,7 @@ class UpdateProtocolDyndns2(UpdateProtocol):
         LOG.debug("Updating '%s' to '%s' at service '%s'", self.hostname, ip, self._updateurl)
         params = {"myip": ip, "hostname": self.hostname}
         req = requests.get(self._updateurl, params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
-                           auth=(self.userid, self.password), timeout=timeout)
+                           auth=(self.__userid, self.__password), timeout=timeout)
         LOG.debug("status %i, %s", req.status_code, req.text)
         if req.status_code == 200:
             # responses can also be "nohost", "abuse", "911", "notfqdn"

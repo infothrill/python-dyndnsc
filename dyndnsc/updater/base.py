@@ -14,7 +14,25 @@ class UpdateProtocol(Subject, DynamicCliMixin):
     """Base class for all update protocols that use a simple http GET protocol."""
 
     theip = None
-    hostname = None  # this holds the desired dns hostname
+    __hostname = None  # private place to store the property 'hostname'
+
+    @property
+    def hostname(self):
+        """
+        Return the hostname managed by this updater.
+
+        May be implemented or overwritten in updater subclasses.
+        """
+        return self.__hostname
+
+    @hostname.setter
+    def hostname(self, value):
+        """
+        Set the hostname managed by this updater.
+
+        May be implemented or overwritten in updater subclasses.
+        """
+        self.__hostname = value
 
     @staticmethod
     def configuration_key():

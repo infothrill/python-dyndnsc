@@ -24,6 +24,7 @@ class UpdateProtocolDnsimple(UpdateProtocol):
     def __init__(self, hostname, key, url=None, **kwargs):
         """Initialize."""
         self._recordname, _, self._domain = hostname.partition(".")
+        self.hostname = hostname
         self.handler = DNSimple(domain=self._domain,
                                 domain_token=key)
         if url is not None:

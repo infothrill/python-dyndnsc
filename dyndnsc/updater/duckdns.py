@@ -36,7 +36,7 @@ class UpdateProtocolDuckdns(UpdateProtocol):
         :param url: the API URL for updating the DNS entry
         """
         self.hostname = hostname
-        self.token = token
+        self.__token = token
         self._updateurl = url
 
         super(UpdateProtocolDuckdns, self).__init__()
@@ -50,7 +50,7 @@ class UpdateProtocolDuckdns(UpdateProtocol):
         """Update the IP on the remote service."""
         timeout = 60
         LOG.debug("Updating '%s' to '%s' at service '%s'", self.hostname, ip, self._updateurl)
-        params = {"domains": self.hostname.partition(".")[0], "token": self.token}
+        params = {"domains": self.hostname.partition(".")[0], "token": self.__token}
         if ip is None:
             params["ip"] = ""
         else:
@@ -59,7 +59,7 @@ class UpdateProtocolDuckdns(UpdateProtocol):
         req = requests.get(self._updateurl, params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
                            timeout=timeout)
         LOG.debug("status %i, %s", req.status_code, req.text)
-        # TODO: duckdns response codes seem undocumented...
+        # duckdns response codes seem undocumented...
         if req.status_code == 200:
             if req.text.startswith("OK"):
                 return ip
