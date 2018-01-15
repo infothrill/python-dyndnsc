@@ -13,26 +13,8 @@ LOG = logging.getLogger(__name__)
 class UpdateProtocol(Subject, DynamicCliMixin):
     """Base class for all update protocols that use a simple http GET protocol."""
 
-    _updateurl = None
     theip = None
     hostname = None  # this holds the desired dns hostname
-
-    def __init__(self):
-        """Initializer."""
-        self.updateurl = self._updateurl
-        super(UpdateProtocol, self).__init__()
-
-    def update_url(self):
-        """Return the API endpoint URL for this update protocol."""
-        return self.updateurl
-
-    def service_url(self):
-        """Return the API endpoint URL for this update protocol."""
-        return self.update_url()
-
-    def url(self):
-        """Return the API endpoint URL for this update protocol."""
-        return self.update_url()
 
     @staticmethod
     def configuration_key():
@@ -41,13 +23,21 @@ class UpdateProtocol(Subject, DynamicCliMixin):
 
         Must be implemented by all updater subclasses.
         """
-        raise NotImplementedError()
+        raise NotImplementedError("Please implement in subclass")
 
     @staticmethod
     def configuration_key_prefix():
         """
         Return a human readable string classifying this class as an updater.
 
-        Must not be be implemented or overwritten in updater subclasses.
+        Should not be be implemented or overwritten in updater subclasses.
         """
         return "updater"
+
+    def update(self, ip):
+        """
+        Update the hostname on the remote service.
+
+        Abstract method, must be implemented in subclass.
+        """
+        raise NotImplementedError("Please implement in subclass")

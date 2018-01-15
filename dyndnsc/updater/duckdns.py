@@ -49,14 +49,14 @@ class UpdateProtocolDuckdns(UpdateProtocol):
     def update(self, ip):
         """Update the IP on the remote service."""
         timeout = 60
-        LOG.debug("Updating '%s' to '%s' at service '%s'", self.hostname, ip, self.url())
+        LOG.debug("Updating '%s' to '%s' at service '%s'", self.hostname, ip, self._updateurl)
         params = {"domains": self.hostname.partition(".")[0], "token": self.token}
         if ip is None:
             params["ip"] = ""
         else:
             params["ip"] = ip
         # LOG.debug("Update params: %r", params)
-        req = requests.get(self.url(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
+        req = requests.get(self._updateurl, params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
                            timeout=timeout)
         LOG.debug("status %i, %s", req.status_code, req.text)
         # TODO: duckdns response codes seem undocumented...

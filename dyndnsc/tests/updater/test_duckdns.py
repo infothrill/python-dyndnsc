@@ -86,8 +86,6 @@ class TestDuckdnsBottleServer(unittest.TestCase):
             "url": self.url
         }
         updater = duckdns.UpdateProtocolDuckdns(**options)
-        self.assertEqual(str, type(updater.url()))
-        self.assertEqual(self.url, updater.url())
         # normal IP test:
         self.assertEqual(theip, updater.update(theip))
 

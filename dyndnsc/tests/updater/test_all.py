@@ -26,7 +26,6 @@ class TestUpdaterCommon(unittest.TestCase):
         self.assertTrue(hasattr(cls, "init_argnames"))
         self.assertEqual(type(cls.init_argnames()), type([]))
         self.assertTrue(hasattr(cls, "register_arguments"))
-        self.assertTrue(hasattr(cls, "url"))
         self.assertTrue(hasattr(cls, "help"))
         self.assertRaises(NotImplementedError, cls.configuration_key)
         self.assertEqual(type(cls.help()), type(""))

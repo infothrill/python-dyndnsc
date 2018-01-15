@@ -39,9 +39,9 @@ class UpdateProtocolDyndns2(UpdateProtocol):
     def update(self, ip):
         """Update the IP on the remote service."""
         timeout = 60
-        LOG.debug("Updating '%s' to '%s' at service '%s'", self.hostname, ip, self.url())
+        LOG.debug("Updating '%s' to '%s' at service '%s'", self.hostname, ip, self._updateurl)
         params = {"myip": ip, "hostname": self.hostname}
-        req = requests.get(self.update_url(), params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
+        req = requests.get(self._updateurl, params=params, headers=constants.REQUEST_HEADERS_DEFAULT,
                            auth=(self.userid, self.password), timeout=timeout)
         LOG.debug("status %i, %s", req.status_code, req.text)
         if req.status_code == 200:

@@ -11,7 +11,7 @@ Since dnsimple.com is a paid service, I have not had a chance to test this yet.
 
 import logging
 
-from dnsimple_dyndns import DNSimple  # pylint: disable=import-error
+from dnsimple_dyndns import DNSimple  # @UnresolvedImport pylint: disable=import-error
 
 from .base import UpdateProtocol
 
