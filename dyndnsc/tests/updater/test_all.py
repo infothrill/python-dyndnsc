@@ -29,6 +29,8 @@ class TestUpdaterCommon(unittest.TestCase):
         self.assertTrue(hasattr(cls, "help"))
         self.assertRaises(NotImplementedError, cls.configuration_key)
         self.assertEqual(type(cls.help()), type(""))
+        instance = cls()
+        self.assertRaises(NotImplementedError, instance.update, "foo")
 
         # For the purpose of this test, we fake an implementation of
         # configuration_key:
