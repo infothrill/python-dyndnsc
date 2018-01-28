@@ -56,7 +56,7 @@ INSTALL_REQUIRES = [
 ]
 
 TESTS_REQUIRE = [
-    "mock; python_version < '3.0'", # pep508 syntax may not work on older toolchains
+    "mock; python_version < '3.0'",  # pep508 syntax may not work on older toolchains
     "bottle==0.12.7",
     "pytest>=3.2.5"
 ]
@@ -66,8 +66,8 @@ EXTRAS_REQUIRE = {}
 # See https://hynek.me/articles/conditional-python-dependencies/
 # for a good explanation of this hackery.
 if int(setuptools_version.split(".", 1)[0]) < 18:
-    assert "bdist_wheel" not in sys.argv, "setuptools 18 required for wheels."
-    # For legacy setuptools + sdist.
+    # For legacy setuptools + sdist
+    assert "bdist_wheel" not in sys.argv, "setuptools 18 required for wheels."  # nosec
     if sys.version_info[0:2] < (3, 0):
         INSTALL_REQUIRES.append("IPy>=0.56")
         INSTALL_REQUIRES.append("argparse")
