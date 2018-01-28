@@ -62,11 +62,11 @@ Update protocols
 ----------------
 Dyndnsc supports several different methods for updating dynamic DNS services:
 
-* `dnsimple <http://developer.dnsimple.com/>`_
+* `dnsimple <https://developer.dnsimple.com/>`_
    Note: requires python package `dnsimple-dyndns <https://pypi.python.org/pypi/dnsimple-dyndns>`_ to be installed
 * `duckdns <https://www.duckdns.org/>`_
-* `dyndns2 <http://dyn.com/support/developers/api/>`_
-* `freedns.afraid.org <http://freedns.afraid.org/>`_
+* `dyndns2 <https://help.dyn.com/remote-access-api/>`_
+* `freedns.afraid.org <https://freedns.afraid.org/>`_
 
 A lot of services on the internet offer some form of compatibility, so check
 against this list. Some of these external services are pre-configured for
@@ -182,9 +182,9 @@ Plugins
 *Dyndnsc* supports plugins which can be notified when a dynamic DNS entry was
 changed. Currently, only two plugins exist:
 
-* Growl
-* OS X Notification
+* `dyndnsc-growl <https://pypi.python.org/pypi/dyndnsc-growl>`_
+* `dyndnsc-macosnotify <https://pypi.python.org/pypi/dyndnsc-macosnotify>`_
 
-The list of plugins that are deemed compatible and available in your
-environment will be listed in the command line help. Each plugin command line
-option starts with '--with-'.
+The list of plugins that are installed and available in your environment will
+be listed in the command line help. Each plugin command line option starts with
+'--with-'.

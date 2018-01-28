@@ -22,21 +22,12 @@ Or, if you prefer a more encapsulated way, use `pipsi <https://github.com/mitsuh
 Get the Code
 ------------
 
-Dyndnsc is actively developed on GitHub, where the code is
-`always available <https://github.com/infothrill/python-dyndnsc>`_.
+Dyndnsc is developed on GitHub, where the code is
+`available <https://github.com/infothrill/python-dyndnsc>`_.
 
-You can either clone the public repository::
+You can clone the public repository::
 
-    git clone git://github.com/infothrill/python-dyndnsc.git
-
-Download the `tarball <https://github.com/infothrill/python-dyndnsc/tarball/master>`_::
-
-    $ curl -OL https://github.com/infothrill/python-dyndnsc/tarball/master
-
-Or, download the `zipball <https://github.com/infothrill/python-dyndnsc/zipball/master>`_::
-
-    $ curl -OL https://github.com/infothrill/python-dyndnsc/zipball/master
-
+    git clone https://github.com/infothrill/python-dyndnsc.git
 
 Once you have a copy of the source, you can embed it in your Python package,
 or install it into your site-packages easily::

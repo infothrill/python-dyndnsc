@@ -125,8 +125,9 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
 
     Return parsable output containing the IP address.
 
-    Note: this detection mechanism requires ipv4 connectivity, otherwise it
-          will simply not detect the IP address.
+    .. note::
+        This detection mechanism requires ipv4 connectivity, otherwise it
+        will simply not detect the IP address.
     """
 
     # TODO: consider throwing out all URLs with no TLS support
