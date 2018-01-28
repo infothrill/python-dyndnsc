@@ -27,7 +27,7 @@ def load_class(module_name, class_name):
 def find_class(name, classes):
     """Return class in ``classes`` identified by configuration key ``name``."""
     name = name.lower()
-    cls = next((c for c in classes if c.configuration_key() == name), None)
+    cls = next((c for c in classes if c.configuration_key == name), None)
     if cls is None:
         raise ValueError("No class named '%s' could be found" % name)
     return cls

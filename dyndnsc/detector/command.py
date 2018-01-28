@@ -9,6 +9,8 @@ from ..common.six import PY3
 class IPDetector_Command(IPDetector):
     """IPDetector to detect IP address executing shell command/script."""
 
+    configuration_key = "command"
+
     def __init__(self, command="", *args, **kwargs):
         """
         Initializer.
@@ -18,11 +20,6 @@ class IPDetector_Command(IPDetector):
         super(IPDetector_Command, self).__init__(*args, **kwargs)
 
         self.opts_command = command
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("command",)
 
     def can_detect_offline(self):
         """Return false, as this detector possibly generates network traffic.

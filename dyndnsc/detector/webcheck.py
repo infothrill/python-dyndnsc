@@ -74,6 +74,7 @@ class IPDetectorWebCheckBase(IPDetector):
     """Base Class for misc. web service based IP detection classes."""
 
     urls = None  # override in child class
+    configuration_key = None
 
     def __init__(self, url=None, parser=None, *args, **kwargs):
         """
@@ -90,15 +91,6 @@ class IPDetectorWebCheckBase(IPDetector):
     def can_detect_offline(self):
         """Return false, as this detector generates http traffic."""
         return False
-
-    @staticmethod
-    def names():
-        """
-        Return a list of string names identifying this class/service.
-
-        Abstract method, must be implemented in subclass.
-        """
-        raise NotImplementedError("Please implement in subclass")
 
     def detect(self):
         """
@@ -130,6 +122,8 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
         will simply not detect the IP address.
     """
 
+    configuration_key = "webcheck"
+
     # TODO: consider throwing out all URLs with no TLS support
     urls = (
         ("http://checkip.eurodyndns.org/", "checkip"),
@@ -153,11 +147,6 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
 
         self.opts_family = AF_INET
 
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("webcheck", "webcheck4")
-
 
 class IPDetectorWebCheck6(IPDetectorWebCheckBase):
     """
@@ -168,6 +157,8 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
     Note: this detection mechanism requires ipv6 connectivity, otherwise it
           will simply not detect the IP address.
     """
+
+    configuration_key = "webcheck6"
 
     urls = (
         ("https://ipv6.icanhazip.com/", "plain"),
@@ -180,11 +171,6 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
         super(IPDetectorWebCheck6, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_INET6
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("webcheck6", )
 
 
 class IPDetectorWebCheck46(IPDetectorWebCheckBase):
@@ -211,6 +197,8 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
         with its own SOA record and a low TTL.
     """
 
+    configuration_key = "webcheck46"
+
     urls = (
         ("https://icanhazip.com/", "plain"),
         ("https://www.nsupdate.info/myip", "plain"),
@@ -222,8 +210,3 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
         super(IPDetectorWebCheck46, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_UNSPEC
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("webcheck46", "webcheck64")

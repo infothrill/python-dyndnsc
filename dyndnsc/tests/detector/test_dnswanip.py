@@ -25,7 +25,7 @@ class TestIndividualDetectors(unittest.TestCase):
 
     def test_dnswanip_detector_class(self):
         """Run basic tests for IPDetector_DnsWanIp."""
-        self.assertTrue("dnswanip" in IPDetector_DnsWanIp.names())
+        self.assertEqual("dnswanip", IPDetector_DnsWanIp.configuration_key)
         detector = IPDetector_DnsWanIp()
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(None, detector.get_current_value())

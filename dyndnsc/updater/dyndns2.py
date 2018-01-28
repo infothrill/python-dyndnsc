@@ -15,6 +15,8 @@ LOG = getLogger(__name__)
 class UpdateProtocolDyndns2(UpdateProtocol):
     """Updater for services compatible with the dyndns2 protocol."""
 
+    configuration_key = "dyndns2"
+
     def __init__(self, hostname, userid, password, url, *args, **kwargs):
         """
         Initialize.
@@ -30,11 +32,6 @@ class UpdateProtocolDyndns2(UpdateProtocol):
         self._updateurl = url
 
         super(UpdateProtocolDyndns2, self).__init__()
-
-    @staticmethod
-    def configuration_key():
-        """Return 'dyndns2', identifying the protocol."""
-        return "dyndns2"
 
     def update(self, ip):
         """Update the IP on the remote service."""

@@ -77,7 +77,7 @@ class TestDuckdnsBottleServer(unittest.TestCase):
         from dyndnsc.updater import duckdns
         NAME = "duckdns"
         self.assertEqual(
-            NAME, duckdns.UpdateProtocolDuckdns.configuration_key())
+            NAME, duckdns.UpdateProtocolDuckdns.configuration_key)
 
         theip = "127.0.0.1"
         options = {

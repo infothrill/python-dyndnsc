@@ -26,7 +26,7 @@ class TestDnsimpleUpdater(unittest.TestCase):
         """Run tests."""
         from dyndnsc.updater.dnsimple import UpdateProtocolDnsimple
         theip = "127.0.0.1"
-        self.assertEqual("dnsimple", UpdateProtocolDnsimple.configuration_key())
+        self.assertEqual("dnsimple", UpdateProtocolDnsimple.configuration_key)
         upd = UpdateProtocolDnsimple(hostname="dnsimple_record.example.com", key="1234")
         upd.handler.update_record.return_value = theip
         self.assertEqual(theip, upd.update(theip))

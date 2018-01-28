@@ -33,7 +33,7 @@ class IfaceDetectorTest(unittest.TestCase):
     def test_iface_detector(self):
         """Run iface tests."""
         from dyndnsc.detector import iface
-        self.assertTrue("iface" in iface.IPDetector_Iface.names())
+        self.assertEqual("iface", iface.IPDetector_Iface.configuration_key)
         # auto-detect an interface:
         interface = give_me_an_interface_ipv4()
         self.assertNotEqual(None, interface)
@@ -51,7 +51,7 @@ class IfaceDetectorTest(unittest.TestCase):
     def test_teredo_detector(self):
         """Run teredo tests."""
         from dyndnsc.detector import teredo
-        self.assertTrue("teredo" in teredo.IPDetector_Teredo.names())
+        self.assertEqual("teredo", teredo.IPDetector_Teredo.configuration_key)
         # auto-detect an interface:
         interface = give_me_an_interface_ipv6()
         if interface is not None:  # we have ip6 support

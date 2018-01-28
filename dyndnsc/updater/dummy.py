@@ -10,6 +10,7 @@ class UpdateProtocolDummy(UpdateProtocol):
 
     _updateurl = "http://localhost.nonexistant/nic/update"
     _dont_register_arguments = True
+    configuration_key = "dummy"
 
     def __init__(self, hostname, **kwargs):
         """
@@ -19,11 +20,6 @@ class UpdateProtocolDummy(UpdateProtocol):
         """
         self.hostname = hostname
         super(UpdateProtocolDummy, self).__init__()
-
-    @staticmethod
-    def configuration_key():
-        """Return 'dummy', identifying the protocol."""
-        return "dummy"
 
     def update(self, ip):
         """Pretend to update the IP on the remote service."""

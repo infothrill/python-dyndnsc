@@ -30,6 +30,8 @@ class IPDetector_Iface(IPDetector):
     This is roughly equivalent to using `ifconfig` or `ipconfig`.
     """
 
+    configuration_key = "iface"
+
     def __init__(self, iface=None, netmask=None, family=None, *args, **kwargs):
         """
         Initializer.
@@ -56,11 +58,6 @@ class IPDetector_Iface(IPDetector):
             self.netmask = ipnetwork(self.opts_netmask)
         else:
             self.netmask = None
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("iface",)
 
     def can_detect_offline(self):
         """Return true, as this detector only queries local data."""

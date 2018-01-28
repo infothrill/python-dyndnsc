@@ -15,6 +15,7 @@ class UpdateProtocol(Subject, DynamicCliMixin):
 
     theip = None
     __hostname = None  # private place to store the property 'hostname'
+    configuration_key = None
 
     @property
     def hostname(self):
@@ -33,15 +34,6 @@ class UpdateProtocol(Subject, DynamicCliMixin):
         May be implemented or overwritten in updater subclasses.
         """
         self.__hostname = value
-
-    @staticmethod
-    def configuration_key():
-        """
-        Return a human readable string identifying the protocol.
-
-        Must be implemented by all updater subclasses.
-        """
-        raise NotImplementedError("Please implement in subclass")
 
     @staticmethod
     def configuration_key_prefix():

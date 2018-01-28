@@ -77,26 +77,13 @@ class IPDetector(Subject, DynamicCliMixin):
         self._oldvalue = self.get_current_value()
         self._currentvalue = value
         if self._oldvalue != value:
+            # self.notify_observers("new_ip_detected", {"ip": value})
             LOG.debug("%s.set_current_value(%s)", self.__class__.__name__, value)
         return value
 
     def has_changed(self):
         """Detect difference between old and current value."""
         return self.get_old_value() != self.get_current_value()
-
-    @staticmethod
-    def names():
-        """
-        Return a list of string names identifying this class/service.
-
-        Abstract method, must be implemented in subclass.
-        """
-        raise NotImplementedError("Please implement in subclass")
-
-    @classmethod
-    def configuration_key(cls):
-        """Return configuration key, identifying the class/service with a unique string."""
-        return cls.names()[-1]
 
     @staticmethod
     def configuration_key_prefix():

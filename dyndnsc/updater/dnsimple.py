@@ -21,6 +21,8 @@ LOG = logging.getLogger(__name__)
 class UpdateProtocolDnsimple(UpdateProtocol):
     """Protocol handler for https://dnsimple.com/ ."""
 
+    configuration_key = "dnsimple"
+
     def __init__(self, hostname, key, url=None, **kwargs):
         """Initialize."""
         self._recordname, _, self._domain = hostname.partition(".")
@@ -33,11 +35,6 @@ class UpdateProtocolDnsimple(UpdateProtocol):
             self.handler._baseurl = url % self._domain
 
         super(UpdateProtocolDnsimple, self).__init__()
-
-    @staticmethod
-    def configuration_key():
-        """Return 'dnsimple', identifying the protocol."""
-        return "dnsimple"
 
     def update(self, ip):
         """Update the IP on the remote service."""

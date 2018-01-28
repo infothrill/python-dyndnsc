@@ -52,7 +52,9 @@ def find_ip(family=AF_INET, flavour="opendns"):
 
 
 class IPDetector_DnsWanIp(IPDetector):
-    """Class to discover the internet visible IP address using publicly available DNS infrastructure."""
+    """Detect the internet visible IP address using publicly available DNS infrastructure."""
+
+    configuration_key = "dnswanip"
 
     def __init__(self, family=None, *args, **kwargs):
         """
@@ -63,11 +65,6 @@ class IPDetector_DnsWanIp(IPDetector):
         if family is None:
             family = AF_INET
         super(IPDetector_DnsWanIp, self).__init__(*args, family=family, **kwargs)
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("dnswanip",)
 
     def can_detect_offline(self):
         """Return false, as this detector generates dns traffic.

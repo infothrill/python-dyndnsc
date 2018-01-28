@@ -82,17 +82,14 @@ class RandomIPGenerator(object):
 class IPDetector_Random(IPDetector):
     """Detect randomly generated IP addresses."""
 
+    configuration_key = "random"
+
     def __init__(self, *args, **kwargs):
         """Initialize."""
         super(IPDetector_Random, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_INET
         self.rips = RandomIPGenerator()
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("random",)
 
     def can_detect_offline(self):
         """

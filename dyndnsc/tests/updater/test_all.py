@@ -27,16 +27,13 @@ class TestUpdaterCommon(unittest.TestCase):
         self.assertEqual(type(cls.init_argnames()), type([]))
         self.assertTrue(hasattr(cls, "register_arguments"))
         self.assertTrue(hasattr(cls, "help"))
-        self.assertRaises(NotImplementedError, cls.configuration_key)
         self.assertEqual(type(cls.help()), type(""))
         instance = cls()
         self.assertRaises(NotImplementedError, instance.update, "foo")
 
         # For the purpose of this test, we fake an implementation of
         # configuration_key:
-        def config_key():
-            return "none"
-        cls.configuration_key = staticmethod(config_key)
+        cls._configuration_key = "none"
 
         # ensure the argparser method 'add_argument' is called:
         argparser = mock.Mock()
@@ -50,11 +47,11 @@ class TestUpdaterCommon(unittest.TestCase):
         from dyndnsc.updater.manager import updater_classes, get_updater_class
         for cls in updater_classes():
             self.assertTrue(hasattr(cls, "configuration_key"))
-            self.assertEqual(cls, get_updater_class(cls.configuration_key()))
+            self.assertEqual(cls, get_updater_class(cls.configuration_key))
             self.assertTrue(hasattr(cls, "update"))
             self.assertTrue(hasattr(cls, "register_arguments"))
             self.assertTrue(hasattr(cls, "help"))
-            self.assertEqual(str, type(cls.configuration_key()))
+            self.assertEqual(str, type(cls.configuration_key))
             self.assertTrue(str, type(cls.help()))
         self.assertTrue(len(updater_classes()) > 0)
         self.assertRaises(ValueError, get_updater_class, "nonexistent")

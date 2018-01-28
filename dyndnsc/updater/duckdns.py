@@ -27,6 +27,8 @@ LOG = getLogger(__name__)
 class UpdateProtocolDuckdns(UpdateProtocol):
     """Updater for services compatible with the duckdns protocol."""
 
+    configuration_key = "duckdns"
+
     def __init__(self, hostname, token, url, *args, **kwargs):
         """
         Initialize.
@@ -40,11 +42,6 @@ class UpdateProtocolDuckdns(UpdateProtocol):
         self._updateurl = url
 
         super(UpdateProtocolDuckdns, self).__init__()
-
-    @staticmethod
-    def configuration_key():
-        """Return 'duckdns', identifying the protocol."""
-        return "duckdns"
 
     def update(self, ip):
         """Update the IP on the remote service."""

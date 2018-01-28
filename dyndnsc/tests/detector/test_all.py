@@ -28,7 +28,7 @@ class TestPluginDetectors(unittest.TestCase):
         import dyndnsc.detector.manager
         self.assertTrue(len(dyndnsc.detector.manager.detector_classes()) > 0)
         for cls in dyndnsc.detector.manager.detector_classes():
-            self.assertTrue(hasattr(cls, "names"))
+            self.assertTrue(hasattr(cls, "configuration_key"))
             self.assertTrue(hasattr(cls, "af"))
         self.assertRaises(ValueError, dyndnsc.detector.manager.get_detector_class, "nonexistent")
 
@@ -74,7 +74,7 @@ class TestIndividualDetectors(unittest.TestCase):
     def test_dns_detector(self):
         """Run tests for IPDetector_DNS."""
         import dyndnsc.detector.dns as ns
-        self.assertTrue("dns" in ns.IPDetector_DNS.names())
+        self.assertEqual("dns", ns.IPDetector_DNS.configuration_key)
         detector = ns.IPDetector_DNS(hostname="localhost")
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(AF_UNSPEC, detector.af())
@@ -97,7 +97,7 @@ class TestIndividualDetectors(unittest.TestCase):
         """Run tests for IPDetector_Command."""
         import dyndnsc.detector.command
         cmd = "echo 127.0.0.1"
-        self.assertTrue("command" in dyndnsc.detector.command.IPDetector_Command.names())
+        self.assertEqual("command", dyndnsc.detector.command.IPDetector_Command.configuration_key)
         detector = dyndnsc.detector.command.IPDetector_Command(command=cmd)
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(AF_UNSPEC, detector.af())
@@ -131,7 +131,7 @@ class TestIndividualDetectors(unittest.TestCase):
     def test_rand_detector(self):
         """Run tests for IPDetector_Random."""
         import dyndnsc.detector.rand
-        self.assertTrue("random" in dyndnsc.detector.rand.IPDetector_Random.names())
+        self.assertEqual("random", dyndnsc.detector.rand.IPDetector_Random.configuration_key)
         detector = dyndnsc.detector.rand.IPDetector_Random()
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(AF_INET, detector.af())
@@ -141,7 +141,7 @@ class TestIndividualDetectors(unittest.TestCase):
     def test_socket_detector(self):
         """Run tests for IPDetector_Socket."""
         from dyndnsc.detector import socket_ip
-        self.assertTrue("socket" in socket_ip.IPDetector_Socket.names())
+        self.assertEqual("socket", socket_ip.IPDetector_Socket.configuration_key)
         detector = socket_ip.IPDetector_Socket(family="INET")
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(AF_INET, detector.af())
@@ -181,7 +181,7 @@ Your IP address is : 127.0.0.1</body>
     def test_webcheck(self):
         """Run tests for IPDetectorWebCheck."""
         from dyndnsc.detector import webcheck
-        self.assertTrue("webcheck" in webcheck.IPDetectorWebCheck.names())
+        self.assertEqual("webcheck", webcheck.IPDetectorWebCheck.configuration_key)
         detector = webcheck.IPDetectorWebCheck()
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(AF_INET, detector.af())
@@ -192,7 +192,7 @@ Your IP address is : 127.0.0.1</body>
     def test_webcheck6(self):
         """Run tests for IPDetectorWebCheck6."""
         from dyndnsc.detector import webcheck
-        self.assertTrue("webcheck6" in webcheck.IPDetectorWebCheck6.names())
+        self.assertEqual("webcheck6", webcheck.IPDetectorWebCheck6.configuration_key)
         detector = webcheck.IPDetectorWebCheck6()
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(AF_INET6, detector.af())
@@ -202,7 +202,7 @@ Your IP address is : 127.0.0.1</body>
     def test_webcheck46(self):
         """Run tests for IPDetectorWebCheck46."""
         from dyndnsc.detector import webcheck
-        self.assertTrue("webcheck46" in webcheck.IPDetectorWebCheck46.names())
+        self.assertEqual("webcheck46", webcheck.IPDetectorWebCheck46.configuration_key)
         detector = webcheck.IPDetectorWebCheck46()
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(AF_UNSPEC, detector.af())
@@ -212,7 +212,7 @@ Your IP address is : 127.0.0.1</body>
     def test_null(self):
         """Run tests for IPDetector_Null."""
         from dyndnsc.detector import null
-        self.assertTrue("null" in null.IPDetector_Null.names())
+        self.assertEqual("null", null.IPDetector_Null.configuration_key)
         detector = null.IPDetector_Null()
         self.assertTrue(detector.can_detect_offline())
         self.assertEqual(AF_UNSPEC, detector.af())

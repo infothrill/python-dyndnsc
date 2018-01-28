@@ -21,6 +21,8 @@ class IPDetector_Teredo(IPDetector_Iface):
     Inherits IPDetector_Iface and sets default options only.
     """
 
+    configuration_key = "teredo"
+
     def __init__(self, iface="tun0", netmask="2001:0000::/32", *args, **kwargs):
         """Initializer."""
         super(IPDetector_Teredo, self).__init__(*args, **kwargs)
@@ -28,8 +30,3 @@ class IPDetector_Teredo(IPDetector_Iface):
         self.opts_iface = iface
         self.opts_netmask = netmask
         self.opts_family = AF_INET6
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("teredo",)

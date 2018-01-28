@@ -76,8 +76,10 @@ class TestDyndns2BottleServer(unittest.TestCase):
             "userid": "dummy", "password": "1234",
             "url": self.url
         }
+        self.assertTrue(
+            NAME == dyndns2.UpdateProtocolDyndns2.configuration_key)
         self.assertEqual(
-            NAME, dyndns2.UpdateProtocolDyndns2.configuration_key())
+            NAME, dyndns2.UpdateProtocolDyndns2.configuration_key)
         updater = dyndns2.UpdateProtocolDyndns2(**options)
         res = updater.update(theip)
         self.assertEqual(theip, res)

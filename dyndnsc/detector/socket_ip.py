@@ -13,6 +13,8 @@ LOG = logging.getLogger(__name__)
 class IPDetector_Socket(IPDetector):
     """Detect IPs used by the system to communicate with outside world."""
 
+    configuration_key = "socket"
+
     def __init__(self, family=None, *args, **kwargs):
         """
         Initializer.
@@ -20,11 +22,6 @@ class IPDetector_Socket(IPDetector):
         :param family: IP address family (default: INET, possible: INET6)
         """
         super(IPDetector_Socket, self).__init__(*args, family=family, **kwargs)
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("socket",)
 
     def can_detect_offline(self):
         """Return False, this detector works offline."""

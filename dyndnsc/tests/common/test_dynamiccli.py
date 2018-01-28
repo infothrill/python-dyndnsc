@@ -10,13 +10,10 @@ from dyndnsc.common.dynamiccli import parse_cmdline_args, DynamicCliMixin
 class Dummy(DynamicCliMixin):
     """A dummy class used to verify parse_cmdline_args() behaviour."""
 
+    configuration_key = "dummy"
+
     def __init__(self, userid, password):
         """Initialize. Do nothing."""
-
-    @staticmethod
-    def configuration_key():
-        """Return 'dummy', identifying the protocol."""
-        return "dummy"
 
     @staticmethod
     def configuration_key_prefix():

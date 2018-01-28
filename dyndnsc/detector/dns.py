@@ -43,6 +43,8 @@ def resolve(hostname, family=AF_UNSPEC):
 class IPDetector_DNS(IPDetector):
     """Class to resolve a hostname using socket.getaddrinfo()."""
 
+    configuration_key = "dns"
+
     def __init__(self, hostname=None, family=None, *args, **kwargs):
         """
         Initializer.
@@ -57,11 +59,6 @@ class IPDetector_DNS(IPDetector):
         if self.opts_hostname is None:
             raise ValueError(
                 "IPDetector_DNS(): a hostname to be queried in DNS must be specified!")
-
-    @staticmethod
-    def names():
-        """Return a list of string names identifying this class/service."""
-        return ("dns",)
 
     def can_detect_offline(self):
         """Return false, as this detector generates dns traffic.

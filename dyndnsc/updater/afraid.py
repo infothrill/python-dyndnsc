@@ -115,6 +115,8 @@ def update(url):
 class UpdateProtocolAfraid(UpdateProtocol):
     """Protocol handler for http://freedns.afraid.org ."""
 
+    configuration_key = "afraid"
+
     def __init__(self, hostname, userid, password, url="https://freedns.afraid.org/api/", **kwargs):
         """
         Initialize.
@@ -129,11 +131,6 @@ class UpdateProtocolAfraid(UpdateProtocol):
         self._url = url
 
         super(UpdateProtocolAfraid, self).__init__()
-
-    @staticmethod
-    def configuration_key():
-        """Return 'afraid', identifying the protocol."""
-        return "afraid"
 
     def update(self, *args, **kwargs):
         """Update the IP on the remote service."""
