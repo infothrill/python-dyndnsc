@@ -57,7 +57,7 @@ INSTALL_REQUIRES = [
 
 TESTS_REQUIRE = [
     "mock; python_version < '3.0'",  # pep508 syntax may not work on older toolchains
-    "bottle==0.12.7",
+    "bottle==0.12.13",
     "pytest>=3.2.5"
 ]
 
