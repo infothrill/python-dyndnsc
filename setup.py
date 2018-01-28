@@ -7,6 +7,7 @@ import os
 import re
 import sys
 from setuptools import setup
+from setuptools import __version__ as setuptools_version
 
 BASEDIR = os.path.dirname(__file__)
 
@@ -46,30 +47,45 @@ CLASSIFIERS = (
     "Programming Language :: Python :: 3.6"
 )
 
+INSTALL_REQUIRES = [
+    "daemonocle>=1.0.1",
+    "dnspython>=1.15.0",
+    "netifaces>=0.10.5",
+    "requests>=2.0.1",
+    "setuptools",
+]
 
-def patch_test_requires(requires):
-    """Ensure python version compatibility."""
-    to_add = []
-    if sys.version_info < (3, 0):
-        to_add.append("mock")  # needed for py27
-    return requires + to_add
+TESTS_REQUIRE = [
+    "mock; python_version < '3.0'", # pep508 syntax may not work on older toolchains
+    "bottle==0.12.7",
+    "pytest>=3.2.5"
+]
 
+EXTRAS_REQUIRE = {}
 
-def patch_install_requires(requires):
-    """Ensure python version compatibility."""
-    to_add = []
-    if sys.version_info < (3, 0):
-        to_add.append("IPy>=0.56")
-        to_add.append("argparse")
+# See https://hynek.me/articles/conditional-python-dependencies/
+# for a good explanation of this hackery.
+if int(setuptools_version.split(".", 1)[0]) < 18:
+    assert "bdist_wheel" not in sys.argv, "setuptools 18 required for wheels."
+    # For legacy setuptools + sdist.
+    if sys.version_info[0:2] < (3, 0):
+        INSTALL_REQUIRES.append("IPy>=0.56")
+        INSTALL_REQUIRES.append("argparse")
+        INSTALL_REQUIRES.append("pyOpenSSL")
+        INSTALL_REQUIRES.append("ndg-httpsclient")
+        INSTALL_REQUIRES.append("pyasn1")
+else:
+    EXTRAS_REQUIRE[":python_version<'3.0'"] = [
+        "IPy>=0.56",
+        "argparse",
         # This is equivalent to requests[security] which exists since
         # requests 2.4.1 It is required in older Pythons that do not
         # understand SNI certificates. When these libraries are available
         # they are being used and incidentally also support SNI
-        to_add.append("pyOpenSSL")
-        to_add.append("ndg-httpsclient")
-        to_add.append("pyasn1")
-    return requires + to_add
-
+        "pyOpenSSL",
+        "ndg-httpsclient",
+        "pyasn1",
+    ]
 
 setup(
     name="dyndnsc",
@@ -94,13 +110,8 @@ setup(
     # https://packaging.python.org/tutorials/distributing-packages/#python-requires
     python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
     setup_requires=["pytest-runner"],
-    install_requires=patch_install_requires([
-        "daemonocle>=1.0.1",
-        "dnspython>=1.15.0",
-        "netifaces>=0.10.5",
-        "requests>=2.0.1",
-        "setuptools",
-    ]),
+    install_requires=INSTALL_REQUIRES,
+    extras_require=EXTRAS_REQUIRE,
     entry_points={
         "console_scripts": [
             "dyndnsc=dyndnsc.cli:main",
@@ -108,10 +119,7 @@ setup(
     },
     classifiers=CLASSIFIERS,
     test_suite="dyndnsc.tests",
-    tests_require=patch_test_requires([
-        "bottle==0.12.7",
-        "pytest>=3.2.5"
-    ]),
+    tests_require=TESTS_REQUIRE,
     package_data={"dyndnsc/resources": ["dyndnsc/resources/*.ini"]},
     include_package_data=True,
     zip_safe=False
