@@ -1,0 +1,2 @@
+#!/bin/bash
+DIR=$(pwd) make -C .. post_checkout build post_push

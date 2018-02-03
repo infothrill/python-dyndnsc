@@ -12,12 +12,29 @@ Pip / pipsi
 
 Installing Dyndnsc is simple with `pip <http://www.pip-installer.org/>`_::
 
-    $ pip install dyndnsc
+    pip install dyndnsc
 
 Or, if you prefer a more encapsulated way, use `pipsi <https://github.com/mitsuhiko/pipsi/>`_::
 
-    $ pipsi install dyndnsc
+    pipsi install dyndnsc
 
+
+Docker
+------
+
+`Docker <https://www.docker.com>`_ images are provided for the following architectures.
+
+x86::
+
+    docker pull infothrill/dyndnsc-x86-alpine
+
+See also https://hub.docker.com/r/infothrill/dyndnsc-x86-alpine/
+
+armhf::
+
+    docker pull infothrill/dyndnsc-armhf-alpine
+
+See also https://hub.docker.com/r/infothrill/dyndnsc-armhf-alpine/
 
 Get the Code
 ------------
@@ -32,4 +49,4 @@ You can clone the public repository::
 Once you have a copy of the source, you can embed it in your Python package,
 or install it into your site-packages easily::
 
-    $ python setup.py install
+    python setup.py install
