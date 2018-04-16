@@ -5,7 +5,11 @@
 if ! test -d src;
 then
     #cd ../../ && python3 setup.py -q sdist 1>&2 && cd -
-    hash tox 2>&- || pip3 install tox 1>&2
+    cat /etc/*release 1>&2 || true  # display distribution name
+    if ! hash tox 2>&-;
+    then
+        pip install tox 1>&2
+    fi
     tox -e build 1>&2
 	mkdir src
 	ls ../../dist/dyndnsc-*.tar.gz | xargs -n1 tar -C src --strip-components 1 -xzf
