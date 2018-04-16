@@ -122,11 +122,11 @@ class TestIndividualDetectors(unittest.TestCase):
         self.assertFalse(generator.is_reserved_ip("83.169.1.157"))
         self.assertFalse(generator.is_reserved_ip(generator.random_public_ip()))
         # for the sake of randomness, detect a bunch of IPs:
-        count = 0
+        _count = 0
         generator = dyndnsc.detector.rand.RandomIPGenerator(100)
-        for count, theip in enumerate(generator):
+        for _count, theip in enumerate(generator):
             self.assertFalse(generator.is_reserved_ip(theip))
-        self.assertEqual(count, 99)
+        self.assertEqual(_count, 99)
 
     def test_rand_detector(self):
         """Run tests for IPDetector_Random."""
