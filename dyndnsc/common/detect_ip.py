@@ -98,7 +98,7 @@ def detect_ip(kind):
 
 
 if __name__ == "__main__":
-    print("IP v4:", detect_ip(IPV4))
-    print("IP v6 public:", detect_ip(IPV6_PUBLIC))
-    print("IP v6 tmp:", detect_ip(IPV6_TMP))
-    print("IP v6 any:", detect_ip(IPV6_ANY))
+    print("IP v4:", detect_ip(IPV4))  # noqa
+    print("IP v6 public:", detect_ip(IPV6_PUBLIC))  # noqa
+    print("IP v6 tmp:", detect_ip(IPV6_TMP))  # noqa
+    print("IP v6 any:", detect_ip(IPV6_ANY))  # noqa
