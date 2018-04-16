@@ -11,6 +11,6 @@ def detector_classes():
     return PLUGINS
 
 
-def get_detector_class(name="webcheck"):
+def get_detector_class(name="webcheck4"):
     """Return detector class identified by configuration key ``name``."""
     return find_class(name, detector_classes())

@@ -122,7 +122,7 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
         will simply not detect the IP address.
     """
 
-    configuration_key = "webcheck"
+    configuration_key = "webcheck4"
 
     # TODO: consider throwing out all URLs with no TLS support
     urls = (
@@ -187,7 +187,7 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
 
         Alternating a DNS hostname between A and AAAA records is less efficient
         than staying within the same RR-Type. This is due to the fact that most
-        libc-implementations do both lookups when gettaddrinf() is called and
+        libc-implementations do both lookups when getaddrinf() is called and
         therefore negative caching occurs (e.g. caching that a record does not
         exist).
 

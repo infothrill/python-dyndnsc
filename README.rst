@@ -41,13 +41,16 @@ Installation
 .. code-block:: bash
 
     # from pypi:
-    $ pip install dyndnsc
+    pip install dyndnsc
+
+    # using docker:
+    docker pull infothrill/dyndnsc-x86-alpine
 
     # from downloaded source:
-    $ python setup.py install
+    python setup.py install
 
     # directly from github:
-    $ pip install https://github.com/infothrill/python-dyndnsc/zipball/develop
+    pip install https://github.com/infothrill/python-dyndnsc/zipball/develop
 
 
 Requirements
