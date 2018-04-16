@@ -12,7 +12,7 @@ then
         if ! [ "$(id -u)" = 0 ]; then
             echo "I am not root!" 1>&2
         else
-            apt-get install python-tox 1>&2
+            apt-get update 1>&2 && apt-get install -y python-tox 1>&2
         fi
         pip install tox 1>&2
     fi
