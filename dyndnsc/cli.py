@@ -132,7 +132,7 @@ def main():
 
     if args.version:
         from . import __version__
-        print("dyndnsc %s" % __version__)
+        print("dyndnsc %s" % __version__)  # noqa
         return 0
 
     # silence 'requests' logging
