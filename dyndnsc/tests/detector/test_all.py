@@ -181,7 +181,7 @@ Your IP address is : 127.0.0.1</body>
     def test_webcheck(self):
         """Run tests for IPDetectorWebCheck."""
         from dyndnsc.detector import webcheck
-        self.assertEqual("webcheck", webcheck.IPDetectorWebCheck.configuration_key)
+        self.assertEqual("webcheck4", webcheck.IPDetectorWebCheck.configuration_key)
         detector = webcheck.IPDetectorWebCheck()
         self.assertFalse(detector.can_detect_offline())
         self.assertEqual(AF_INET, detector.af())
