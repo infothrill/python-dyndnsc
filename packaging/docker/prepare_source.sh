@@ -4,7 +4,7 @@
 # this script outputs the current version so we can tag the create image with it.
 if ! test -d src;
 then
-	hash tox 2>&- || pip install -U pyasn1 tox 1>&2
+	hash tox 2>&- || pip install -r <(pip freeze) --upgrade && pip install tox 1>&2
 	tox -e build 1>&2
 	mkdir src
 	ls ../../dist/dyndnsc-*.tar.gz | xargs -n1 tar -C src --strip-components 1 -xzf
