@@ -1,7 +1,8 @@
 #!/bin/bash -xe
 # this allows us to copy the source into the docker image without
 # bothering to install git or other more complicated logic inside it. Also,
-# this script outputs the current version so we can tag the create image with it.
+# this script outputs the current version so we can tag the created image
+# with it.
 if ! test -d src;
 then
     cat /etc/*release 1>&2 || true  # display distribution name
@@ -9,11 +10,15 @@ then
     id 1>&2 # display current user
     if ! hash tox 2>&-;
     then
-        if ! [ "$(id -u)" = 0 ]; then
-            echo "I am not root!" 1>&2
-        else
-            apt-get update 1>&2 && apt-get install -y python-tox 1>&2
+        if ! hash virtualenv 2>&-;
+        then
+            if [ "$(id -u)" = 0 ]; then
+                apt-get update 1>&2 && apt-get install -y python-virtualenv 1>&2
+            fi
+            # else: no idea
         fi
+        virtualenv .venv 1>&2
+        source .venv/bin/activate
         pip install tox 1>&2
     fi
     tox -e build 1>&2
