@@ -1,6 +1,6 @@
 repos:
 - repo: git@github.com:pre-commit/pre-commit-hooks
-  sha: v1.2.0
+  sha: v1.2.3
   hooks:
     - id: check-case-conflict
     - id: fix-encoding-pragma
