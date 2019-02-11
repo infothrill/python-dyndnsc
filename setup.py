@@ -67,7 +67,7 @@ EXTRAS_REQUIRE = {}
 # for a good explanation of this hackery.
 if int(setuptools_version.split(".", 1)[0]) < 18:
     # For legacy setuptools + sdist
-    assert "bdist_wheel" not in sys.argv, "setuptools 18 required for wheels."  # nosec
+    assert "bdist_wheel" not in sys.argv, "setuptools 18 required for wheels."  # noqa: S101
     if sys.version_info[0:2] < (3, 0):
         INSTALL_REQUIRES.append("IPy>=0.56")
         INSTALL_REQUIRES.append("argparse")

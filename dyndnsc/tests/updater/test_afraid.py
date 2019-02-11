@@ -64,7 +64,7 @@ class TestAfraidBottleServer(unittest.TestCase):
 
     def setUp(self):
         """Start local test server."""
-        portnumber = randint(8000, 8900)  # nosec
+        portnumber = randint(8000, 8900)  # noqa: S311
         self.server = AfraidApp("127.0.0.1", portnumber)
         self.url = "http://127.0.0.1:%i/api/" % portnumber
         self.server.start()

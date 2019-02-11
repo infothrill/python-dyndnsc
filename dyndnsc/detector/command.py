@@ -35,11 +35,11 @@ class IPDetector_Command(IPDetector):
     def detect(self):
         """Detect and return the IP address."""
         if PY3:  # py23
-            import subprocess  # nosec @UnresolvedImport pylint: disable=import-error
+            import subprocess  # noqa: S404 @UnresolvedImport pylint: disable=import-error
         else:
             import commands as subprocess  # @UnresolvedImport pylint: disable=import-error
         try:
-            theip = subprocess.getoutput(self.opts_command)  # nosec
+            theip = subprocess.getoutput(self.opts_command)  # noqa: S605
         except Exception:
             theip = None
         self.set_current_value(theip)

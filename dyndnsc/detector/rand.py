@@ -18,7 +18,7 @@ def random_ip():
     """
     return ipaddress(
         "%i.%i.%i.%i" % (
-            randint(1, 254), randint(1, 254), randint(1, 254), randint(1, 254)  # nosec
+            randint(1, 254), randint(1, 254), randint(1, 254), randint(1, 254)  # noqa: S311
         )
     )
 

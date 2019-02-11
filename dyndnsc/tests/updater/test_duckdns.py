@@ -60,7 +60,7 @@ class TestDuckdnsBottleServer(unittest.TestCase):
 
     def setUp(self):
         """Start local server."""
-        portnumber = randint(8000, 8900)  # nosec
+        portnumber = randint(8000, 8900)  # noqa: S311
         self.server = DuckdnsApp("127.0.0.1", portnumber)
         self.url = "http://127.0.0.1:%i/update" % portnumber
         self.server.start()

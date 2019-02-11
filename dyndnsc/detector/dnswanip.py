@@ -31,14 +31,14 @@ def find_ip(family=AF_INET, flavour="opendns"):
                 "@": ("resolver1.opendns.com", "resolver2.opendns.com"),
                 "qname": "myip.opendns.com",
                 "rdtype": "A",
-                },
+            },
             AF_INET6: {
                 "@": ("resolver1.ipv6-sandbox.opendns.com", "resolver2.ipv6-sandbox.opendns.com"),
                 "qname": "myip.opendns.com",
                 "rdtype": "AAAA",
-                },
             },
-        }
+        },
+    }
 
     flavour = flavours["opendns"]
     resolver = dns.resolver.Resolver()

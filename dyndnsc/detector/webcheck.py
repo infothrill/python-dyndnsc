@@ -102,7 +102,7 @@ class IPDetectorWebCheckBase(IPDetector):
             url = self.opts_url
             parser = self.opts_parser
         else:
-            url, parser = choice(self.urls)  # nosec
+            url, parser = choice(self.urls)  # noqa: S311
         parser = globals().get("_parser_" + parser)
         theip = _get_ip_from_url(url, parser)
         if theip is None:

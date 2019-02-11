@@ -54,7 +54,7 @@ class TestDyndns2BottleServer(unittest.TestCase):
 
     def setUp(self):
         """Start local server."""
-        portnumber = randint(8000, 8900)  # nosec
+        portnumber = randint(8000, 8900)  # noqa: S311
         self.server = Dyndns2App("127.0.0.1", portnumber)
         self.url = "http://127.0.0.1:%i/nic/update" % portnumber
         self.server.start()

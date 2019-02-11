@@ -69,9 +69,9 @@ def compute_auth_key(userid, password):
     """
     import sys
     if sys.version_info >= (3, 0):
-        return hashlib.sha1(b"|".join((userid.encode("ascii"),  # nosec
+        return hashlib.sha1(b"|".join((userid.encode("ascii"),  # noqa: S303
                                        password.encode("ascii")))).hexdigest()
-    return hashlib.sha1("|".join((userid, password))).hexdigest()  # nosec
+    return hashlib.sha1("|".join((userid, password))).hexdigest()  # noqa: S303
 
 
 def records(credentials, url="https://freedns.afraid.org/api/"):
