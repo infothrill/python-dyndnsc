@@ -2,8 +2,8 @@
 
 Release history
 ---------------
-0.5.0 (unreleased)
-++++++++++++++++++
+0.5.0 (June 25th 2019)
+++++++++++++++++++++++
 - improved: simplified notification plugin and externalized them using entry_points
 - added: WAN IP detection through DNS (detector 'dnswanip')
 - improved: replaced built-in daemon code with `daemonocle <https://pypi.python.org/pypi/daemonocle>`_
