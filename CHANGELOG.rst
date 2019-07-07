@@ -2,9 +2,9 @@
 
 Release history
 ---------------
-0.5.x (unreleased)
+0.5.1 (July 7th 2019)
 ++++++++++++++++++++++
-- ?
+- improved: pin pytest version to `version smaller than 5.0.0 <https://docs.pytest.org/en/latest/py27-py34-deprecation.html>`_
 
 0.5.0 (June 25th 2019)
 ++++++++++++++++++++++
