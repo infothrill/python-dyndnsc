@@ -4,7 +4,7 @@ Release history
 ---------------
 0.5.x (unreleased)
 ++++++++++++++++++++++
-- ...
+- added: more presets
 
 0.5.1 (July 7th 2019)
 ++++++++++++++++++++++
