@@ -58,7 +58,7 @@ class TestPluginManager(unittest.TestCase):
         self.assertTrue(hasattr(mgr, "load_plugins"))  # does nothing but must exist
         self.assertEqual(mgr.plugins, plugins)
         self.assertTrue(hasattr(mgr, "__iter__"))
-        self.assertEqual([plugin for plugin in mgr], plugins)
+        self.assertEqual(list(mgr), plugins)
         mgr.plugins = []
         self.assertEqual(mgr.plugins, [])
         mgr.plugins = plugins

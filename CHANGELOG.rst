@@ -2,9 +2,11 @@
 
 Release history
 ---------------
-0.5.x (unreleased)
+0.5.2 (unreleased)
 ++++++++++++++++++++++
 - added: more presets
+- improved: add support for python 3.8
+- improved: preserve python 3.4 compatibility in build toolchain
 
 0.5.1 (July 7th 2019)
 ++++++++++++++++++++++

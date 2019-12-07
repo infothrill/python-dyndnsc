@@ -62,6 +62,10 @@ TESTS_REQUIRE = [
     "pytest>=3.2.5,<5.0.0"
 ]
 
+# hack to support python 3.4:
+if sys.version_info[0:2] > (3, 0) and sys.version_info[0:2] < (3, 5):
+    TESTS_REQUIRE.append("more-itertools<8.0.0")  # version 8.0.0 dropped python 3.4 support
+
 EXTRAS_REQUIRE = {}
 
 # See https://hynek.me/articles/conditional-python-dependencies/
