@@ -13,7 +13,7 @@ class IPDetector_Command(IPDetector):
 
     def __init__(self, command="", *args, **kwargs):
         """
-        Initializer.
+        Initialize.
 
         :param command: string shell command that writes IP address to STDOUT
         """

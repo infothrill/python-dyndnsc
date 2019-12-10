@@ -27,7 +27,7 @@ class DynDnsClient(object):
 
     def __init__(self, updater=None, detector=None, plugins=None, detect_interval=300):
         """
-        Initializer.
+        Initialize.
 
         :param detect_interval: amount of time in seconds that can elapse between checks
         """

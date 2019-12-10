@@ -58,7 +58,7 @@ class IPDetector_DnsWanIp(IPDetector):
 
     def __init__(self, family=None, *args, **kwargs):
         """
-        Initializer.
+        Initialize.
 
         :param family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')
         """

@@ -78,7 +78,7 @@ class IPDetectorWebCheckBase(IPDetector):
 
     def __init__(self, url=None, parser=None, *args, **kwargs):
         """
-        Initializer.
+        Initialize.
 
         :param url: URL to fetch and parse for IP detection
         :param parser: parser to use for above URL
@@ -142,7 +142,7 @@ class IPDetectorWebCheck(IPDetectorWebCheckBase):
     )
 
     def __init__(self, *args, **kwargs):
-        """Initializer."""
+        """Initialize."""
         super(IPDetectorWebCheck, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_INET
@@ -167,7 +167,7 @@ class IPDetectorWebCheck6(IPDetectorWebCheckBase):
     )
 
     def __init__(self, *args, **kwargs):
-        """Initializer."""
+        """Initialize."""
         super(IPDetectorWebCheck6, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_INET6
@@ -206,7 +206,7 @@ class IPDetectorWebCheck46(IPDetectorWebCheckBase):
     )
 
     def __init__(self, *args, **kwargs):
-        """Initializer."""
+        """Initialize."""
         super(IPDetectorWebCheck46, self).__init__(*args, **kwargs)
 
         self.opts_family = AF_UNSPEC

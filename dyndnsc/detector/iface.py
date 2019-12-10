@@ -34,7 +34,7 @@ class IPDetector_Iface(IPDetector):
 
     def __init__(self, iface=None, netmask=None, family=None, *args, **kwargs):
         """
-        Initializer.
+        Initialize.
 
         :param iface: name of interface
         :param family: IP address family (default: INET, possible: INET6)

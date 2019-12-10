@@ -24,7 +24,7 @@ class IPDetector_Teredo(IPDetector_Iface):
     configuration_key = "teredo"
 
     def __init__(self, iface="tun0", netmask="2001:0000::/32", *args, **kwargs):
-        """Initializer."""
+        """Initialize."""
         super(IPDetector_Teredo, self).__init__(*args, **kwargs)
 
         self.opts_iface = iface

@@ -47,7 +47,7 @@ class IPDetector_DNS(IPDetector):
 
     def __init__(self, hostname=None, family=None, *args, **kwargs):
         """
-        Initializer.
+        Initialize.
 
         :param hostname: host name to query from DNS
         :param family: IP address family (default: '' (ANY), also possible: 'INET', 'INET6')

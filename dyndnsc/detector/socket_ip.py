@@ -17,7 +17,7 @@ class IPDetector_Socket(IPDetector):
 
     def __init__(self, family=None, *args, **kwargs):
         """
-        Initializer.
+        Initialize.
 
         :param family: IP address family (default: INET, possible: INET6)
         """
