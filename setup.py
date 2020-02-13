@@ -41,11 +41,10 @@ CLASSIFIERS = (
     "Operating System :: POSIX :: Linux",
     "Operating System :: POSIX :: BSD",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 2.7",
-    "Programming Language :: Python :: 3.4",
     "Programming Language :: Python :: 3.5",
     "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7"
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8"
 )
 
 INSTALL_REQUIRES = [
@@ -57,14 +56,9 @@ INSTALL_REQUIRES = [
 ]
 
 TESTS_REQUIRE = [
-    "mock; python_version < '3.0'",  # pep508 syntax may not work on older toolchains
     "bottle==0.12.13",
-    "pytest>=3.2.5,<5.0.0"
+    "pytest>=3.2.5"
 ]
-
-# hack to support python 3.4:
-if sys.version_info[0:2] > (3, 0) and sys.version_info[0:2] < (3, 5):
-    TESTS_REQUIRE.append("more-itertools<8.0.0")  # version 8.0.0 dropped python 3.4 support
 
 EXTRAS_REQUIRE = {}
 
@@ -73,24 +67,6 @@ EXTRAS_REQUIRE = {}
 if int(setuptools_version.split(".", 1)[0]) < 18:
     # For legacy setuptools + sdist
     assert "bdist_wheel" not in sys.argv, "setuptools 18 required for wheels."  # noqa: S101
-    if sys.version_info[0:2] < (3, 0):
-        INSTALL_REQUIRES.append("IPy>=0.56")
-        INSTALL_REQUIRES.append("argparse")
-        INSTALL_REQUIRES.append("pyOpenSSL")
-        INSTALL_REQUIRES.append("ndg-httpsclient")
-        INSTALL_REQUIRES.append("pyasn1")
-else:
-    EXTRAS_REQUIRE[":python_version<'3.0'"] = [
-        "IPy>=0.56",
-        "argparse",
-        # This is equivalent to requests[security] which exists since
-        # requests 2.4.1 It is required in older Pythons that do not
-        # understand SNI certificates. When these libraries are available
-        # they are being used and incidentally also support SNI
-        "pyOpenSSL",
-        "ndg-httpsclient",
-        "pyasn1",
-    ]
 
 setup(
     name="dyndnsc",
@@ -113,7 +89,7 @@ setup(
     keywords="dynamic dns dyndns",
     url="https://github.com/infothrill/python-dyndnsc",
     # https://packaging.python.org/tutorials/distributing-packages/#python-requires
-    python_requires=">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*",
+    python_requires=">=3.5",
     setup_requires=["pytest-runner"],
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
