@@ -91,9 +91,9 @@ def run_forever(dyndnsclients):
             time.sleep(15)
             for dyndnsclient in dyndnsclients:
                 dyndnsclient.check()
-        except (KeyboardInterrupt,):
+        except KeyboardInterrupt:
             break
-        except (Exception,) as exc:
+        except Exception as exc:
             LOG.critical("An exception occurred in the dyndns loop", exc_info=exc)
     return 0
 
