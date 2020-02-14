@@ -35,7 +35,7 @@ class Subject(object):
             if events is None or event is None or event in events:
                 try:
                     observer(self, event, msg)
-                except (Exception,) as ex:  # pylint: disable=broad-except
+                except Exception as ex:  # pylint: disable=broad-except
                     self.unregister_observer(observer)
                     errmsg = "Exception in message dispatch: Handler '{0}' unregistered for event '{1}'  ".format(
                         observer.__class__.__name__, event)
