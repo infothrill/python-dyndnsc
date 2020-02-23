@@ -2,8 +2,9 @@
 
 Release history
 ---------------
-0.5.2 (unreleased)
+0.6.0 (unreleased)
 ++++++++++++++++++++++
+- changed (**INCOMPATIBLE**): dropped support for python 2.7 and python 3.4
 - added: more presets
 - improved: add support for python 3.8
 - improved: preserve python 3.4 compatibility in build toolchain
