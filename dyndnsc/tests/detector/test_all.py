@@ -11,7 +11,7 @@ HAVE_IPV6 = True
 try:
     import socket
     socket.socket(socket.AF_INET6, socket.SOCK_DGRAM).connect(("ipv6.google.com", 0))
-except (OSError, socket.error, socket.gaierror):
+except (OSError, socket.gaierror):
     HAVE_IPV6 = False
 
 
