@@ -11,10 +11,10 @@ Yes! In fact, we only support Python3 at this point.
 Here's a list of Python platforms that are officially
 supported:
 
-* Python 3.5
 * Python 3.6
 * Python 3.7
 * Python 3.8
+* Python 3.9
 
 
 Is service xyz supported?
