@@ -8,11 +8,11 @@
 
 ### armhf
 
-	docker pull infothrill/dyndnsc-armhf-alpine
+	docker pull infothrill/dyndnsc-arm32v7-ubuntu
 
 ### Running
 
-	docker run -v /etc/dyndnsc.ini:/etc/dyndnsc.ini:ro -t dyndnsc-x86-alpine dyndnsc -v -c /etc/dyndnsc.ini --loop
+	docker run -v /etc/dyndnsc.ini:/etc/dyndnsc.ini:ro -t dyndnsc-x86-alpine -v -c /etc/dyndnsc.ini --loop
 
 For further reference, please consult https://dyndnsc.readthedocs.io/
 

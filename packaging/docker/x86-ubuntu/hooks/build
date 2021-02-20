@@ -1,0 +1,2 @@
+#!/bin/bash
+DIR=$(pwd) make -C .. build post_push

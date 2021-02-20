@@ -23,6 +23,8 @@ rmi:
 	docker rmi -f $(IMAGE_NAME)
 
 post_checkout:
+	# arm builds on docker hub, from https://github.com/docker/hub-feedback/issues/1261
+	curl -L https://github.com/balena-io/qemu/releases/download/v5.2.0%2Bbalena4/qemu-5.2.0.balena4-arm.tar.gz | tar zxvf - -C . && mv qemu-5.2.0+balena4-arm/qemu-arm-static .
 	docker run --rm --privileged multiarch/qemu-user-static:register --reset
 
 post_push:
