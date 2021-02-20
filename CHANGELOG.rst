@@ -4,10 +4,10 @@ Release history
 ---------------
 0.6.0 (unreleased)
 ++++++++++++++++++++++
-- changed (**INCOMPATIBLE**): dropped support for python 2.7 and python 3.4
+- changed (**INCOMPATIBLE**): dropped support for python 2.7 and python 3.4, 3.5
 - added: more presets
-- improved: add support for python 3.8
-- improved: preserve python 3.4 compatibility in build toolchain
+- improved: add support for python 3.8, 3.9
+- added: docker build automation
 
 0.5.1 (July 7th 2019)
 ++++++++++++++++++++++
