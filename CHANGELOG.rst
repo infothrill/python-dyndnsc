@@ -2,8 +2,8 @@
 
 Release history
 ---------------
-0.6.0 (unreleased)
-++++++++++++++++++++++
+0.6.0 (February 21st 2021)
+++++++++++++++++++++++++++
 - changed (**INCOMPATIBLE**): dropped support for python 2.7 and python 3.4, 3.5
 - added: more presets
 - improved: add support for python 3.8, 3.9
