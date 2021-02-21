@@ -2,6 +2,10 @@
 
 Release history
 ---------------
+0.6.x (unreleased)
+++++++++++++++++++
+TBD
+
 0.6.0 (February 21st 2021)
 ++++++++++++++++++++++++++
 - changed (**INCOMPATIBLE**): dropped support for python 2.7 and python 3.4, 3.5
