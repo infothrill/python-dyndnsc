@@ -80,7 +80,7 @@ def create_argparser():
 
 def run_forever(dyndnsclients):
     """
-    Run an endless loop accross the give dynamic dns clients.
+    Run an endless loop accross the given dynamic dns clients.
 
     :param dyndnsclients: list of DynDnsClients
     """

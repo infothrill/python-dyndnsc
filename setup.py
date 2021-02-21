@@ -89,7 +89,7 @@ setup(
     keywords="dynamic dns dyndns",
     url="https://github.com/infothrill/python-dyndnsc",
     # https://packaging.python.org/tutorials/distributing-packages/#python-requires
-    python_requires=">=3.5",
+    python_requires=">=3.6",
     setup_requires=["pytest-runner"],
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
