@@ -32,3 +32,6 @@ post_push:
 	docker push $(DOCKER_REPO):$(TAG)
 
 rebuild: rmi build
+
+clean: rmi
+	rm -rf qemu* src

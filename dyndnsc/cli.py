@@ -9,15 +9,14 @@ import time
 import argparse
 from functools import partial
 
+import json_logging
+
 from .plugins.manager import DefaultPluginManager
 from .updater.manager import updater_classes
 from .detector.manager import detector_classes
 from .core import getDynDnsClientForConfig
 from .conf import get_configuration, collect_config
 from .common.dynamiccli import parse_cmdline_args
-
-
-LOG = logging.getLogger(__name__)
 
 
 def list_presets(cfg, out=sys.stdout):
@@ -41,6 +40,7 @@ def create_argparser():
     parser = argparse.ArgumentParser()
     arg_defaults = {
         "daemon": False,
+        "log_json": False,
         "loop": False,
         "listpresets": False,
         "config": None,
@@ -62,6 +62,9 @@ def create_argparser():
     parser.add_argument("--debug", dest="debug",
                         help="increase logging level to DEBUG (DEPRECATED, please use -vvv)",
                         action="store_true", default=arg_defaults["debug"])
+    parser.add_argument("--log-json", dest="log_json",
+                        help="log in json format",
+                        action="store_true", default=arg_defaults["log_json"])
     parser.add_argument("--loop", dest="loop",
                         help="loop forever (default is to update once)",
                         action="store_true", default=arg_defaults["loop"])
@@ -94,8 +97,20 @@ def run_forever(dyndnsclients):
         except KeyboardInterrupt:
             break
         except Exception as exc:
-            LOG.critical("An exception occurred in the dyndns loop", exc_info=exc)
+            logging.critical("An exception occurred in the dyndns loop", exc_info=exc)
     return 0
+
+
+def init_logging(log_level, log_json=False):
+    """Configure logging framework."""
+    if log_json:
+        LOG = logging.getLogger()
+        LOG.setLevel(log_level)
+        LOG.addHandler(logging.StreamHandler(sys.stdout))
+        json_logging.init_non_web(enable_json=True)
+        json_logging.config_root_logger()
+    else:
+        logging.basicConfig(level=log_level, format="%(levelname)s %(message)s")
 
 
 def main():
@@ -126,8 +141,7 @@ def main():
         args.verbose_count = 5  # some high number
 
     log_level = max(int(logging.WARNING / 10) - args.verbose_count, 0) * 10
-    # print(log_level)
-    logging.basicConfig(level=log_level, format="%(levelname)s %(message)s")
+    init_logging(log_level, log_json=args.log_json)
     # logging.debug("args %r", args)
 
     if args.version:

@@ -8,6 +8,7 @@ Release history
 - added: more presets
 - improved: add support for python 3.8, 3.9
 - added: docker build automation
+- added: `--log-json` command line option, useful when running in docker
 
 0.5.1 (July 7th 2019)
 ++++++++++++++++++++++

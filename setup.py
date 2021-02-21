@@ -52,6 +52,7 @@ INSTALL_REQUIRES = [
     "dnspython>=1.15.0",
     "netifaces>=0.10.5",
     "requests>=2.0.1",
+    "json-logging",
     "setuptools",
 ]
 
