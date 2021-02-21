@@ -11,12 +11,11 @@ import logging
 import dns.resolver
 
 from .base import IPDetector, AF_INET, AF_INET6
-from .dns import resolve
 
 LOG = logging.getLogger(__name__)
 
 
-def find_ip(family=AF_INET, flavour="opendns"):
+def find_ip(family=AF_INET, provider="opendns"):
     """Find the publicly visible IP address of the current system.
 
     This uses public DNS infrastructure that implement a special DNS "hack" to
@@ -25,7 +24,7 @@ def find_ip(family=AF_INET, flavour="opendns"):
     :param family: address family, optional, default AF_INET (ipv4)
     :param flavour: selector for public infrastructure provider, optional
     """
-    flavours = {
+    dnswanipproviders = {
         "opendns": {
             AF_INET: {
                 "@": ("resolver1.opendns.com", "resolver2.opendns.com"),
@@ -40,12 +39,18 @@ def find_ip(family=AF_INET, flavour="opendns"):
         },
     }
 
-    flavour = flavours["opendns"]
-    resolver = dns.resolver.Resolver()
-    # specify the custom nameservers to be used (as IPs):
-    resolver.nameservers = [next(iter(resolve(h, family=family))) for h in flavour[family]["@"]]
+    dnswanipprovider = dnswanipproviders[provider]  # only option as of now
 
-    answers = resolver.query(qname=flavour[family]["qname"], rdtype=flavour[family]["rdtype"])
+    resolver = dns.resolver.Resolver()
+    # first, get the IPs of the DNS servers:
+    nameservers = []
+    for dnsservername in dnswanipprovider[family]["@"]:
+        _answers = resolver.query(qname=dnsservername, rdtype=dnswanipprovider[family]["rdtype"])
+        nameservers.extend([rdata.address for rdata in _answers])
+    # specify the nameservers to be used:
+    resolver.nameservers = nameservers
+    # finally, attempt to discover our WAN IP by querying the DNS:
+    answers = resolver.query(qname=dnswanipprovider[family]["qname"], rdtype=dnswanipprovider[family]["rdtype"])
     for rdata in answers:
         return rdata.address
     return None
