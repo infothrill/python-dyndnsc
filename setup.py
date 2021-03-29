@@ -24,7 +24,7 @@ with open(os.path.join(BASEDIR, "CHANGELOG.rst"), "r") as f:
     CHANGELOG = f.read()
 
 
-CLASSIFIERS = (
+CLASSIFIERS = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "Intended Audience :: System Administrators",
@@ -45,7 +45,7 @@ CLASSIFIERS = (
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9"
-)
+]
 
 INSTALL_REQUIRES = [
     "daemonocle>=1.0.1",

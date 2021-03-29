@@ -59,7 +59,6 @@ class TestDynDnsClient(unittest.TestCase):
 
     def test_dyndnsclient_null(self):
         """Run tests for dyndnsc when we cannot detect the IP."""
-
         # create config:
         config = {}
         config["interval"] = 1
