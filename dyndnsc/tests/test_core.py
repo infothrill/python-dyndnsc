@@ -56,3 +56,19 @@ class TestDynDnsClient(unittest.TestCase):
         dyndnsclient.check()
         dyndnsclient.sync()
         dyndnsclient.has_state_changed()
+
+    def test_dyndnsclient_null(self):
+        """Run tests for dyndnsc when we cannot detect the IP."""
+
+        # create config:
+        config = {}
+        config["interval"] = 1
+        config["detector"] = (("null", {}),)
+        config["updater"] = (("dummy", {"hostname": "example.com"}),)
+        dyndnsclient = dyndnsc.getDynDnsClientForConfig(config)
+        self.assertEqual(dyndnsclient.detector.af(), dyndnsclient.dns.af())
+        self.assertTrue(dyndnsclient.needs_check())
+        dyndnsclient.needs_sync()
+        dyndnsclient.check()
+        dyndnsclient.sync()
+        dyndnsclient.has_state_changed()

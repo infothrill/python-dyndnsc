@@ -68,7 +68,7 @@ class DynDnsClient(object):
         """
         detected_ip = self.detector.detect()
         if detected_ip is None:
-            LOG.debug("Couldn't detect the current IP using detector %r", self.detector.names()[-1])
+            LOG.debug("Couldn't detect the current IP using detector %r", self.detector.configuration_key)
             # we don't have a value to set it to, so don't update! Still shouldn't happen though
         elif self.dns.detect() != detected_ip:
             LOG.info("%s: dns IP '%s' does not match detected IP '%s', updating",

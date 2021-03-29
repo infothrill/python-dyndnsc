@@ -19,6 +19,7 @@ _BUILTINS = (
     ("dyndnsc.detector.webcheck", "IPDetectorWebCheck"),
     ("dyndnsc.detector.webcheck", "IPDetectorWebCheck6"),
     ("dyndnsc.detector.webcheck", "IPDetectorWebCheck46"),
+    ("dyndnsc.detector.null", "IPDetector_Null")
 )
 
 PLUGINS = {plug for plug in (_load_plugin(m, c) for m, c in _BUILTINS) if plug is not None}
