@@ -4,10 +4,7 @@
 
 import logging
 import os
-try:
-    import configparser
-except ImportError:
-    import ConfigParser as configparser
+import configparser
 
 
 from .resources import get_filename, PRESETS_INI

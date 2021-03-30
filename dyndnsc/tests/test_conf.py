@@ -3,13 +3,8 @@
 """Tests for the conf module."""
 
 import unittest
-# py23
-try:
-    import configparser
-except ImportError:
-    import ConfigParser as configparser
+import configparser
 
-from dyndnsc.common.six import PY3
 from dyndnsc.common.six import StringIO
 
 from dyndnsc.conf import get_configuration, collect_config
@@ -56,10 +51,7 @@ detector-url = http://ip.example.com/
 detector-parser = plain
         """
         parser = configparser.ConfigParser()
-        if PY3:
-            parser.read_file(StringIO(sample_config))
-        else:
-            parser.readfp(StringIO(sample_config))  # pylint: disable=deprecated-method
+        parser.read_file(StringIO(sample_config))
         config = collect_config(parser)
         self.assertEqual(dict, type(config))
         self.assertTrue("testconfig" in config)

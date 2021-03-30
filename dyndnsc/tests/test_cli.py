@@ -5,13 +5,8 @@
 import unittest
 import argparse
 import os
-# py23
-try:
-    import configparser
-except ImportError:
-    import ConfigParser as configparser
+import configparser
 
-from dyndnsc.common.six import PY3
 from dyndnsc.common.six import StringIO
 from dyndnsc import cli
 
@@ -36,10 +31,7 @@ detector-family = INET
 detector-url = http://ip.example.com/
 detector-parser = plain"""
         parser = configparser.ConfigParser()
-        if PY3:
-            parser.read_file(StringIO(sample_config))
-        else:
-            parser.readfp(StringIO(sample_config))  # pylint: disable=deprecated-method
+        parser.read_file(StringIO(sample_config))
         output = StringIO()
         cli.list_presets(parser, out=output)
         buf = output.getvalue()
