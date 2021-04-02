@@ -3,9 +3,10 @@
 Release history
 ---------------
 0.6.x (unreleased)
-++++++++++++++++++
+++++++++++++++++++++++
 - improved: dnswanip error reporting now includes dns information
 - improved: fix for bug `#144 <https://github.com/infothrill/python-dyndnsc/issues/144>`_
+- improved: added tests for console script
 
 0.6.0 (February 21st 2021)
 ++++++++++++++++++++++++++

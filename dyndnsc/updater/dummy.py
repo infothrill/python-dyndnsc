@@ -9,7 +9,6 @@ class UpdateProtocolDummy(UpdateProtocol):
     """The dummy update protocol."""
 
     _updateurl = "http://localhost.nonexistant/nic/update"
-    _dont_register_arguments = True
     configuration_key = "dummy"
 
     def __init__(self, hostname, **kwargs):

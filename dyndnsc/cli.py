@@ -19,7 +19,7 @@ from .conf import get_configuration, collect_config
 from .common.dynamiccli import parse_cmdline_args
 
 
-def list_presets(cfg, out=sys.stdout):
+def list_presets(cfg, out):
     """Write a human readable list of available presets to out.
 
     :param cfg: ConfigParser instance
@@ -157,7 +157,7 @@ def main():
     cfg = get_configuration(args.config)
 
     if args.listpresets:
-        list_presets(cfg)
+        list_presets(cfg, out=sys.stdout)
         return 0
 
     if args.config:
@@ -201,7 +201,3 @@ def main():
         run_forever_callable()
 
     return 0
-
-
-if __name__ == "__main__":
-    sys.exit(main())
