@@ -2,6 +2,9 @@
 
 Release history
 ---------------
+0.6.x (unreleased)
+++++++++++++++++++
+
 0.6.1 (April 2nd 2021)
 ++++++++++++++++++++++
 - improved: dnswanip error reporting now includes dns information

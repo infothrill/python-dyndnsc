@@ -4,4 +4,4 @@
 
 from .core import getDynDnsClientForConfig, DynDnsClient  # noqa: @UnusedImport
 
-__version__ = "0.6.1"
+__version__ = "0.6.2dev0"
