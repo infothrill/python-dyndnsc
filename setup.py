@@ -57,7 +57,7 @@ INSTALL_REQUIRES = [
 ]
 
 TESTS_REQUIRE = [
-    "bottle==0.12.13",
+    "bottle>=0.12.19",
     "pytest>=4.0.0",
     "pytest-console-scripts",
 ]
