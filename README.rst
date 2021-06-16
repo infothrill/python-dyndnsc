@@ -10,8 +10,8 @@ Dyndnsc - dynamic dns update client
 .. image:: https://img.shields.io/pypi/pyversions/dyndnsc.svg
     :target: https://pypi.python.org/pypi/dyndnsc
 
-.. image:: https://travis-ci.org/infothrill/python-dyndnsc.svg?branch=master
-    :target: https://travis-ci.org/infothrill/python-dyndnsc
+.. image:: https://github.com/infothrill/python-dyndnsc/actions/workflows/tests.yml/badge.svg?branch=master
+    :target: https://github.com/infothrill/python-dyndnsc/actions/workflows/tests.yml
 
 .. image:: https://img.shields.io/coveralls/infothrill/python-dyndnsc/master.svg
     :target: https://coveralls.io/r/infothrill/python-dyndnsc?branch=master

@@ -4,6 +4,7 @@ Release history
 ---------------
 0.6.x (unreleased)
 ++++++++++++++++++
+- changed: moved to github actions instead of travis-ci due to policy changes on travis-ci
 
 0.6.1 (April 2nd 2021)
 ++++++++++++++++++++++

@@ -1,2 +1,4 @@
 [report]
 omit = dyndnsc/tests/*
+[run]
+relative_files = True
