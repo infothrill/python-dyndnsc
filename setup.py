@@ -41,10 +41,10 @@ CLASSIFIERS = [
     "Operating System :: POSIX :: Linux",
     "Operating System :: POSIX :: BSD",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9"
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10"
 ]
 
 INSTALL_REQUIRES = [
@@ -57,9 +57,9 @@ INSTALL_REQUIRES = [
 ]
 
 TESTS_REQUIRE = [
-    "bottle>=0.12.19",
-    "pytest>=4.0.0,<7.0.0",
+    "pytest>=4.0.0",
     "pytest-console-scripts",
+    "responses>=0.19.0"
 ]
 
 EXTRAS_REQUIRE = {}
@@ -91,7 +91,7 @@ setup(
     keywords="dynamic dns dyndns",
     url="https://github.com/infothrill/python-dyndnsc",
     # https://packaging.python.org/tutorials/distributing-packages/#python-requires
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     setup_requires=["pytest-runner"],
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
