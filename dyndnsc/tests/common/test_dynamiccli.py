@@ -36,7 +36,7 @@ class TestDynamicCli(unittest.TestCase):
         args = Namespace()
         args.foo_dummy = True
         args.foo_dummy_userid = "bob"
-        args.foo_dummy_password = "******"
+        args.foo_dummy_password = "******"  # noqa: S105
 
         parsed = parse_cmdline_args(args, [Dummy])
         self.assertEqual(1, len(parsed))
